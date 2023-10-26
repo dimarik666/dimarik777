@@ -8,6 +8,5 @@ namespace Library777
 {
     public class Class1
     {
-         
     }
 }
