@@ -42,7 +42,40 @@ namespace WebAdressBookTests
                 Phone2 = "Home",
                 Notes = "Notes"
             };
-            app.Contacts.AddContact(contact);
+            app.Contacts.CreateContact(contact);
+        }
+
+        [Test]
+        public void EmptyContactCreationTest()
+        {
+            ContactData contact = new ContactData
+            {
+                Firstname = "",
+                Lastname = "",
+                Middlename = "",
+                Nickname = "",
+                Title = "",
+                Company = "",
+                Address = "",
+                Home = "",
+                Mobile = "",
+                Work = "",
+                Fax = "",
+                Email = "",
+                Email2 = "",
+                Email3 = "",
+                Homepage = "",
+                Bday = "",
+                Bmonth = "-",
+                Byear = "",
+                Aday = "",
+                Amonth = "-",
+                Ayear = "",
+                Address2 = "",
+                Phone2 = "",
+                Notes = ""
+            };
+            app.Contacts.CreateContact(contact);
         }
 
 
