@@ -7,7 +7,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-
 namespace WebAdressBookTests
 {
     [TestFixture]
@@ -16,9 +15,6 @@ namespace WebAdressBookTests
         [Test]
         public void ContactCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            AddNewContact();
             ContactData contact = new ContactData
             {
                 Firstname = "Dmitrii",
@@ -35,7 +31,7 @@ namespace WebAdressBookTests
                 Email = "email@softgamings.com",
                 Email2 = "email2@softgamings.com",
                 Email3 = "email3@softgamimgs.com",
-                Homepage = "www.softgaimngs.com",
+                Homepage = "www.softgamings.com",
                 Bday = "10",
                 Bmonth = "July",
                 Byear = "1990",
@@ -46,10 +42,9 @@ namespace WebAdressBookTests
                 Phone2 = "Home",
                 Notes = "Notes"
             };
-            AddContact(contact);
-            SubmitContactCreate();
-            Logout();
+            app.Contacts.AddContact(contact);
         }
+
 
     }
 }

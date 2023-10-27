@@ -7,7 +7,6 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-
 namespace WebAdressBookTests
 {
     [TestFixture]
@@ -17,17 +16,21 @@ namespace WebAdressBookTests
         [Test]
         public void GroupCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            GoToGroupsPage();
-            InitGroupCreation();
-            FillGroupForm(new GroupData("group", "zagolovok", "footer"));
-            SubmitGroupCreation();
-            ReturnToGroupsPage();
-            Logout();
+            GroupData group = new GroupData("aaa", "bbb", "sss");
+
+
+            app.Groups.Create(group);
 
         }
+        [Test]
+        public void EmptyGroupCreationTest()
+        {
+            GroupData group = new GroupData("", "", "");
 
+
+            app.Groups.Create(group);
+
+        }
 
     }
 }
