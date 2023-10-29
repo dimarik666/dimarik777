@@ -13,6 +13,10 @@ namespace WebAdressBookTests
     [TestFixture]
     public class RemoveGroupTests : TestBase
     {
+        /// <summary>
+        /// Удаление группы
+        /// </summary>
+        /// 
         [Test]
         public void RemoveGroupTest()
         {

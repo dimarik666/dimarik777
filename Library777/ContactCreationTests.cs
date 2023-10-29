@@ -13,12 +13,12 @@ namespace WebAdressBookTests
     [TestFixture]
     public class ContactCreationTests : TestBase
     {
+        /// <summary>
+        /// Создание контакта 
+        /// </summary>
         [Test]
         public void ContactCreationTest()
         {
-            OpenHomePage();
-            Login(new AccountData("admin", "secret"));
-            AddNewContact();
             ContactData contact = new ContactData
             {
                 Firstname = "Dmitrii",
@@ -46,10 +46,12 @@ namespace WebAdressBookTests
                 Phone2 = "Home",
                 Notes = "Notes"
             };
-            AddContact(contact);
+            OpenHomePage();
+            Login(new AccountData("admin", "secret"));
+            AddNewContact();
+            FillFormContact(contact);
             SubmitContactCreate();
             Logout();
         }
-
     }
 }

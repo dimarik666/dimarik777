@@ -37,7 +37,11 @@ namespace WebAdressBookTests
             Assert.AreEqual("", verificationErrors.ToString());
         }
 
-        public void AddContact(ContactData contact)
+        /// <summary>
+        /// Заполнение формы контакта
+        /// </summary>
+        /// <param name="contact"></param>
+        public void FillFormContact(ContactData contact)
         {
             driver.FindElement(By.CssSelector("input[name='firstname'")).Clear();
             driver.FindElement(By.CssSelector("input[name='firstname'")).SendKeys(contact.Firstname);
@@ -86,6 +90,10 @@ namespace WebAdressBookTests
 
         }
 
+       /// <summary>
+       /// Заполнение формы логина и вход в аккаунт
+       /// </summary>
+       /// <param name="account"></param>
         protected void Login(AccountData account)
         {
             driver.FindElement(By.CssSelector("input[name='user']")).Clear();
@@ -95,22 +103,36 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("input[value='Login']")).Click();
         }
 
+        /// <summary>
+        /// Открытие домашней страницы
+        /// </summary>
         public void OpenHomePage()
         {
 
             driver.Navigate().GoToUrl(baseURL);
         }
 
+        /// <summary>
+        /// Переход на страницу групп
+        /// </summary>
         public void GoToGroupsPage()
         {
             driver.FindElement(By.CssSelector("a[href='group.php']")).Click();
         }
+
+        /// <summary>
+        /// Инициализация создания группы
+        /// </summary>
 
         public void InitGroupCreation()
         {
             driver.FindElement(By.CssSelector("input[name='new']")).Click();
         }
 
+        /// <summary>
+        /// Форма заполнения группы
+        /// </summary>
+        /// <param name="group"></param>
         public void FillGroupForm(GroupData group)
         {
             driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
@@ -120,37 +142,62 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("textarea[name='group_footer']")).Clear();
             driver.FindElement(By.CssSelector("textarea[name='group_footer']")).SendKeys(group.Footer);
         }
+
+        /// <summary>
+        /// Подтверждение создания группы
+        /// </summary>
         public void SubmitGroupCreation()
         {
             driver.FindElement(By.CssSelector("input[name='submit']")).Click();
         }
+
+        /// <summary>
+        /// Возвращение на страницу групп
+        /// </summary>
         public void ReturnToGroupsPage()
         {
             driver.FindElement(By.CssSelector("a[href='group.php']")).Click();
         }
 
+        /// <summary>
+        /// Выбор группы с помощью чекбокса
+        /// </summary>
+        /// <param name="index"></param>
         public void SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();
         }
 
+        /// <summary>
+        /// Удаление группы 
+        /// </summary>
         public void DeleteGroup()
         {
             driver.FindElement(By.CssSelector("input[name='delete']")).Click();
         }
+
+        /// <summary>
+        /// Выход из аккаунта
+        /// </summary>
         public void Logout()
         {
             driver.FindElement(By.CssSelector("form[name='logout']")).Click();
         }
+
+        /// <summary>
+        /// Добавление нового контакта
+        /// </summary>
         public void AddNewContact()
         {
             driver.FindElement(By.CssSelector("a[href='edit.php']")).Click();
         }
+
+        /// <summary>
+        /// Подтверждение создания нового контакта
+        /// </summary>
         public void SubmitContactCreate()
         {
             driver.FindElement(By.CssSelector("input[name='submit'")).Click();
         }
-
-
     }
 }

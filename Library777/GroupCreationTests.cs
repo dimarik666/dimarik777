@@ -13,7 +13,9 @@ namespace WebAdressBookTests
     [TestFixture]
     public class GroupCreationTests : TestBase
     {
-
+        /// <summary>
+        /// Создание группы 
+        /// </summary>
         [Test]
         public void GroupCreationTest()
         {
@@ -27,7 +29,5 @@ namespace WebAdressBookTests
             Logout();
 
         }
-
-
     }
 }
