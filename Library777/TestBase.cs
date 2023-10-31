@@ -40,7 +40,7 @@ namespace WebAdressBookTests
         /// <summary>
         /// Заполнение формы контакта
         /// </summary>
-        /// <param name="contact"></param>
+        /// <param name="contact">поля, которые будут заполнены при создании нового контакта</param>
         public void FillFormContact(ContactData contact)
         {
             driver.FindElement(By.CssSelector("input[name='firstname'")).Clear();
@@ -93,7 +93,7 @@ namespace WebAdressBookTests
        /// <summary>
        /// Заполнение формы логина и вход в аккаунт
        /// </summary>
-       /// <param name="account"></param>
+       /// <param name="account">креды для авторизации</param>
         protected void Login(AccountData account)
         {
             driver.FindElement(By.CssSelector("input[name='user']")).Clear();
@@ -132,7 +132,7 @@ namespace WebAdressBookTests
         /// <summary>
         /// Форма заполнения группы
         /// </summary>
-        /// <param name="group"></param>
+        /// <param name="group">поля, которые будут заполнены при создании новой группы</param>
         public void FillGroupForm(GroupData group)
         {
             driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
@@ -162,7 +162,7 @@ namespace WebAdressBookTests
         /// <summary>
         /// Выбор группы с помощью чекбокса
         /// </summary>
-        /// <param name="index"></param>
+        /// <param name="index">индекс чекбокса, который будет выбран с помощью метода</param>
         public void SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]'])[" + index + "]")).Click();

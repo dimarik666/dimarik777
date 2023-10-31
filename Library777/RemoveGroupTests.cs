@@ -16,7 +16,6 @@ namespace WebAdressBookTests
         /// <summary>
         /// Удаление группы
         /// </summary>
-        /// 
         [Test]
         public void RemoveGroupTest()
         {
