@@ -13,10 +13,10 @@ namespace WebAdressBookTests
     {
         public IWebDriver driver;
         public string baseURL = "http://localhost/addressbook/";
-        protected LoginHelper loginHelper;
-        protected NavigationHelper navigator;
-        protected GroupHelper groupHelper;
-        protected ContactHelper contactHelper;
+        public LoginHelper loginHelper;
+        public NavigationHelper navigator;
+        public GroupHelper groupHelper;
+        public ContactHelper contactHelper;
 
 
 

@@ -19,28 +19,33 @@ namespace WebAdressBookTests
         /// <summary>
         /// Создание новой группы
         /// </summary>
-        /// <param name="group">Данные, которые запаолняются при создании новой группы</param>
+        /// <param name="group">Данные, которые заполняются при создании новой группы</param>
         /// <returns></returns>
+        /// 
         public GroupHelper CreateNewGroup(GroupData group)
         {
+            manager.Navigator.OpenHomePage();
             manager.Navigator.GoToGroupsPage();
             InitGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
             ReturnToGroupsPage();
+            manager.Auth.Logout();
             return this;
         }
         /// <summary>
-        /// Удаление группы
+        /// Удаление первой в списке группы
         /// </summary>
-        /// <param name="p">Порядковый номер группы, которая будет удалена</param>
+        /// <param name="p">параметр, который передаёт единицу</param>
         /// <returns></returns>
         public GroupHelper RemoveGroup(int p)
         {
+            manager.Navigator.OpenHomePage();
             manager.Navigator.GoToGroupsPage();
             SelectGroup(1);
             SubmitDeleteGroup();
             ReturnToGroupsPage();
+            manager.Auth.Logout();
             return this;
         }
         /// <summary>
@@ -77,7 +82,7 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public GroupHelper SubmitGroupCreation()
         {
-            driver.FindElement(By.CssSelector("input[name='submit']"));
+            driver.FindElement(By.CssSelector("input[name='submit']")).Click();
             return this;
         }
         /// <summary>

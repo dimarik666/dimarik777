@@ -5,6 +5,7 @@ using System.Threading;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.Extensions;
 using OpenQA.Selenium.Support.UI;
 
 namespace WebAdressBookTests
@@ -14,14 +15,31 @@ namespace WebAdressBookTests
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
+
+        /// <summary>
+        /// Создание новой группы
+        /// </summary>
+        /// <param name="group">Данные, которые запаолняются при создании новой группы</param>
+        /// <returns></returns>
+        public ContactHelper CreateNewContact(ContactData contact)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.GoToContactsPage();
+            AddNewContact();
+            FillContactForm(contact);
+            SubmitContactCreate();
+            manager.Auth.Logout();
+            return this;
+        }
+
         /// <summary>
         /// Метод, который заполняет поля нового контакта
         /// </summary>
         /// <param name="contact">Данные, которые необходимы при создании нового контакта </param>
-        public void FillContactForm(ContactData contact)
+        public ContactHelper FillContactForm(ContactData contact)
 
         {
-            driver.FindElement(By.CssSelector("a[href='edit.php']")).Click();
+
             driver.FindElement(By.CssSelector("input[name='firstname'")).Clear();
             driver.FindElement(By.CssSelector("input[name='firstname'")).SendKeys(contact.Firstname);
             driver.FindElement(By.CssSelector("input[name='middlename'")).Clear();
@@ -66,7 +84,26 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("input[name='phone2'")).SendKeys(contact.Phone2);
             driver.FindElement(By.CssSelector("textarea[name='notes'")).Clear();
             driver.FindElement(By.CssSelector("textarea[name='notes'")).SendKeys(contact.Notes);
+            return this;
+        }
+        /// <summary>
+        /// Метод, который инициализирует добавление нового контакта
+        /// </summary>
+        /// <returns></returns>
+        public ContactHelper AddNewContact()
+        {
+            driver.FindElement(By.CssSelector("a[href='edit.php']")).Click();
+            return this;
+        }
+        /// <summary>
+        /// Метод, который подтверждает создание нового контакта
+        /// </summary>
+        /// <returns></returns>
+
+        public ContactHelper SubmitContactCreate()
+        {
             driver.FindElement(By.CssSelector("input[name='submit'")).Click();
+            return this;
         }
     }
 }

@@ -14,7 +14,7 @@ namespace WebAdressBookTests
     public class NavigationHelper : HelperBase
     {
 
-        public string baseURL = "http://localhost/addressbook/";
+        public string baseURL;
 
         public NavigationHelper(ApplicationManager manager, string baseURL) : base(manager)
         {
@@ -23,17 +23,28 @@ namespace WebAdressBookTests
         /// <summary>
         /// Метод, который открывает начальную страницу
         /// </summary>
-        public void OpenHomePage()
+        public NavigationHelper OpenHomePage()
         {
-
             driver.Navigate().GoToUrl(baseURL);
+            return this;
         }
         /// <summary>
         /// Метод, который совершает переход на страницу групп
         /// </summary>
-        public void GoToGroupsPage()
+        public NavigationHelper GoToGroupsPage()
         {
             driver.FindElement(By.CssSelector("a[href='group.php']")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Переход на страницу со всеми контактами
+        /// </summary>
+        /// <returns></returns>
+        public NavigationHelper GoToContactsPage()
+        {
+            driver.FindElement(By.CssSelector("a[href='./']")).Click();
+            return this;
         }
     }
 }

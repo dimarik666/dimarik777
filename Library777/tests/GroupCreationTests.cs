@@ -20,7 +20,6 @@ namespace WebAdressBookTests
         {
             GroupData group = new GroupData("aaa", "bbb", "sss");
 
-
             app.Groups.CreateNewGroup(group);
 
         }
@@ -31,7 +30,6 @@ namespace WebAdressBookTests
         public void EmptyGroupCreationTest()
         {
             GroupData group = new GroupData("", "", "");
-
 
             app.Groups.CreateNewGroup(group);
 

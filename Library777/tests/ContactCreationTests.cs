@@ -45,7 +45,8 @@ namespace WebAdressBookTests
                 Phone2 = "Home",
                 Notes = "Notes"
             };
-            app.Contacts.FillContactForm(contact);
+            app.Contacts.CreateNewContact(contact);
+
         }
 
 
