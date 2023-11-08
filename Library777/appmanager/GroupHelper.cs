@@ -42,7 +42,7 @@ namespace WebAdressBookTests
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToGroupsPage();
-            SelectGroup(1);
+            SelectGroup(p);
             SubmitDeleteGroup();
             ReturnToGroupsPage();
             manager.Auth.Logout();
