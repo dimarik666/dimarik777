@@ -36,7 +36,7 @@ namespace WebAdressBookTests
         /// <summary>
         /// Удаление первой в списке группы
         /// </summary>
-        /// <param name="p">параметр, который передаёт единицу</param>
+        /// <param name="p">Порядковый номер группы, которая будет удалена</param>
         /// <returns></returns>
         public GroupHelper RemoveGroup(int p)
         {
