@@ -10,8 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class ContactModificationTests : TestBase
-
+    public class ContactModificationTests : AuthTestBase
     {
         /// <summary>
         /// Метод, который редактирует контакт
@@ -28,9 +27,9 @@ namespace WebAdressBookTests
                 Title = "Popile",
                 Company = "Mapany",
                 Address = "Kertegg",
-                Home = "House",
+                Home = "777777",
                 Mobile = "911002233",
-                Work = "Wewewe",
+                Work = "99999999999",
                 Fax = "Safafaf",
                 Email = "email@gmail.com",
                 Email2 = "email2@gmail.com",
@@ -43,13 +42,12 @@ namespace WebAdressBookTests
                 Amonth = "November",
                 Ayear = "2002",
                 Address2 = "Swwerqt",
-                Phone2 = "Vbbbbbb",
+                Phone2 = "911",
                 Notes = "Zametki"
             };
             app.Contacts.ModificationContact(1, newContactData);
             app.Auth.Logout();
         }
     }
-
 }
 
