@@ -33,6 +33,25 @@ namespace WebAdressBookTests
             manager.Auth.Logout();
             return this;
         }
+
+        /// <summary>
+        /// Метод, который редактирует группу
+        /// </summary>
+        /// <param name="p">Порядковый номер группы, которую необходимо отредактировать</param>
+        /// <param name="newData">Новые данные, которые вносятся при редактировании группы</param>
+        /// <returns></returns>
+
+        public GroupHelper ModifyGroup(int p, GroupData newData)
+        {
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(p);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            ReturnToGroupsPage();
+            manager.Auth.Logout();
+            return this;
+        }
         /// <summary>
         /// Удаление первой в списке группы
         /// </summary>
@@ -108,6 +127,27 @@ namespace WebAdressBookTests
         {
             driver.FindElement(By.CssSelector("input[name='new']")).Click();
             return this;
+        }
+        /// <summary>
+        /// Подтверждение редактирования группы
+        /// </summary>
+        /// <returns></returns>
+        public GroupHelper SubmitGroupModification()
+        {
+            driver.FindElement(By.CssSelector("input[name='update']")).Click();
+            return this;
+
+        }
+        /// <summary>
+        /// Инициализация инпута для редактирования группы
+        /// </summary>
+        /// <returns></returns>
+
+        public GroupHelper InitGroupModification()
+        {
+            driver.FindElement(By.CssSelector("input[name='edit']")).Click();
+            return this;
+
         }
 
 

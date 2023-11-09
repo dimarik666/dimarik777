@@ -12,6 +12,7 @@ namespace WebAdressBookTests
 {
     public class ContactHelper : HelperBase
     {
+        public bool acceptNextAlert = true;
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
@@ -30,6 +31,94 @@ namespace WebAdressBookTests
             SubmitContactCreate();
             manager.Auth.Logout();
             return this;
+        }
+        /// <summary>
+        /// Метод редактирующий контакт
+        /// </summary>
+        /// <param name="z">Порядковый номер контакта, который необходимо отредактировать</param>
+        /// <param name="newContactData">Новые данные для редактирования контакта</param>
+        /// <returns></returns>
+        public ContactHelper EditContact(int z,ContactData newContactData)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.GoToContactsPage();
+            ModifyContact(z);
+            FillContactForm(newContactData);
+            SubmitUpdate();
+            manager.Auth.Logout();
+            return this;
+        }
+        /// <summary>
+        /// Метод, который удаляет контакт
+        /// </summary>
+        /// <param name="z">Порядковый номер контакта, который необходимо удалить</param>
+        /// <returns></returns>
+        public ContactHelper RemoveContact(int z)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.GoToContactsPage();
+            SelectContact(z);
+            SubmitDelete();
+            CloseAlertAndGetItsText();
+            manager.Auth.Logout();
+            return this;
+        }
+
+        /// <summary>
+        /// Выбор контакта, который необходимо отредактировать
+        /// </summary>
+        /// <param name="index">порядковый номер контакта</param>
+        /// <returns></returns>
+        public ContactHelper ModifyContact(int index)
+        {
+            driver.FindElement(By.XPath("(//img[@title='Edit']) [" + index + "]")).Click();
+            return this;
+        }
+        /// <summary>
+        /// Выбор контакта, который необходимо удалить
+        /// </summary>
+        /// <param name="index">Порядковый номер чекбокса</param>
+        /// <returns></returns>
+        public ContactHelper SelectContact(int index)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Подтвердить удаление
+        /// </summary>
+        /// <returns></returns>
+        public ContactHelper SubmitDelete()
+        {
+            driver.FindElement(By.CssSelector("input[value='Delete']")).Click();
+            acceptNextAlert = true;
+            return this;
+        }
+        /// <summary>
+        /// Метод закрывающий модальное окно, для подтверждения удаления контакта
+        /// </summary>
+        /// <returns></returns>
+        public string CloseAlertAndGetItsText()
+        {
+            try
+            {
+                IAlert alert = driver.SwitchTo().Alert();
+                string alertText = alert.Text;
+                if (acceptNextAlert)
+                {
+                    alert.Accept();
+                }
+                else
+                {
+                    alert.Dismiss();
+                }
+                return alertText;
+            }
+            finally
+            {
+                acceptNextAlert = true;
+            }
         }
 
         /// <summary>
@@ -103,6 +192,16 @@ namespace WebAdressBookTests
         public ContactHelper SubmitContactCreate()
         {
             driver.FindElement(By.CssSelector("input[name='submit'")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Метод, который подтверждает редактирование контакта
+        /// </summary>
+        /// <returns></returns>
+        public ContactHelper SubmitUpdate()
+        {
+            driver.FindElement(By.CssSelector("input[name='update']")).Click();
             return this;
         }
     }

@@ -48,6 +48,41 @@ namespace WebAdressBookTests
             app.Contacts.CreateNewContact(contact);
 
         }
+        /// <summary>
+        /// Метод, который создает контакт с пустыми полями
+        /// </summary>
+        [Test]
+        public void EmptyContactCreationTest()
+        {
+            ContactData contact = new ContactData
+            {
+                Firstname = "",
+                Lastname = "",
+                Middlename = "",
+                Nickname = "",
+                Title = "",
+                Company = "",
+                Address = "",
+                Home = "",
+                Mobile = "",
+                Work = "",
+                Fax = "",
+                Email = "",
+                Email2 = "",
+                Email3 = "",
+                Homepage = "",
+                Bday = "",
+                Bmonth = "-",
+                Byear = "",
+                Aday = "",
+                Amonth = "-",
+                Ayear = "",
+                Address2 = "",
+                Phone2 = "",
+                Notes = ""
+            };
+            app.Contacts.CreateNewContact(contact);
+        }
 
 
     }
