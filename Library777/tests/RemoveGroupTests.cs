@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,14 +14,25 @@ namespace WebAdressBookTests
     public class GroupRemovalTests : AuthTestBase
     {
         /// <summary>
-        /// Метод, который удаляет группу
+        /// Тест в котором происходит удаление групппы.
+        /// Здесь собраны методы, которые изначально проверяют наличие групп на странице групп.
+        /// Сверяют количество групп на странице до и после удаления.
+        /// И совершается разлогин.
         /// </summary>
         [Test]
         public void GroupRemovalTest()
         {
-            GroupData groupData = new GroupData("Kikimora", null, null);
-            app.Groups.CheckGroup(groupData);
-            app.Groups.RemoveGroup(1, groupData);
+            GroupData newData = new GroupData("test")
+            {
+                Header = null,
+                Footer = null
+            };
+            app.Groups.CheckGroup(newData);
+            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            app.Groups.RemoveGroup(0, newData);
+            List<GroupData> newGroups = app.Groups.GetGroupList();
+            oldGroups.RemoveAt(0);
+            Assert.AreEqual(oldGroups, newGroups);
             app.Auth.Logout();
         }
     }

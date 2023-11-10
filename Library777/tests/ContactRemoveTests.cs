@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,14 +14,16 @@ namespace WebAdressBookTests
     public class ContactRemoveTests : AuthTestBase
     {
         /// <summary>
-        /// Метод, который удаляет контакт на странице контактов
+        /// Тест в котором происходит создание контакта с домашней страницы.
+        /// Здесь собраны методы, которые изначально проверяют наличие контактов на странице контактов.
+        /// Сверяют количество групп на странице до и после создания контакта.
+        /// И совершается разлогин.
         /// </summary>
         [Test]
         public void ContactRemoveTestFromHome()
         {
-            ContactData contactData = new ContactData()
+            ContactData contactData = new ContactData("Ivan")
             {
-                Firstname = "Ivan",
                 Lastname = "Ivanov",
                 Middlename = "Ivanovich",
                 Nickname = "Ivasik",
@@ -46,18 +49,25 @@ namespace WebAdressBookTests
                 Notes = "Zametki"
             };
             app.Contacts.CheckContact(contactData);
-            app.Contacts.RemoveContactFromHome(1, contactData);
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            app.Contacts.RemoveContactFromHome(0, contactData);
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
             app.Auth.Logout();
         }
+
         /// <summary>
-        /// Метод, который удаляет контакт со страницы редактирования контакта
+        /// Тест в котором происходит создание контакта со страницы редактирования.
+        /// Здесь собраны методы, которые изначально проверяют наличие контактов на странице контактов.
+        /// Сверяют количество контактов на странице до и после создания контакта.
+        /// И совершается разлогин.
         /// </summary>
         [Test]
         public void ContactRemoveTestFromEditPage()
         {
-            ContactData contactData = new ContactData()
+            ContactData contactData = new ContactData("Ivan")
             {
-                Firstname = "Ivan",
                 Lastname = "Ivanov",
                 Middlename = "Ivanovich",
                 Nickname = "Ivasik",
@@ -83,7 +93,11 @@ namespace WebAdressBookTests
                 Notes = "Zametki"
             };
             app.Contacts.CheckContact(contactData);
-            app.Contacts.RemoveContactFromEditContact(1);
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            app.Contacts.RemoveContactFromEditContact(0);
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            oldContacts.RemoveAt(0);
+            Assert.AreEqual(oldContacts, newContacts);
             app.Auth.Logout();
         }
     }

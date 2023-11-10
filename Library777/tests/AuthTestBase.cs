@@ -11,6 +11,9 @@ namespace WebAdressBookTests
 {
     public class AuthTestBase : TestBase
     {
+        /// <summary>
+        /// Метод авторизации, который совершает логин с валидными кредами.
+        /// </summary>
         [SetUp]
         public void SetupLogin()
         {

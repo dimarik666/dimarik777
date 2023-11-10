@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -11,14 +12,18 @@ namespace WebAdressBookTests
 {
     [TestFixture]
     public class ContactModificationTests : AuthTestBase
+
     {
         /// <summary>
-        /// Метод, который редактирует контакт
+        /// Тест в котором происходит модификация контакта.
+        /// Здесь собраны методы, которые изначально проверяют наличие контактов на странице контактов.
+        /// Сверяют количество контактов на странице до и после модификации.
+        /// И совершается разлогин.
         /// </summary>
         [Test]
         public void ContactModificationTest()
         {
-            ContactData newContactData = new ContactData
+            ContactData newContactData = new ContactData("Ivan")
             {
                 Firstname = "Ivan",
                 Lastname = "Ivanov",
@@ -46,7 +51,10 @@ namespace WebAdressBookTests
                 Notes = "Zametki"
             };
             app.Contacts.CheckContact(newContactData);
-            app.Contacts.ModificationContact(1, newContactData);
+            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            app.Contacts.ModificationContact(0, newContactData);
+            List<ContactData> newContacts = app.Contacts.GetContactList();
+            Assert.AreEqual(oldContacts.Count, newContacts.Count);
             app.Auth.Logout();
         }
     }

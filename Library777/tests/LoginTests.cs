@@ -15,9 +15,8 @@ namespace WebAdressBookTests
     {
         [Test]
         /// <summary>
-        /// Метод, который осуществляет логин с валидными кредами
-        /// </summary>
-
+        /// Тест, который совершает логин с валидными кредами, и проверяет это утвреждение на true.
+        /// </summary>     
         public void LoginWithValidCredentials()
         {
             //подготовка
@@ -30,9 +29,10 @@ namespace WebAdressBookTests
             //проверка
             Assert.IsTrue(app.Auth.IsLoggedIn(account));
         }
+
         [Test]
         /// <summary>
-        /// Метод, который осуществляет логин с невалидными кредами
+        /// Тест, который осуществляет логин с невалидными кредами, и проверяет это утверждение на false.
         /// </summary>
         public void LoginWithInValidCredentials()
         {

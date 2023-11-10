@@ -13,13 +13,13 @@ namespace WebAdressBookTests
     {
         public IWebDriver driver;
         public string baseURL = "http://localhost/addressbook/";
-        protected LoginHelper loginHelper;
-        protected NavigationHelper navigator;
-        protected GroupHelper groupHelper;
-        protected ContactHelper contactHelper;
+        public LoginHelper loginHelper;
+        public NavigationHelper navigator;
+        public GroupHelper groupHelper;
+        public ContactHelper contactHelper;
         private static ThreadLocal<ApplicationManager> app = new ThreadLocal<ApplicationManager>();
 
-        private ApplicationManager()
+        public ApplicationManager()
         {
             driver = new ChromeDriver();
             loginHelper = new LoginHelper(this);
@@ -27,6 +27,7 @@ namespace WebAdressBookTests
             groupHelper = new GroupHelper(this);
             contactHelper = new ContactHelper(this);
         }
+
         ~ApplicationManager()
         {
             try
@@ -38,16 +39,26 @@ namespace WebAdressBookTests
                 // Ignore errors if unable to close the browser
             }
         }
-
         public static ApplicationManager GetInstance()
         {
-            if (! app.IsValueCreated)
+            if (!app.IsValueCreated)
             {
                 ApplicationManager newInstance = new ApplicationManager();
                 newInstance.Navigator.OpenHomePage();
                 app.Value = newInstance;
             }
             return app.Value;
+        }
+        public void Stop()
+        {
+            try
+            {
+                driver.Quit();
+            }
+            catch (Exception)
+            {
+                // Ignore errors if unable to close the browser
+            }
         }
         public IWebDriver Driver
         {
