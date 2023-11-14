@@ -18,8 +18,6 @@ namespace WebAdressBookTests
         public GroupHelper groupHelper;
         public ContactHelper contactHelper;
 
-
-
         public ApplicationManager()
         {
             driver = new ChromeDriver();
@@ -75,7 +73,5 @@ namespace WebAdressBookTests
                 return contactHelper;
             }
         }
-
-
     }
 }

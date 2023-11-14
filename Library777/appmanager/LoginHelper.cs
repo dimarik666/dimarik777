@@ -13,7 +13,6 @@ namespace WebAdressBookTests
     public class LoginHelper : HelperBase
 
     {
-
         public LoginHelper(ApplicationManager manager) : base(manager)
         { }
 
@@ -40,6 +39,5 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("form[name='logout']")).Click();
             return this;
         }
-
     }
 }

@@ -21,9 +21,5 @@ namespace WebAdressBookTests
             this.Header = header;
             this.Footer = footer;
         }
-
-
     }
-
-
 }

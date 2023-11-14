@@ -35,6 +35,5 @@ namespace WebAdressBookTests
         public string Address2 { get; set; }
         public string Phone2 { get; set; }
         public string Notes { get; set; }
-
     }
 }

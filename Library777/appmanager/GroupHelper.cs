@@ -11,7 +11,6 @@ namespace WebAdressBookTests
 {
     public class GroupHelper : HelperBase
     {
-
         public GroupHelper(ApplicationManager manager) : base(manager)
         {
 
@@ -29,8 +28,6 @@ namespace WebAdressBookTests
             InitGroupCreation();
             FillGroupForm(group);
             SubmitGroupCreation();
-            ReturnToGroupsPage();
-            manager.Auth.Logout();
             return this;
         }
 
@@ -41,17 +38,16 @@ namespace WebAdressBookTests
         /// <param name="newData">Новые данные, которые вносятся при редактировании группы</param>
         /// <returns></returns>
 
-        public GroupHelper ModifyGroup(int p, GroupData newData)
+        public GroupHelper ModificationGroup(int p, GroupData newData)
         {
             manager.Navigator.GoToGroupsPage();
             SelectGroup(p);
             InitGroupModification();
             FillGroupForm(newData);
             SubmitGroupModification();
-            ReturnToGroupsPage();
-            manager.Auth.Logout();
             return this;
         }
+
         /// <summary>
         /// Удаление первой в списке группы
         /// </summary>
@@ -62,20 +58,20 @@ namespace WebAdressBookTests
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToGroupsPage();
             SelectGroup(p);
-            SubmitDeleteGroup();
-            ReturnToGroupsPage();
-            manager.Auth.Logout();
+            SubmitRemoveGroup();
             return this;
         }
+
         /// <summary>
         /// Подтверждение удаления группы
         /// </summary>
         /// <returns></returns>
-        public GroupHelper SubmitDeleteGroup()
+        public GroupHelper SubmitRemoveGroup()
         {
             driver.FindElement(By.CssSelector("input[name='delete']")).Click();
             return this;
         }
+
         /// <summary>
         /// Выбор чекбокса группы
         /// </summary>
@@ -86,6 +82,7 @@ namespace WebAdressBookTests
             driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
             return this;
         }
+
         /// <summary>
         /// Метод, который возвращает на страницу групп
         /// </summary>
@@ -95,6 +92,7 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("a[href='group.php']")).Click();
             return this;
         }
+
         /// <summary>
         /// Метод, который подтверждает создание группы
         /// </summary>
@@ -104,6 +102,7 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("input[name='submit']")).Click();
             return this;
         }
+
         /// <summary>
         /// Метод, который заполняет поля новой группы
         /// </summary>
@@ -119,6 +118,7 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("textarea[name='group_footer']")).SendKeys(group.Footer);
             return this;
         }
+
         /// <summary>
         /// Метод, который инициализирует создание группы
         /// </summary>
@@ -128,6 +128,7 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("input[name='new']")).Click();
             return this;
         }
+
         /// <summary>
         /// Подтверждение редактирования группы
         /// </summary>
@@ -138,6 +139,7 @@ namespace WebAdressBookTests
             return this;
 
         }
+
         /// <summary>
         /// Инициализация инпута для редактирования группы
         /// </summary>
@@ -149,7 +151,5 @@ namespace WebAdressBookTests
             return this;
 
         }
-
-
     }
 }

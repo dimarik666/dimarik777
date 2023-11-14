@@ -46,7 +46,7 @@ namespace WebAdressBookTests
                 Notes = "Notes"
             };
             app.Contacts.CreateNewContact(contact);
-
+            app.Auth.Logout();
         }
         /// <summary>
         /// Метод, который создает контакт с пустыми полями
@@ -82,8 +82,7 @@ namespace WebAdressBookTests
                 Notes = ""
             };
             app.Contacts.CreateNewContact(contact);
+            app.Auth.Logout();
         }
-
-
     }
 }

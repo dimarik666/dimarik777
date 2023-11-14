@@ -20,6 +20,7 @@ namespace WebAdressBookTests
         {
             this.baseURL = baseURL;
         }
+
         /// <summary>
         /// Метод, который открывает начальную страницу
         /// </summary>
@@ -28,6 +29,7 @@ namespace WebAdressBookTests
             driver.Navigate().GoToUrl(baseURL);
             return this;
         }
+
         /// <summary>
         /// Метод, который совершает переход на страницу групп
         /// </summary>

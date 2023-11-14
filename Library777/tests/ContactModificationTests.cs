@@ -13,7 +13,6 @@ namespace WebAdressBookTests
     public class ContactModificationTests : TestBase
 
     {
-
         /// <summary>
         /// Метод, который редактирует контакт
         /// </summary>
@@ -47,7 +46,8 @@ namespace WebAdressBookTests
                 Phone2 = "Vbbbbbb",
                 Notes = "Zametki"
             };
-            app.Contacts.EditContact(1, newContactData);
+            app.Contacts.ModificationContact(1, newContactData);
+            app.Auth.Logout();
         }
     }
 
