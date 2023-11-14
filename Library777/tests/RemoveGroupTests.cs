@@ -20,7 +20,5 @@ namespace WebAdressBookTests
         {
             app.Groups.RemoveGroup(1);
         }
-
     }
-
 }

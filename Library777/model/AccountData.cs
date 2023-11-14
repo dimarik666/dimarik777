@@ -19,8 +19,5 @@ namespace WebAdressBookTests
             this.Username = username;
             this.Password = password;
         }
-
     }
-
-
 }

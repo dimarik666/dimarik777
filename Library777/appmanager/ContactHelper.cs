@@ -12,7 +12,6 @@ namespace WebAdressBookTests
 {
     public class ContactHelper : HelperBase
     {
-        public bool acceptNextAlert = true;
         public ContactHelper(ApplicationManager manager) : base(manager)
         {
         }
@@ -29,38 +28,61 @@ namespace WebAdressBookTests
             AddNewContact();
             FillContactForm(contact);
             SubmitContactCreate();
-            manager.Auth.Logout();
             return this;
         }
+
         /// <summary>
         /// Метод редактирующий контакт
         /// </summary>
         /// <param name="z">Порядковый номер контакта, который необходимо отредактировать</param>
         /// <param name="newContactData">Новые данные для редактирования контакта</param>
         /// <returns></returns>
-        public ContactHelper EditContact(int z,ContactData newContactData)
+        public ContactHelper ModificationContact(int z,ContactData newContactData)
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToContactsPage();
-            ModifyContact(z);
+            InitModificationContact(z);
             FillContactForm(newContactData);
-            SubmitUpdate();
-            manager.Auth.Logout();
+            SubmitModification();
             return this;
         }
+
         /// <summary>
-        /// Метод, который удаляет контакт
+        /// Метод, который удаляет контакт со странице где расположены все контакты
         /// </summary>
         /// <param name="z">Порядковый номер контакта, который необходимо удалить</param>
         /// <returns></returns>
-        public ContactHelper RemoveContact(int z)
+        public ContactHelper RemoveContactFromHome(int z)
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToContactsPage();
             SelectContact(z);
-            SubmitDelete();
-            CloseAlertAndGetItsText();
-            manager.Auth.Logout();
+            SubmitRemove();
+            ContactCloseAlert();
+            return this;
+        }
+
+        /// <summary>
+        /// Метод, который удаляет контакт со страницы редактирования контакта
+        /// </summary>
+        /// <param name="z">Порядковый номер контакта, который необходимо удалить</param>
+        /// <returns></returns>
+        public ContactHelper RemoveContactFromEditContact(int z)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.GoToContactsPage();
+            InitModificationContact(z);
+            SubmitRemoveContact();
+            return this;
+        }
+
+        /// <summary>
+        /// Метод, который подтверждает удаление контакта на странице редактирования контакта
+        /// </summary>
+        /// <returns></returns>
+        public ContactHelper SubmitRemoveContact()
+        {
+            driver.FindElement(By.CssSelector("input[value='Delete']")).Click();
             return this;
         }
 
@@ -69,11 +91,12 @@ namespace WebAdressBookTests
         /// </summary>
         /// <param name="index">порядковый номер контакта</param>
         /// <returns></returns>
-        public ContactHelper ModifyContact(int index)
+        public ContactHelper InitModificationContact(int index)
         {
             driver.FindElement(By.XPath("(//img[@title='Edit']) [" + index + "]")).Click();
             return this;
         }
+
         /// <summary>
         /// Выбор контакта, который необходимо удалить
         /// </summary>
@@ -89,36 +112,20 @@ namespace WebAdressBookTests
         /// Подтвердить удаление
         /// </summary>
         /// <returns></returns>
-        public ContactHelper SubmitDelete()
+        public ContactHelper SubmitRemove()
         {
             driver.FindElement(By.CssSelector("input[value='Delete']")).Click();
-            acceptNextAlert = true;
             return this;
         }
+
         /// <summary>
         /// Метод закрывающий модальное окно, для подтверждения удаления контакта
         /// </summary>
         /// <returns></returns>
-        public string CloseAlertAndGetItsText()
+        public ContactHelper ContactCloseAlert()
         {
-            try
-            {
-                IAlert alert = driver.SwitchTo().Alert();
-                string alertText = alert.Text;
-                if (acceptNextAlert)
-                {
-                    alert.Accept();
-                }
-                else
-                {
-                    alert.Dismiss();
-                }
-                return alertText;
-            }
-            finally
-            {
-                acceptNextAlert = true;
-            }
+            driver.SwitchTo().Alert().Accept();
+            return this;
         }
 
         /// <summary>
@@ -128,7 +135,6 @@ namespace WebAdressBookTests
         public ContactHelper FillContactForm(ContactData contact)
 
         {
-
             driver.FindElement(By.CssSelector("input[name='firstname'")).Clear();
             driver.FindElement(By.CssSelector("input[name='firstname'")).SendKeys(contact.Firstname);
             driver.FindElement(By.CssSelector("input[name='middlename'")).Clear();
@@ -175,6 +181,7 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("textarea[name='notes'")).SendKeys(contact.Notes);
             return this;
         }
+
         /// <summary>
         /// Метод, который инициализирует добавление нового контакта
         /// </summary>
@@ -184,11 +191,11 @@ namespace WebAdressBookTests
             driver.FindElement(By.CssSelector("a[href='edit.php']")).Click();
             return this;
         }
+
         /// <summary>
         /// Метод, который подтверждает создание нового контакта
         /// </summary>
         /// <returns></returns>
-
         public ContactHelper SubmitContactCreate()
         {
             driver.FindElement(By.CssSelector("input[name='submit'")).Click();
@@ -199,7 +206,7 @@ namespace WebAdressBookTests
         /// Метод, который подтверждает редактирование контакта
         /// </summary>
         /// <returns></returns>
-        public ContactHelper SubmitUpdate()
+        public ContactHelper SubmitModification()
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
             return this;

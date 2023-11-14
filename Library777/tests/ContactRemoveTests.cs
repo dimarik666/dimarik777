@@ -13,13 +13,22 @@ namespace WebAdressBookTests
     public class ContactRemoveTests : TestBase
     {
         /// <summary>
-        /// Метод, который удаляет контакт
+        /// Метод, который удаляет контакт на странице контактов
         /// </summary>
         [Test]
-        public void ContactRemoveTest()
+        public void ContactRemoveTestFromHome()
         {
-            app.Contacts.RemoveContact(1);
-
+            app.Contacts.RemoveContactFromHome(1);
+            app.Auth.Logout();
+        }
+        /// <summary>
+        /// Метод, который удаляет контакт со страницы редактирования контакта
+        /// </summary>
+        [Test]
+        public void ContactRemoveTestFromEditPage()
+        {
+            app.Contacts.RemoveContactFromEditContact(1);
+            app.Auth.Logout();
         }
     }
 }

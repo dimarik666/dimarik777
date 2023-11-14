@@ -21,7 +21,6 @@ namespace WebAdressBookTests
             GroupData group = new GroupData("aaa", "bbb", "sss");
 
             app.Groups.CreateNewGroup(group);
-
         }
         /// <summary>
         /// Метод, который создаёт новый контакт с пустыми полями
@@ -32,8 +31,6 @@ namespace WebAdressBookTests
             GroupData group = new GroupData("", "", "");
 
             app.Groups.CreateNewGroup(group);
-
         }
-
     }
 }

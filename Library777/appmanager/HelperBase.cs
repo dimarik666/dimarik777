@@ -19,6 +19,5 @@ namespace WebAdressBookTests
             this.manager = manager;
             this.driver = manager.Driver;
         }
-
     }
 }

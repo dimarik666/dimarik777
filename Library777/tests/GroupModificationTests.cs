@@ -12,7 +12,6 @@ namespace WebAdressBookTests
     [TestFixture]
     public class GroupModificationTests : TestBase
     {
-
         /// <summary>
         /// Метод, который редактирует группу
         /// </summary>
@@ -20,7 +19,7 @@ namespace WebAdressBookTests
         public void GroupModificationTest()
         {
             GroupData newData = new GroupData("ddd", "bbb", "mmm");
-            app.Groups.ModifyGroup(1, newData);
+            app.Groups.ModificationGroup(1, newData);
         }
     }
 }

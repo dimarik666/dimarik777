@@ -27,6 +27,5 @@ namespace WebAdressBookTests
         {
             app.Stop();
         }
-
     }
 }
