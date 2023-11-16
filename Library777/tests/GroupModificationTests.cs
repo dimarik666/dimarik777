@@ -20,6 +20,7 @@ namespace WebAdressBookTests
         {
             GroupData newData = new GroupData("ddd", "bbb", "mmm");
             app.Groups.ModificationGroup(1, newData);
+            app.Auth.Logout();
         }
     }
 }

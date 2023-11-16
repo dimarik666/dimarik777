@@ -19,6 +19,7 @@ namespace WebAdressBookTests
         public void GroupRemovalTest()
         {
             app.Groups.RemoveGroup(1);
+            app.Auth.Logout();
         }
     }
 }
