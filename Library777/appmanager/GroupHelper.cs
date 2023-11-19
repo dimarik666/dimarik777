@@ -11,16 +11,13 @@ namespace WebAdressBookTests
 {
     public class GroupHelper : HelperBase
     {
-        public GroupHelper(ApplicationManager manager) : base(manager)
-        {
+        public GroupHelper(ApplicationManager manager) : base(manager) { }
 
-        }
         /// <summary>
         /// Создание новой группы
         /// </summary>
         /// <param name="group">Данные, которые заполняются при создании новой группы</param>
         /// <returns></returns>
-        /// 
         public GroupHelper CreateNewGroup(GroupData group)
         {
             manager.Navigator.OpenHomePage();
@@ -37,10 +34,11 @@ namespace WebAdressBookTests
         /// <param name="p">Порядковый номер группы, которую необходимо отредактировать</param>
         /// <param name="newData">Новые данные, которые вносятся при редактировании группы</param>
         /// <returns></returns>
-
         public GroupHelper ModificationGroup(int p, GroupData newData)
         {
+            manager.Navigator.OpenHomePage();
             manager.Navigator.GoToGroupsPage();
+            CheckGroup(newData);
             SelectGroup(p);
             InitGroupModification();
             FillGroupForm(newData);
@@ -53,9 +51,10 @@ namespace WebAdressBookTests
         /// </summary>
         /// <param name="p">Порядковый номер группы, которая будет удалена</param>
         /// <returns></returns>
-        public GroupHelper RemoveGroup(int p)
+        public GroupHelper RemoveGroup(int p, GroupData newData)
         {
             manager.Navigator.OpenHomePage();
+            CheckGroup(newData);
             manager.Navigator.GoToGroupsPage();
             SelectGroup(p);
             SubmitRemoveGroup();
@@ -77,19 +76,16 @@ namespace WebAdressBookTests
         /// </summary>
         /// <param name="index">порядковый номер чекбокса</param>
         /// <returns></returns>
+        public GroupHelper CheckGroup(GroupData newData)
+        {
+            var groupsCount = driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (groupsCount == 0)
+                CreateNewGroup(newData);
+            return this;
+        }
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
-            return this;
-        }
-
-        /// <summary>
-        /// Метод, который возвращает на страницу групп
-        /// </summary>
-        /// <returns></returns>
-        public GroupHelper ReturnToGroupsPage()
-        {
-            driver.FindElement(By.CssSelector("a[href='group.php']")).Click();
             return this;
         }
 
@@ -137,19 +133,16 @@ namespace WebAdressBookTests
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
             return this;
-
         }
 
         /// <summary>
         /// Инициализация инпута для редактирования группы
         /// </summary>
         /// <returns></returns>
-
         public GroupHelper InitGroupModification()
         {
             driver.FindElement(By.CssSelector("input[name='edit']")).Click();
             return this;
-
         }
     }
 }

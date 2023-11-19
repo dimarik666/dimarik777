@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : TestBase
+    public class GroupRemovalTests : AuthTestBase
     {
         /// <summary>
         /// Метод, который удаляет группу
@@ -18,7 +18,8 @@ namespace WebAdressBookTests
         [Test]
         public void GroupRemovalTest()
         {
-            app.Groups.RemoveGroup(1);
+            GroupData groupData = new GroupData("Kikimora", null, null);
+            app.Groups.RemoveGroup(1, groupData);
             app.Auth.Logout();
         }
     }

@@ -11,23 +11,26 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     public class LoginHelper : HelperBase
-
     {
-        public LoginHelper(ApplicationManager manager) : base(manager)
-        { }
+        public LoginHelper(ApplicationManager manager) : base(manager) { }
 
         /// <summary>
         /// Метод, который совершает вход в аккаунт с валидными кредами
         /// </summary>
         /// <param name="account">здесь содержатся валидные креды для входа в аккаунт</param>
-        public LoginHelper Login(AccountData account)
+        public void Login(AccountData account)
         {
-            driver.FindElement(By.CssSelector("input[name='user']")).Clear();
-            driver.FindElement(By.CssSelector("input[name='user']")).SendKeys(account.Username);
-            driver.FindElement(By.CssSelector("input[name='pass']")).Clear();
-            driver.FindElement(By.CssSelector("input[name='pass']")).SendKeys(account.Password);
+            if (IsLoggedIn())
+            {
+                if (IsLoggedIn(account))
+                {
+                    return;
+                }
+                Logout();
+            }
+            Type(By.CssSelector("input[name='user']"), account.Username);
+            Type(By.CssSelector("input[name='pass']"), account.Password);
             driver.FindElement(By.CssSelector("input[value='Login']")).Click();
-            return this;
         }
 
         /// <summary>
@@ -36,8 +39,21 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public LoginHelper Logout()
         {
-            driver.FindElement(By.CssSelector("form[name='logout']")).Click();
+            if (IsLoggedIn())
+            {
+                driver.FindElement(By.LinkText("Logout")).Click();
+            }
             return this;
+        }
+        public bool IsLoggedIn()
+        {
+            return IsElementPresent(By.Name("logout"));
+        }
+        public bool IsLoggedIn(AccountData account)
+        {
+            return IsLoggedIn()
+                && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text
+                == "(" + account.Username + ")";
         }
     }
 }

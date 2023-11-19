@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class ContactCreationTests : TestBase
+    public class ContactCreationTests : AuthTestBase
     {
         /// <summary>
         /// Метод, который создаёт новый контакт
@@ -24,12 +24,12 @@ namespace WebAdressBookTests
                 Lastname = "Dmitriev",
                 Middlename = "Dmitrievich",
                 Nickname = "Dimarik",
-                Title = "Tirle",
+                Title = "Title",
                 Company = "Company",
                 Address = "Adress",
-                Home = "Home",
+                Home = "729911",
                 Mobile = "89992223300",
-                Work = "Work",
+                Work = "89534445566",
                 Fax = "Fax",
                 Email = "email@softgamings.com",
                 Email2 = "email2@softgamings.com",
@@ -42,12 +42,13 @@ namespace WebAdressBookTests
                 Amonth = "May",
                 Ayear = "1995",
                 Address2 = "Adress",
-                Phone2 = "Home",
+                Phone2 = "756090",
                 Notes = "Notes"
             };
             app.Contacts.CreateNewContact(contact);
             app.Auth.Logout();
         }
+
         /// <summary>
         /// Метод, который создает контакт с пустыми полями
         /// </summary>

@@ -13,9 +13,7 @@ namespace WebAdressBookTests
 {
     public class NavigationHelper : HelperBase
     {
-
         public string baseURL;
-
         public NavigationHelper(ApplicationManager manager, string baseURL) : base(manager)
         {
             this.baseURL = baseURL;
@@ -33,10 +31,14 @@ namespace WebAdressBookTests
         /// <summary>
         /// Метод, который совершает переход на страницу групп
         /// </summary>
-        public NavigationHelper GoToGroupsPage()
+        public void GoToGroupsPage()
         {
+            if (driver.Url == baseURL + "group.php"
+                && IsElementPresent(By.Name("new")))
+            {
+                return;
+            }
             driver.FindElement(By.CssSelector("a[href='group.php']")).Click();
-            return this;
         }
 
         /// <summary>

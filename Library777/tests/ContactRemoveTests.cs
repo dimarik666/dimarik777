@@ -10,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class ContactRemoveTests : TestBase
+    public class ContactRemoveTests : AuthTestBase
     {
         /// <summary>
         /// Метод, который удаляет контакт на странице контактов
@@ -18,7 +18,8 @@ namespace WebAdressBookTests
         [Test]
         public void ContactRemoveTestFromHome()
         {
-            app.Contacts.RemoveContactFromHome(1);
+            ContactData contactData = new ContactData();
+            app.Contacts.RemoveContactFromHome(1, contactData);
             app.Auth.Logout();
         }
         /// <summary>
@@ -27,6 +28,7 @@ namespace WebAdressBookTests
         [Test]
         public void ContactRemoveTestFromEditPage()
         {
+            ContactData contactData = new ContactData();
             app.Contacts.RemoveContactFromEditContact(1);
             app.Auth.Logout();
         }
