@@ -19,6 +19,7 @@ namespace WebAdressBookTests
         public void GroupModificationTest()
         {
             GroupData newData = new GroupData("ddd", "bbb", "mmm");
+            app.Groups.CheckGroup(newData);
             app.Groups.ModificationGroup(1, newData);
             app.Auth.Logout();
         }

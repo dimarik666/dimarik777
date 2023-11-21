@@ -45,6 +45,7 @@ namespace WebAdressBookTests
                 Phone2 = "911",
                 Notes = "Zametki"
             };
+            app.Contacts.CheckContact(newContactData);
             app.Contacts.ModificationContact(1, newContactData);
             app.Auth.Logout();
         }

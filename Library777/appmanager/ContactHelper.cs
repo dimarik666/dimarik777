@@ -37,7 +37,6 @@ namespace WebAdressBookTests
         public ContactHelper ModificationContact(int z,ContactData newContactData)
         {
             manager.Navigator.OpenHomePage();
-            CheckContact(newContactData);
             manager.Navigator.GoToContactsPage();
             InitModificationContact(z);
             FillContactForm(newContactData);
@@ -53,7 +52,6 @@ namespace WebAdressBookTests
         public ContactHelper RemoveContactFromHome(int z, ContactData newContactData)
         {
             manager.Navigator.OpenHomePage();
-            CheckContact(newContactData);
             manager.Navigator.GoToContactsPage();
             SelectContact(z);
             SubmitRemove();
