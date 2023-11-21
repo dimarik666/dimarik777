@@ -19,6 +19,7 @@ namespace WebAdressBookTests
         public void GroupRemovalTest()
         {
             GroupData groupData = new GroupData("Kikimora", null, null);
+            app.Groups.CheckGroup(groupData);
             app.Groups.RemoveGroup(1, groupData);
             app.Auth.Logout();
         }

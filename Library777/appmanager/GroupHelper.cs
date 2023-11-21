@@ -38,7 +38,6 @@ namespace WebAdressBookTests
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToGroupsPage();
-            CheckGroup(newData);
             SelectGroup(p);
             InitGroupModification();
             FillGroupForm(newData);
@@ -54,7 +53,6 @@ namespace WebAdressBookTests
         public GroupHelper RemoveGroup(int p, GroupData newData)
         {
             manager.Navigator.OpenHomePage();
-            CheckGroup(newData);
             manager.Navigator.GoToGroupsPage();
             SelectGroup(p);
             SubmitRemoveGroup();
@@ -72,9 +70,9 @@ namespace WebAdressBookTests
         }
 
         /// <summary>
-        /// Выбор чекбокса группы
+        /// Метод, который проверяет наличие хотя бы одной группы на странице
         /// </summary>
-        /// <param name="index">порядковый номер чекбокса</param>
+        /// <param name="newData"></param>
         /// <returns></returns>
         public GroupHelper CheckGroup(GroupData newData)
         {
@@ -83,6 +81,11 @@ namespace WebAdressBookTests
                 CreateNewGroup(newData);
             return this;
         }
+        /// <summary>
+        /// Выбор чекбокса группы
+        /// </summary>
+        /// <param name="index">порядковый номер чекбокса</param>
+        /// <returns></returns>
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
