@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -14,7 +15,7 @@ namespace WebAdressBookTests
         public GroupHelper(ApplicationManager manager) : base(manager) { }
 
         /// <summary>
-        /// Создание новой группы
+        /// Метод, который создаёт новую группу со страницы групп и возвращает полученное значение.
         /// </summary>
         /// <param name="group">Данные, которые заполняются при создании новой группы</param>
         /// <returns></returns>
@@ -29,7 +30,7 @@ namespace WebAdressBookTests
         }
 
         /// <summary>
-        /// Метод, который редактирует группу
+        /// Метод, который редактирует группу со страницы групп и возвращает полученное значение.
         /// </summary>
         /// <param name="p">Порядковый номер группы, которую необходимо отредактировать</param>
         /// <param name="newData">Новые данные, которые вносятся при редактировании группы</param>
@@ -46,7 +47,7 @@ namespace WebAdressBookTests
         }
 
         /// <summary>
-        /// Удаление первой в списке группы
+        /// Удаление первой в списке группы путём выбора группы с помощью чекбокса.
         /// </summary>
         /// <param name="p">Порядковый номер группы, которая будет удалена</param>
         /// <returns></returns>
@@ -72,7 +73,7 @@ namespace WebAdressBookTests
         /// <summary>
         /// Метод, который проверяет наличие хотя бы одной группы на странице
         /// </summary>
-        /// <param name="newData"></param>
+        /// <param name="newData">Данные, которые будут использоваться для создания новой группы в случае её отсуствия на странице</param>
         /// <returns></returns>
         public GroupHelper CheckGroup(GroupData newData)
         {
@@ -81,6 +82,7 @@ namespace WebAdressBookTests
                 CreateNewGroup(newData);
             return this;
         }
+
         /// <summary>
         /// Выбор чекбокса группы
         /// </summary>
@@ -88,7 +90,7 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + (index + 1) + "]")).Click();
             return this;
         }
 
@@ -109,12 +111,9 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public GroupHelper FillGroupForm(GroupData group)
         {
-            driver.FindElement(By.CssSelector("input[name='group_name']")).Clear();
-            driver.FindElement(By.CssSelector("input[name='group_name']")).SendKeys(group.Name);
-            driver.FindElement(By.CssSelector("textarea[name='group_header']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name='group_header']")).SendKeys(group.Header);
-            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).Clear();
-            driver.FindElement(By.CssSelector("textarea[name='group_footer']")).SendKeys(group.Footer);
+            Type(By.CssSelector("input[name='group_name']"), group.Name);
+            Type(By.CssSelector("textarea[name='group_header']"), group.Header);
+            Type(By.CssSelector("textarea[name='group_footer']"), group.Footer);
             return this;
         }
 
@@ -136,7 +135,7 @@ namespace WebAdressBookTests
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
             return this;
-        }
+        }       
 
         /// <summary>
         /// Инициализация инпута для редактирования группы
@@ -146,6 +145,22 @@ namespace WebAdressBookTests
         {
             driver.FindElement(By.CssSelector("input[name='edit']")).Click();
             return this;
+        }
+
+        /// <summary>
+        /// Запись всех контактов на странице в один лист
+        /// </summary>
+        /// <returns></returns>
+        public List<GroupData> GetGroupList()
+        {
+            List<GroupData> groups = new List<GroupData>();
+            manager.Navigator.GoToGroupsPage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            foreach (IWebElement element in elements)
+            {
+                groups.Add(new GroupData(element.Text));
+            }
+            return groups;
         }
     }
 }

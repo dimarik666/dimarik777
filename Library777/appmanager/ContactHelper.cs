@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -12,17 +13,19 @@ namespace WebAdressBookTests
 {
     public class ContactHelper : HelperBase
     {
+        public bool acceptNextAlert = true;
         public ContactHelper(ApplicationManager manager) : base(manager) { }
 
         /// <summary>
-        /// Создание новой группы
+        /// Создание новой группы со страницы контактов
         /// </summary>
         /// <param name="group">Данные, которые запаолняются при создании новой группы</param>
         /// <returns></returns>
         public ContactHelper CreateNewContact(ContactData contact)
         {
             manager.Navigator.OpenHomePage();
-            AddNewContact();
+            manager.Navigator.GoToContactsPage();
+            InitNewContact();
             FillContactForm(contact);
             SubmitContactCreate();
             return this;
@@ -41,6 +44,7 @@ namespace WebAdressBookTests
             InitModificationContact(z);
             FillContactForm(newContactData);
             SubmitModification();
+            manager.Navigator.GoToContactsPage();
             return this;
         }
 
@@ -70,6 +74,7 @@ namespace WebAdressBookTests
             manager.Navigator.GoToContactsPage();
             InitModificationContact(z);
             SubmitRemoveContact();
+            manager.Navigator.GoToContactsPage();
             return this;
         }
 
@@ -90,10 +95,9 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public ContactHelper InitModificationContact(int index)
         {
-            driver.FindElement(By.XPath("(//img[@title='Edit']) [" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@title='Edit']) [" + (index+1) + "]")).Click();
             return this;
         }
-
         /// <summary>
         /// Выбор контакта, который необходимо удалить
         /// </summary>
@@ -101,13 +105,13 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + (index+1) + "]")).Click();
             return this;
         }
         /// <summary>
         /// Метод проверяющий наличие хотя бы одного контакта на странице
         /// </summary>
-        /// <param name="newContactData"></param>
+        /// <param name="newContactData">Данные, которые будут использованы для создания контакта в случае их отсутствия на странице контактов</param>
         public ContactHelper CheckContact(ContactData newContactData)
         {
             var contactsCount = driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
@@ -117,7 +121,7 @@ namespace WebAdressBookTests
         }
 
         /// <summary>
-        /// Подтвердить удаление
+        /// Подтверждает удаление контакта
         /// </summary>
         /// <returns></returns>
         public ContactHelper SubmitRemove()
@@ -173,7 +177,7 @@ namespace WebAdressBookTests
         /// Метод, который инициализирует добавление нового контакта
         /// </summary>
         /// <returns></returns>
-        public ContactHelper AddNewContact()
+        public ContactHelper InitNewContact()
         {
             driver.FindElement(By.CssSelector("a[href='edit.php']")).Click();
             return this;
@@ -197,6 +201,22 @@ namespace WebAdressBookTests
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
             return this;
+        }
+
+        /// <summary>
+        /// Запись всех контактов на странице в один лист
+        /// </summary>
+        /// <returns></returns>
+        public List<ContactData> GetContactList()
+        {
+            List<ContactData> contacts = new List<ContactData>();
+            manager.Navigator.OpenHomePage();
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("img[title='Details']"));
+            foreach (IWebElement element in elements)
+            {
+                contacts.Add(new ContactData(element.Text));
+            }
+            return contacts;
         }
     }
 }

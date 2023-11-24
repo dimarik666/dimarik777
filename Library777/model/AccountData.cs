@@ -8,12 +8,10 @@ using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
 namespace WebAdressBookTests
-{
-    public class AccountData
+{    public class AccountData
     {
         public string Username { get; set; }
         public string Password { get; set; }
-
         public AccountData(string username, string password)
         {
             this.Username = username;

@@ -9,7 +9,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAdressBookTests
 {
-    public class ContactData
+    public class ContactData : IEquatable<ContactData>
     {
         public string Firstname { get; set; }
         public string Middlename { get; set; }
@@ -35,5 +35,27 @@ namespace WebAdressBookTests
         public string Address2 { get; set; }
         public string Phone2 { get; set; }
         public string Notes { get; set; }
+        public ContactData(string firstname)
+        {
+            this.Firstname = firstname;
+        }
+
+        /// <summary>
+        /// Сравнение на равенство полученных значений.
+        /// </summary>
+        /// <param name="other"></param>
+        /// <returns></returns>
+        public bool Equals(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return false;
+            }
+            if (Object.ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return Firstname == other.Firstname && Lastname == other.Lastname;
+        }
     }
 }

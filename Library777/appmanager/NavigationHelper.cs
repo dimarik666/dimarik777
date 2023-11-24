@@ -7,11 +7,8 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 
-
-
 namespace WebAdressBookTests
-{
-    public class NavigationHelper : HelperBase
+{    public class NavigationHelper : HelperBase
     {
         public string baseURL;
         public NavigationHelper(ApplicationManager manager, string baseURL) : base(manager)
