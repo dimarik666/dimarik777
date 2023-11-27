@@ -31,7 +31,10 @@ namespace WebAdressBookTests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
             app.Auth.Logout();
         }
 
@@ -53,7 +56,10 @@ namespace WebAdressBookTests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count + 1, newGroups.Count);
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
             app.Auth.Logout();
         }
 
@@ -75,7 +81,10 @@ namespace WebAdressBookTests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count, newGroups.Count);
+            oldGroups.Add(group);
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
             app.Auth.Logout();
         }
     }

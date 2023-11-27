@@ -22,9 +22,8 @@ namespace WebAdressBookTests
         [Test]
         public void ContactCreationTest()
         {
-            ContactData contact = new ContactData("Dmitrii")
+            ContactData contact = new ContactData("Dmitrii", "Dmitriev")
             {
-                Lastname = "Dmitriev",
                 Middlename = "Dmitrievich",
                 Nickname = "Dimarik",
                 Title = "Title",
@@ -52,7 +51,10 @@ namespace WebAdressBookTests
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
             List<ContactData> newContacts = app.Contacts.GetContactList();
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
             app.Auth.Logout();
         }
 
@@ -65,9 +67,8 @@ namespace WebAdressBookTests
         [Test]
         public void EmptyContactCreationTest()
         {
-            ContactData contact = new ContactData("")
+            ContactData contact = new ContactData("", "")
             {
-                Lastname = "",
                 Middlename = "",
                 Nickname = "",
                 Title = "",
@@ -95,7 +96,10 @@ namespace WebAdressBookTests
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
             List<ContactData> newContacts = app.Contacts.GetContactList();
-            Assert.AreEqual(oldContacts.Count + 1, newContacts.Count);
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
             app.Auth.Logout();
         }
 
@@ -108,9 +112,8 @@ namespace WebAdressBookTests
         [Test]
         public void BadNameContactCreationTest()
         {
-            ContactData contact = new ContactData("a'a")
+            ContactData contact = new ContactData("a'a", "Dmitriev")
             {
-                Lastname = "Dmitriev",
                 Middlename = "Dmitrievich",
                 Nickname = "Dimarik",
                 Title = "Tirle",
@@ -138,7 +141,10 @@ namespace WebAdressBookTests
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
             List<ContactData> newContacts = app.Contacts.GetContactList();
-            Assert.AreEqual(oldContacts.Count, newContacts.Count);
+            oldContacts.Add(contact);
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
             app.Auth.Logout();
         }
     }

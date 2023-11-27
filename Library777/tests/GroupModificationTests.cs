@@ -7,6 +7,7 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using WebAdressBookTests;
 
 namespace WebAdressBookTests
 {
@@ -22,16 +23,31 @@ namespace WebAdressBookTests
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newData = new GroupData("lll")
+            GroupData newData = new GroupData("thisisname")
             {
-                Header = null,
-                Footer = null
+                Header = "thisisheader",
+                Footer = "thisisfooter"
             };
             app.Groups.CheckGroup(newData);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
-            app.Groups.ModificationGroup(0, newData);
+            GroupData oldData = oldGroups[0];
+            app.Groups.ModificationGroup(1, newData);
             List<GroupData> newGroups = app.Groups.GetGroupList();
-            Assert.AreEqual(oldGroups.Count, newGroups.Count);
+            oldGroups[0].Name = newData.Name;
+            oldGroups[0].Header = newData.Header;
+            oldGroups[0].Footer = newData.Footer;
+            oldGroups.Sort();
+            newGroups.Sort();
+            Assert.AreEqual(oldGroups, newGroups);
+            foreach (GroupData group in newGroups)
+            {
+                if (group.Id == oldData.Id)
+                {
+                    Assert.AreEqual(newData.Name, group.Name);
+                    Assert.AreEqual(newData.Header, group.Header);
+                    Assert.AreEqual(newData.Footer, group.Footer);
+                }
+            }
             app.Auth.Logout();
         }
     }

@@ -95,7 +95,7 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public ContactHelper InitModificationContact(int index)
         {
-            driver.FindElement(By.XPath("(//img[@title='Edit']) [" + (index+1) + "]")).Click();
+            driver.FindElement(By.XPath("(//img[@title='Edit']) [" + index + "]")).Click();
             return this;
         }
         /// <summary>
@@ -105,7 +105,7 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public ContactHelper SelectContact(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + (index+1) + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
             return this;
         }
         /// <summary>
@@ -114,6 +114,7 @@ namespace WebAdressBookTests
         /// <param name="newContactData">Данные, которые будут использованы для создания контакта в случае их отсутствия на странице контактов</param>
         public ContactHelper CheckContact(ContactData newContactData)
         {
+            manager.Navigator.GoToContactsPage();
             var contactsCount = driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
             if (contactsCount == 0)
                 CreateNewContact(newContactData);
@@ -211,11 +212,28 @@ namespace WebAdressBookTests
         {
             List<ContactData> contacts = new List<ContactData>();
             manager.Navigator.OpenHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("img[title='Details']"));
+            var elements = driver.FindElements(By.CssSelector("table[id='maintable'] tr"));
             foreach (IWebElement element in elements)
             {
-                contacts.Add(new ContactData(element.Text));
-            }
+                //Условие при котором убирается хэдэр из таблицы
+                if (element.GetAttribute("name") is null)
+                    continue;
+                if (element.Text == "")
+                {
+                    contacts.Add(new ContactData("", "")
+                    {
+                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                    });
+                    continue;
+                }
+                var denomination = element.Text.Split(' ');
+                var lastName = denomination[0];
+                var firstName = denomination[1];
+                contacts.Add(new ContactData(firstName, lastName)
+                {
+                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
+                });                
+            } 
             return contacts;
         }
     }
