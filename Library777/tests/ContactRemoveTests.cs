@@ -22,9 +22,8 @@ namespace WebAdressBookTests
         [Test]
         public void ContactRemoveTestFromHome()
         {
-            ContactData contactData = new ContactData("Ivan")
+            ContactData contactData = new ContactData("Ivan", "Ivanov")
             {
-                Lastname = "Ivanov",
                 Middlename = "Ivanovich",
                 Nickname = "Ivasik",
                 Title = "Popile",
@@ -50,10 +49,15 @@ namespace WebAdressBookTests
             };
             app.Contacts.CheckContact(contactData);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Contacts.RemoveContactFromHome(0, contactData);
+            app.Contacts.RemoveContactFromHome(1, contactData);
             List<ContactData> newContacts = app.Contacts.GetContactList();
+            ContactData toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
             app.Auth.Logout();
         }
 
@@ -66,9 +70,8 @@ namespace WebAdressBookTests
         [Test]
         public void ContactRemoveTestFromEditPage()
         {
-            ContactData contactData = new ContactData("Ivan")
+            ContactData contactData = new ContactData("Ivan", "Ivanov")
             {
-                Lastname = "Ivanov",
                 Middlename = "Ivanovich",
                 Nickname = "Ivasik",
                 Title = "Popile",
@@ -94,10 +97,15 @@ namespace WebAdressBookTests
             };
             app.Contacts.CheckContact(contactData);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Contacts.RemoveContactFromEditContact(0);
+            app.Contacts.RemoveContactFromEditContact(1);
             List<ContactData> newContacts = app.Contacts.GetContactList();
+            ContactData toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);
+            foreach (ContactData contact in newContacts)
+            {
+                Assert.AreNotEqual(contact.Id, toBeRemoved.Id);
+            }
             app.Auth.Logout();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -23,10 +24,8 @@ namespace WebAdressBookTests
         [Test]
         public void ContactModificationTest()
         {
-            ContactData newContactData = new ContactData("Ivan")
-            {
-                Firstname = "Ivan",
-                Lastname = "Ivanov",
+            ContactData newContactData = new ContactData("Ivan", "Ivanov")
+            {                
                 Middlename = "Ivanovich",
                 Nickname = "Ivasik",
                 Title = "Popile",
@@ -52,9 +51,22 @@ namespace WebAdressBookTests
             };
             app.Contacts.CheckContact(newContactData);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Contacts.ModificationContact(0, newContactData);
+            ContactData oldData = oldContacts[0];
+            app.Contacts.ModificationContact(1, newContactData);
             List<ContactData> newContacts = app.Contacts.GetContactList();
-            Assert.AreEqual(oldContacts.Count, newContacts.Count);
+            oldContacts[0].Firstname = newContactData.Firstname;
+            oldContacts[0].Lastname = newContactData.Lastname;
+            oldContacts.Sort();
+            newContacts.Sort();
+            Assert.AreEqual(oldContacts, newContacts);
+            foreach (ContactData contact in newContacts)
+            {
+                if (contact.Id == oldData.Id) 
+                { 
+                    Assert.AreEqual(newContactData.Firstname, contact.Firstname);
+                    Assert.AreEqual(newContactData.Lastname, contact.Lastname);
+                }
+            }
             app.Auth.Logout();
         }
     }

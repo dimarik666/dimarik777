@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -77,6 +78,7 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public GroupHelper CheckGroup(GroupData newData)
         {
+            manager.Navigator.GoToGroupsPage();
             var groupsCount = driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
             if (groupsCount == 0)
                 CreateNewGroup(newData);
@@ -90,7 +92,7 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public GroupHelper SelectGroup(int index)
         {
-            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + (index + 1) + "]")).Click();
+            driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
             return this;
         }
 
@@ -155,12 +157,33 @@ namespace WebAdressBookTests
         {
             List<GroupData> groups = new List<GroupData>();
             manager.Navigator.GoToGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            var elements = driver.FindElements(By.CssSelector("span.group"));
+            List<GroupData> groupInfo = new List<GroupData>();      
+            List<string> idList = new List<string>();
+
             foreach (IWebElement element in elements)
             {
-                groups.Add(new GroupData(element.Text));
+                string id = "";
+                if (element.GetAttribute("class") is null)
+                    continue;
+                id = element.FindElement(By.TagName("input")).GetAttribute("value");
+                idList.Add(id);
             }
-            return groups;
+
+            int index = 1;
+            foreach (string info in idList)
+            {
+                GroupData writeInfo = new GroupData();
+                SelectGroup(index++);
+                InitGroupModification();
+                writeInfo.Id = info;
+                writeInfo.Name = driver.FindElement(By.CssSelector("form input[name='group_name']")).GetAttribute("value");
+                writeInfo.Header = driver.FindElement(By.CssSelector("form textarea[name='group_header']")).GetAttribute("value");
+                writeInfo.Footer = driver.FindElement(By.CssSelector("form textarea[name='group_footer']")).GetAttribute("value");
+                manager.Navigator.GoToGroupsPage();
+                groupInfo.Add(writeInfo);
+            }
+            return groupInfo;
         }
     }
 }

@@ -9,15 +9,23 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAdressBookTests
 {
-    public class GroupData : IEquatable<GroupData>
+    public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
-        public string name;
-        public string header = "";
-        public string footer = "";
+        public string Name { get; set; }
 
+        public string Header { get; set; }
+
+
+        public string Footer { get; set; }
+
+        public string Id { get; set; }
         public GroupData(string name)
         {
-            this.name = name;
+            Name = name;
+        }
+        public GroupData()
+        {
+
         }
 
         /// <summary>
@@ -35,46 +43,26 @@ namespace WebAdressBookTests
             {
                 return true;
             }
-            return Name == other.Name;
+            return Name == other.Name  && Header == other.Header && Footer == other.Footer;
         }
-        public GroupData(string name, string header, string footer)
+        public override int GetHashCode()
         {
-            this.name = name;
-            this.header = header;
-            this.footer = footer;
+            return (Name + Header + Footer).GetHashCode();
         }
-        public string Name
+        public override string ToString()
         {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
+            return
+                "ИМЯ= " + Name + ", " +
+                "Header= " + Header + ", " +
+                "Footer= " + Footer;
         }
-        public string Header
+        public int CompareTo(GroupData other)
         {
-            get
+            if (Object.ReferenceEquals(other, null))
             {
-                return header;
+                return 1;
             }
-            set
-            {
-                header = value;
-            }
-        }
-        public string Footer
-        {
-            get
-            {
-                return footer;
-            }
-            set
-            {
-                footer = value;
-            }
+            return Name.CompareTo(other.Name);
         }
     }
 }

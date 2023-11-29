@@ -2,6 +2,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using System.Xml.Linq;
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
@@ -9,7 +10,7 @@ using OpenQA.Selenium.Support.UI;
 
 namespace WebAdressBookTests
 {
-    public class ContactData : IEquatable<ContactData>
+    public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         public string Firstname { get; set; }
         public string Middlename { get; set; }
@@ -35,9 +36,11 @@ namespace WebAdressBookTests
         public string Address2 { get; set; }
         public string Phone2 { get; set; }
         public string Notes { get; set; }
-        public ContactData(string firstname)
+        public string Id {  get; set; }
+        public ContactData(string firstname, string lastname)
         {
-            this.Firstname = firstname;
+            Firstname = firstname;
+            Lastname = lastname;
         }
 
         /// <summary>
@@ -56,6 +59,24 @@ namespace WebAdressBookTests
                 return true;
             }
             return Firstname == other.Firstname && Lastname == other.Lastname;
+        }
+        public override int GetHashCode()
+        {
+            return (Firstname + Lastname).GetHashCode();
+        }
+        public int CompareTo(ContactData other)
+        {
+            if (Object.ReferenceEquals(other, null))
+            {
+                return 1;
+            }
+            return Firstname.CompareTo(other.Firstname) & Lastname.CompareTo(other.Lastname);
+        }
+        public override string ToString()
+        {
+            return
+                "Имя = " + Firstname + ", " +
+                "Фамилия = " + Lastname;
         }
     }
 }
