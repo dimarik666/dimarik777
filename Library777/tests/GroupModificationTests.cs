@@ -28,10 +28,14 @@ namespace WebAdressBookTests
                 Header = "thisisheader",
                 Footer = "thisisfooter"
             };
-            app.Groups.CheckGroup(newData);
+            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (groupsCount == 0)
+            app.Groups.CreateNewGroup(newData);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             GroupData oldData = oldGroups[0];
             app.Groups.ModificationGroup(1, newData);
+            app.Navigator.GoToGroupsPage();
+            Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups[0].Name = newData.Name;
             oldGroups[0].Header = newData.Header;

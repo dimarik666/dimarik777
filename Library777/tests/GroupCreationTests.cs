@@ -27,9 +27,13 @@ namespace WebAdressBookTests
                 Header = "ddd",
                 Footer = "sss"
             };
-            app.Groups.CheckGroup(group);
+            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (groupsCount == 0)
+            app.Groups.CreateNewGroup(group);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
+            app.Navigator.GoToGroupsPage();
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -52,9 +56,13 @@ namespace WebAdressBookTests
                 Header = "",
                 Footer = ""
             };
-            app.Groups.CheckGroup(group);
+            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (groupsCount == 0)
+            app.Groups.CreateNewGroup(group);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
+            app.Navigator.GoToGroupsPage();
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.Add(group);
             oldGroups.Sort();
@@ -77,9 +85,13 @@ namespace WebAdressBookTests
                 Header = "hhh",
                 Footer = "hhh"
             };
-            app.Groups.CheckGroup(group);
+            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (groupsCount == 0)
+            app.Groups.CreateNewGroup(group);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
+            app.Navigator.GoToGroupsPage();
+            Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
             List<GroupData> newGroups = app.Groups.GetGroupList();
             oldGroups.Add(group);
             oldGroups.Sort();

@@ -68,15 +68,19 @@ namespace WebAdressBookTests
         {
             if (Object.ReferenceEquals(other, null))
             {
-                return 1;
+                return Firstname.CompareTo(other.Firstname);
             }
-            return Firstname.CompareTo(other.Firstname) & Lastname.CompareTo(other.Lastname);
+           return Lastname.CompareTo(other.Lastname);
         }
         public override string ToString()
         {
             return
                 "Имя = " + Firstname + ", " +
                 "Фамилия = " + Lastname;
+        }
+        public ContactData ReturnContact()
+        {
+            return this;
         }
     }
 }

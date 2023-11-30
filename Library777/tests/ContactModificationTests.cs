@@ -49,10 +49,13 @@ namespace WebAdressBookTests
                 Phone2 = "911",
                 Notes = "Zametki"
             };
-            app.Contacts.CheckContact(newContactData);
+            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (contactsCount == 0)
+            app.Contacts.CreateNewContact(newContactData);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             ContactData oldData = oldContacts[0];
             app.Contacts.ModificationContact(1, newContactData);
+            Assert.AreEqual(oldContacts.Count, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts[0].Firstname = newContactData.Firstname;
             oldContacts[0].Lastname = newContactData.Lastname;
