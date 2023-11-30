@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -157,33 +158,34 @@ namespace WebAdressBookTests
         {
             List<GroupData> groups = new List<GroupData>();
             manager.Navigator.GoToGroupsPage();
-            var elements = driver.FindElements(By.CssSelector("span.group"));
-            List<GroupData> groupInfo = new List<GroupData>();      
-            List<string> idList = new List<string>();
-
+            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+            List<string> groupInfo = new List<string>();      
             foreach (IWebElement element in elements)
             {
-                string id = "";
-                if (element.GetAttribute("class") is null)
-                    continue;
-                id = element.FindElement(By.TagName("input")).GetAttribute("value");
-                idList.Add(id);
+                groupInfo.Add(element.FindElement(By.CssSelector("span.group input")).GetAttribute("value"));
             }
 
-            int index = 1;
-            foreach (string info in idList)
+            foreach (var info in groupInfo)
             {
                 GroupData writeInfo = new GroupData();
-                SelectGroup(index++);
+                driver.FindElements(By.CssSelector("input[name='selected[]'"))[groupInfo.IndexOf(info)].Click();
                 InitGroupModification();
                 writeInfo.Id = info;
                 writeInfo.Name = driver.FindElement(By.CssSelector("form input[name='group_name']")).GetAttribute("value");
                 writeInfo.Header = driver.FindElement(By.CssSelector("form textarea[name='group_header']")).GetAttribute("value");
                 writeInfo.Footer = driver.FindElement(By.CssSelector("form textarea[name='group_footer']")).GetAttribute("value");
                 manager.Navigator.GoToGroupsPage();
-                groupInfo.Add(writeInfo);
+                groups.Add(writeInfo);
             }
-            return groupInfo;
+            return groups;
+        }
+        /// <summary>
+        /// Считает количество групп на странице
+        /// </summary>
+        /// <returns></returns>
+        public int GetGroupCount()
+        {
+            return driver.FindElements(By.CssSelector("span.group")).Count;
         }
     }
 }

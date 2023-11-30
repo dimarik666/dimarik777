@@ -47,9 +47,12 @@ namespace WebAdressBookTests
                 Phone2 = "911",
                 Notes = "Zametki"
             };
-            app.Contacts.CheckContact(contactData);
+            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (contactsCount == 0)
+            app.Contacts.CreateNewContact(contactData);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.RemoveContactFromHome(1, contactData);
+            Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             ContactData toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);
@@ -95,9 +98,13 @@ namespace WebAdressBookTests
                 Phone2 = "911",
                 Notes = "Zametki"
             };
-            app.Contacts.CheckContact(contactData);
+            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (contactsCount == 0)
+            app.Contacts.CreateNewContact(contactData);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.RemoveContactFromEditContact(1);
+            app.Navigator.GoToContactsPage();
+            Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             ContactData toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);

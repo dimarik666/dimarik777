@@ -212,29 +212,25 @@ namespace WebAdressBookTests
         {
             List<ContactData> contacts = new List<ContactData>();
             manager.Navigator.OpenHomePage();
-            var elements = driver.FindElements(By.CssSelector("table[id='maintable'] tr"));
+            var elements = driver.FindElements(By.CssSelector("#maintable [name='entry']"));
             foreach (IWebElement element in elements)
             {
-                //Условие при котором убирается хэдэр из таблицы
-                if (element.GetAttribute("name") is null)
-                    continue;
-                if (element.Text == "")
+                contacts.Add(new ContactData(
+                    element.FindElement(By.CssSelector("td:nth-child(3)")).Text,
+                    element.FindElement(By.CssSelector("td:nth-child(2)")).Text)
                 {
-                    contacts.Add(new ContactData("", "")
-                    {
-                        Id = element.FindElement(By.TagName("input")).GetAttribute("value")
-                    });
-                    continue;
-                }
-                var denomination = element.Text.Split(' ');
-                var lastName = denomination[0];
-                var firstName = denomination[1];
-                contacts.Add(new ContactData(firstName, lastName)
-                {
-                    Id = element.FindElement(By.TagName("input")).GetAttribute("value")
-                });                
+                    Id = element.FindElement(By.CssSelector("input")).GetAttribute("id")
+                });              
             } 
             return contacts;
+        }
+        /// <summary>
+        /// Считает количество контактов на странице
+        /// </summary>
+        /// <returns></returns>
+        public int GetContactCount()
+        {
+            return driver.FindElements(By.CssSelector("table[id='maintable'] tr")).Count - 1;
         }
     }
 }

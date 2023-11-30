@@ -47,9 +47,12 @@ namespace WebAdressBookTests
                 Phone2 = "756090",
                 Notes = "Notes"
             };
-            app.Contacts.CheckContact(contact);
+            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (contactsCount == 0)
+            app.Contacts.CreateNewContact(contact);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
+            Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts.Add(contact);
             oldContacts.Sort();
@@ -92,9 +95,13 @@ namespace WebAdressBookTests
                 Phone2 = "",
                 Notes = ""
             };
-            app.Contacts.CheckContact(contact);
+            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (contactsCount == 0)
+            app.Contacts.CreateNewContact(contact);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
+            app.Navigator.GoToContactsPage();
+            Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts.Add(contact);
             oldContacts.Sort();
@@ -137,9 +144,12 @@ namespace WebAdressBookTests
                 Phone2 = "Home",
                 Notes = "Notes"
             };
-            app.Contacts.CheckContact(contact);
+            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
+            if (contactsCount == 0)
+            app.Contacts.CreateNewContact(contact);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
+            Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts.Add(contact);
             oldContacts.Sort();
