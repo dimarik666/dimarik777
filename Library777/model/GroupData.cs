@@ -12,12 +12,8 @@ namespace WebAdressBookTests
     public class GroupData : IEquatable<GroupData>, IComparable<GroupData>
     {
         public string Name { get; set; }
-
         public string Header { get; set; }
-
-
         public string Footer { get; set; }
-
         public string Id { get; set; }
         public GroupData(string name)
         {
@@ -63,6 +59,15 @@ namespace WebAdressBookTests
                 return 1;
             }
             return Name.CompareTo(other.Name);
+        }
+        public GroupData GetGroup(string name, string header, string footer)
+        {
+            GroupData getGroup = new GroupData(name)
+            {
+                Header = header,
+                Footer = footer
+            };
+            return getGroup;
         }
     }
 }

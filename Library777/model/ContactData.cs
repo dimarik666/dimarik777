@@ -42,6 +42,10 @@ namespace WebAdressBookTests
             Firstname = firstname;
             Lastname = lastname;
         }
+        public ContactData()
+        {
+
+        }
 
         /// <summary>
         /// Сравнение на равенство полученных значений.
@@ -68,9 +72,14 @@ namespace WebAdressBookTests
         {
             if (Object.ReferenceEquals(other, null))
             {
-                return Firstname.CompareTo(other.Firstname);
+                return 1;
             }
-           return Lastname.CompareTo(other.Lastname);
+            var result = Firstname.CompareTo(other.Firstname);
+            if ( result != 0)
+            {
+                return result;
+            }
+            return Lastname.CompareTo(other.Lastname);
         }
         public override string ToString()
         {
@@ -78,9 +87,34 @@ namespace WebAdressBookTests
                 "Имя = " + Firstname + ", " +
                 "Фамилия = " + Lastname;
         }
-        public ContactData ReturnContact()
+        public ContactData GetContact(string firstname, string lastname)
         {
-            return this;
+            ContactData getContact = new ContactData(firstname, lastname)
+            {
+                Middlename = "Ivanovich",
+                Nickname = "Ivasik",
+                Title = "Popile",
+                Company = "Mapany",
+                Address = "Kertegg",
+                Home = "777777",
+                Mobile = "911002233",
+                Work = "99999999999",
+                Fax = "Safafaf",
+                Email = "email@gmail.com",
+                Email2 = "email2@gmail.com",
+                Email3 = "email3@gmail.com",
+                Homepage = "www.gmail.com",
+                Bday = "30",
+                Bmonth = "June",
+                Byear = "2000",
+                Aday = "20",
+                Amonth = "November",
+                Ayear = "2002",
+                Address2 = "Swwerqt",
+                Phone2 = "911",
+                Notes = "Zametki"
+            };
+            return getContact;
         }
     }
 }

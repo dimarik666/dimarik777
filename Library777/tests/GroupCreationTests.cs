@@ -27,9 +27,6 @@ namespace WebAdressBookTests
                 Header = "ddd",
                 Footer = "sss"
             };
-            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (groupsCount == 0)
-            app.Groups.CreateNewGroup(group);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             app.Navigator.GoToGroupsPage();
@@ -56,9 +53,6 @@ namespace WebAdressBookTests
                 Header = "",
                 Footer = ""
             };
-            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (groupsCount == 0)
-            app.Groups.CreateNewGroup(group);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             app.Navigator.GoToGroupsPage();
@@ -85,9 +79,6 @@ namespace WebAdressBookTests
                 Header = "hhh",
                 Footer = "hhh"
             };
-            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (groupsCount == 0)
-            app.Groups.CreateNewGroup(group);
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             app.Navigator.GoToGroupsPage();

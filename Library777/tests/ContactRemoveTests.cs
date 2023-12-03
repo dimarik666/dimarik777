@@ -22,36 +22,13 @@ namespace WebAdressBookTests
         [Test]
         public void ContactRemoveTestFromHome()
         {
-            ContactData contactData = new ContactData("Ivan", "Ivanov")
-            {
-                Middlename = "Ivanovich",
-                Nickname = "Ivasik",
-                Title = "Popile",
-                Company = "Mapany",
-                Address = "Kertegg",
-                Home = "777777",
-                Mobile = "911002233",
-                Work = "99999999999",
-                Fax = "Safafaf",
-                Email = "email@gmail.com",
-                Email2 = "email2@gmail.com",
-                Email3 = "email3@gmail.com",
-                Homepage = "www.gmail.com",
-                Bday = "30",
-                Bmonth = "June",
-                Byear = "2000",
-                Aday = "20",
-                Amonth = "November",
-                Ayear = "2002",
-                Address2 = "Swwerqt",
-                Phone2 = "911",
-                Notes = "Zametki"
-            };
+            ContactData modelContact = new ContactData();
+            ContactData newContactData = modelContact.GetContact("Albert", "Voronov");
             var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
             if (contactsCount == 0)
-            app.Contacts.CreateNewContact(contactData);
+                app.Contacts.CreateNewContact(modelContact.GetContact("Vasya", "Vasiliev"));
             List<ContactData> oldContacts = app.Contacts.GetContactList();
-            app.Contacts.RemoveContactFromHome(1, contactData);
+            app.Contacts.RemoveContactFromHome(1, newContactData);
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             ContactData toBeRemoved = oldContacts[0];
@@ -73,34 +50,11 @@ namespace WebAdressBookTests
         [Test]
         public void ContactRemoveTestFromEditPage()
         {
-            ContactData contactData = new ContactData("Ivan", "Ivanov")
-            {
-                Middlename = "Ivanovich",
-                Nickname = "Ivasik",
-                Title = "Popile",
-                Company = "Mapany",
-                Address = "Kertegg",
-                Home = "777777",
-                Mobile = "911002233",
-                Work = "99999999999",
-                Fax = "Safafaf",
-                Email = "email@gmail.com",
-                Email2 = "email2@gmail.com",
-                Email3 = "email3@gmail.com",
-                Homepage = "www.gmail.com",
-                Bday = "30",
-                Bmonth = "June",
-                Byear = "2000",
-                Aday = "20",
-                Amonth = "November",
-                Ayear = "2002",
-                Address2 = "Swwerqt",
-                Phone2 = "911",
-                Notes = "Zametki"
-            };
+            ContactData modelContact = new ContactData();
+            ContactData newContactData = modelContact.GetContact("Albert", "Voronov");
             var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
             if (contactsCount == 0)
-            app.Contacts.CreateNewContact(contactData);
+                app.Contacts.CreateNewContact(modelContact.GetContact("Vasya", "Vasiliev"));
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.RemoveContactFromEditContact(1);
             app.Navigator.GoToContactsPage();

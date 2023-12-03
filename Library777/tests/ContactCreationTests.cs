@@ -47,11 +47,9 @@ namespace WebAdressBookTests
                 Phone2 = "756090",
                 Notes = "Notes"
             };
-            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (contactsCount == 0)
-            app.Contacts.CreateNewContact(contact);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
+            app.Navigator.GoToContactsPage();
             Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts.Add(contact);
@@ -95,9 +93,6 @@ namespace WebAdressBookTests
                 Phone2 = "",
                 Notes = ""
             };
-            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (contactsCount == 0)
-            app.Contacts.CreateNewContact(contact);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
             app.Navigator.GoToContactsPage();
@@ -144,11 +139,9 @@ namespace WebAdressBookTests
                 Phone2 = "Home",
                 Notes = "Notes"
             };
-            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (contactsCount == 0)
-            app.Contacts.CreateNewContact(contact);
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
+            app.Navigator.GoToContactsPage();
             Assert.AreEqual(oldContacts.Count + 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts.Add(contact);

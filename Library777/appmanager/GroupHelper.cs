@@ -168,7 +168,7 @@ namespace WebAdressBookTests
             foreach (var info in groupInfo)
             {
                 GroupData writeInfo = new GroupData();
-                driver.FindElements(By.CssSelector("input[name='selected[]'"))[groupInfo.IndexOf(info)].Click();
+                driver.FindElement(By.CssSelector($"input[value='{info}']")).Click();
                 InitGroupModification();
                 writeInfo.Id = info;
                 writeInfo.Name = driver.FindElement(By.CssSelector("form input[name='group_name']")).GetAttribute("value");

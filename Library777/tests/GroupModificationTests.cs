@@ -23,14 +23,11 @@ namespace WebAdressBookTests
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newData = new GroupData("thisisname")
-            {
-                Header = "thisisheader",
-                Footer = "thisisfooter"
-            };
+            GroupData modelGroup = new GroupData();
+            GroupData newData = modelGroup.GetGroup("testing", "testing", "testing");
             var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
             if (groupsCount == 0)
-            app.Groups.CreateNewGroup(newData);
+                app.Groups.CreateNewGroup(modelGroup.GetGroup("name", "header", "footer"));
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             GroupData oldData = oldGroups[0];
             app.Groups.ModificationGroup(1, newData);

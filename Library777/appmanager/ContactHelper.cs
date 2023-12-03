@@ -230,7 +230,7 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public int GetContactCount()
         {
-            return driver.FindElements(By.CssSelector("table[id='maintable'] tr")).Count - 1;
+            return driver.FindElements(By.CssSelector("#maintable [name='entry']")).Count;
         }
     }
 }
