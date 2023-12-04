@@ -20,14 +20,42 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test]
+
         public void ContactRemoveTestFromHome()
         {
-            ContactData modelContact = new ContactData();
-            ContactData newContactData = modelContact.GetContact("Albert", "Voronov");
-            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (contactsCount == 0)
-                app.Contacts.CreateNewContact(modelContact.GetContact("Vasya", "Vasiliev"));
+            ContactData newContactData = new ContactData("Dmitrii", "Dmitriev")
+            {
+                Middlename = "Dmitrievich",
+                Nickname = "Dimarik",
+                Title = "Title",
+                Company = "Company",
+                Address = "Adress",
+                Home = "729911",
+                Mobile = "89992223300",
+                Work = "89534445566",
+                Fax = "Fax",
+                Email = "email@softgamings.com",
+                Email2 = "email2@softgamings.com",
+                Email3 = "email3@softgamimgs.com",
+                Homepage = "www.softgamings.com",
+                Bday = "10",
+                Bmonth = "July",
+                Byear = "1990",
+                Aday = "10",
+                Amonth = "May",
+                Ayear = "1995",
+                Address2 = "Adress",
+                Phone2 = "756090",
+                Notes = "Notes"
+            };
             List<ContactData> oldContacts = app.Contacts.GetContactList();
+            if (oldContacts.Count == 0)
+            {
+                ContactData modelContact = new ContactData();
+                ContactData testContactData = modelContact.GetTestingContact();
+                app.Contacts.CreateNewContact(testContactData);
+                oldContacts = app.Contacts.GetContactList();
+            }
             app.Contacts.RemoveContactFromHome(1, newContactData);
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
@@ -48,14 +76,42 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test]
+
         public void ContactRemoveTestFromEditPage()
         {
-            ContactData modelContact = new ContactData();
-            ContactData newContactData = modelContact.GetContact("Albert", "Voronov");
-            var contactsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (contactsCount == 0)
-                app.Contacts.CreateNewContact(modelContact.GetContact("Vasya", "Vasiliev"));
+            ContactData newContactData = new ContactData("Dmitrii", "Dmitriev")
+            {
+                Middlename = "Dmitrievich",
+                Nickname = "Dimarik",
+                Title = "Title",
+                Company = "Company",
+                Address = "Adress",
+                Home = "729911",
+                Mobile = "89992223300",
+                Work = "89534445566",
+                Fax = "Fax",
+                Email = "email@softgamings.com",
+                Email2 = "email2@softgamings.com",
+                Email3 = "email3@softgamimgs.com",
+                Homepage = "www.softgamings.com",
+                Bday = "10",
+                Bmonth = "July",
+                Byear = "1990",
+                Aday = "10",
+                Amonth = "May",
+                Ayear = "1995",
+                Address2 = "Adress",
+                Phone2 = "756090",
+                Notes = "Notes"
+            };
             List<ContactData> oldContacts = app.Contacts.GetContactList();
+            if (oldContacts.Count == 0)
+            {
+                ContactData modelContact = new ContactData();
+                ContactData testContactData = modelContact.GetTestingContact();
+                app.Contacts.CreateNewContact(testContactData);
+                oldContacts = app.Contacts.GetContactList();
+            }
             app.Contacts.RemoveContactFromEditContact(1);
             app.Navigator.GoToContactsPage();
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());

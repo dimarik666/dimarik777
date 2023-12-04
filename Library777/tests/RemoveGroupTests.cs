@@ -22,12 +22,19 @@ namespace WebAdressBookTests
         [Test]
         public void GroupRemovalTest()
         {
-            GroupData modelGroup = new GroupData();
-            GroupData newData = modelGroup.GetGroup("testing", "testing", "testing");
-            var groupsCount = app.driver.FindElements(By.XPath("(//input[@name='selected[]'])")).Count;
-            if (groupsCount == 0)
-                app.Groups.CreateNewGroup(modelGroup.GetGroup("name", "header", "footer"));
+            GroupData newData = new GroupData("default_name")
+            {
+                Header = "default_header",
+                Footer = "default_footer"
+            };
             List<GroupData> oldGroups = app.Groups.GetGroupList();
+            if (oldGroups.Count == 0)
+            {
+                GroupData modelGroup = new GroupData();
+                GroupData testGroupData = modelGroup.GetTestingGroup();
+                app.Groups.CreateNewGroup(testGroupData);
+                oldGroups = app.Groups.GetGroupList();
+            }
             app.Groups.RemoveGroup(1, newData);
             app.Navigator.GoToGroupsPage();
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());

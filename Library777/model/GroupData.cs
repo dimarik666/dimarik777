@@ -60,12 +60,17 @@ namespace WebAdressBookTests
             }
             return Name.CompareTo(other.Name);
         }
-        public GroupData GetGroup(string name, string header, string footer)
+        /// <summary>
+        /// Метод, который возвращает валидную тестовую группу
+        /// </summary>
+        /// <returns></returns>
+        public GroupData GetTestingGroup()
         {
-            GroupData getGroup = new GroupData(name)
+            GroupData getGroup = new GroupData()
             {
-                Header = header,
-                Footer = footer
+                Name = "test_name",
+                Header = "test_header",
+                Footer = "test_footer"
             };
             return getGroup;
         }

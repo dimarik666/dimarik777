@@ -87,32 +87,38 @@ namespace WebAdressBookTests
                 "Имя = " + Firstname + ", " +
                 "Фамилия = " + Lastname;
         }
-        public ContactData GetContact(string firstname, string lastname)
+        /// <summary>
+        /// Метод, который возвращает валидный тестовый контакт
+        /// </summary>
+        /// <returns></returns>
+        public ContactData GetTestingContact()
         {
-            ContactData getContact = new ContactData(firstname, lastname)
+            ContactData getContact = new ContactData()
             {
-                Middlename = "Ivanovich",
-                Nickname = "Ivasik",
-                Title = "Popile",
-                Company = "Mapany",
-                Address = "Kertegg",
+                Firstname = "Oleg_test",
+                Lastname = "Olegov_test",
+                Middlename = "Ivanovich_test",
+                Nickname = "Ivasik_test",
+                Title = "Popile_test",
+                Company = "Mapany_test",
+                Address = "Kertegg_test",
                 Home = "777777",
                 Mobile = "911002233",
                 Work = "99999999999",
-                Fax = "Safafaf",
-                Email = "email@gmail.com",
-                Email2 = "email2@gmail.com",
-                Email3 = "email3@gmail.com",
-                Homepage = "www.gmail.com",
+                Fax = "Safafaf_test",
+                Email = "test@gmail.com",
+                Email2 = "test2@gmail.com",
+                Email3 = "test3@gmail.com",
+                Homepage = "www.test.com",
                 Bday = "30",
                 Bmonth = "June",
                 Byear = "2000",
                 Aday = "20",
                 Amonth = "November",
                 Ayear = "2002",
-                Address2 = "Swwerqt",
+                Address2 = "Swwerqt_test",
                 Phone2 = "911",
-                Notes = "Zametki"
+                Notes = "Zametki_test"
             };
             return getContact;
         }
