@@ -64,7 +64,7 @@ namespace WebAdressBookTests
         /// Метод, который возвращает валидную тестовую группу
         /// </summary>
         /// <returns></returns>
-        public GroupData GetTestingGroup()
+        public static GroupData GetTestingGroup()
         {
             GroupData getGroup = new GroupData()
             {

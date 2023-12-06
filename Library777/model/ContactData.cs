@@ -91,7 +91,7 @@ namespace WebAdressBookTests
         /// Метод, который возвращает валидный тестовый контакт
         /// </summary>
         /// <returns></returns>
-        public ContactData GetTestingContact()
+        public static ContactData GetTestingContact()
         {
             ContactData getContact = new ContactData()
             {

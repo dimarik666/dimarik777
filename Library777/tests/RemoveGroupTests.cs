@@ -30,8 +30,7 @@ namespace WebAdressBookTests
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             if (oldGroups.Count == 0)
             {
-                GroupData modelGroup = new GroupData();
-                GroupData testGroupData = modelGroup.GetTestingGroup();
+                GroupData testGroupData = GroupData.GetTestingGroup();
                 app.Groups.CreateNewGroup(testGroupData);
                 oldGroups = app.Groups.GetGroupList();
             }

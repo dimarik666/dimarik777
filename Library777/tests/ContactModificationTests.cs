@@ -52,8 +52,7 @@ namespace WebAdressBookTests
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             if (oldContacts.Count == 0)
             {
-                ContactData modelContact = new ContactData();
-                ContactData testContactData = modelContact.GetTestingContact();
+                ContactData testContactData = ContactData.GetTestingContact();
                 app.Contacts.CreateNewContact(testContactData);
                 oldContacts = app.Contacts.GetContactList();
             }

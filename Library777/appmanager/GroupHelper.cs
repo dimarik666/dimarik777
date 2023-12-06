@@ -69,6 +69,7 @@ namespace WebAdressBookTests
         public GroupHelper SubmitRemoveGroup()
         {
             driver.FindElement(By.CssSelector("input[name='delete']")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -104,6 +105,7 @@ namespace WebAdressBookTests
         public GroupHelper SubmitGroupCreation()
         {
             driver.FindElement(By.CssSelector("input[name='submit']")).Click();
+            groupCache = null;
             return this;
         }
 
@@ -137,6 +139,7 @@ namespace WebAdressBookTests
         public GroupHelper SubmitGroupModification()
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
+            groupCache = null;
             return this;
         }       
 
@@ -150,23 +153,27 @@ namespace WebAdressBookTests
             return this;
         }
 
+        private List<GroupData> groupCache = null;
+
         /// <summary>
         /// Запись всех контактов на странице в один лист
         /// </summary>
         /// <returns></returns>
         public List<GroupData> GetGroupList()
         {
-            List<GroupData> groups = new List<GroupData>();
-            manager.Navigator.GoToGroupsPage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
-            List<string> groupInfo = new List<string>();      
-            foreach (IWebElement element in elements)
+            if (groupCache == null)
             {
+                groupCache = new List<GroupData>();
+                manager.Navigator.GoToGroupsPage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("span.group"));
+                List<string> groupInfo = new List<string>();      
+                foreach (IWebElement element in elements)
+                {
                 groupInfo.Add(element.FindElement(By.CssSelector("span.group input")).GetAttribute("value"));
-            }
+                }
 
-            foreach (var info in groupInfo)
-            {
+                foreach (var info in groupInfo)
+                {
                 GroupData writeInfo = new GroupData();
                 driver.FindElement(By.CssSelector($"input[value='{info}']")).Click();
                 InitGroupModification();
@@ -175,9 +182,10 @@ namespace WebAdressBookTests
                 writeInfo.Header = driver.FindElement(By.CssSelector("form textarea[name='group_header']")).GetAttribute("value");
                 writeInfo.Footer = driver.FindElement(By.CssSelector("form textarea[name='group_footer']")).GetAttribute("value");
                 manager.Navigator.GoToGroupsPage();
-                groups.Add(writeInfo);
+                groupCache.Add(writeInfo);
+                }
             }
-            return groups;
+            return new List<GroupData>(groupCache);
         }
         /// <summary>
         /// Считает количество групп на странице

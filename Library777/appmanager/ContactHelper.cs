@@ -85,6 +85,7 @@ namespace WebAdressBookTests
         public ContactHelper SubmitRemoveContact()
         {
             driver.FindElement(By.CssSelector("input[value='Delete']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -128,6 +129,7 @@ namespace WebAdressBookTests
         public ContactHelper SubmitRemove()
         {
             driver.FindElement(By.CssSelector("input[value='Delete']")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -191,6 +193,7 @@ namespace WebAdressBookTests
         public ContactHelper SubmitContactCreate()
         {
             driver.FindElement(By.CssSelector("input[name='submit'")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -201,8 +204,11 @@ namespace WebAdressBookTests
         public ContactHelper SubmitModification()
         {
             driver.FindElement(By.CssSelector("input[name='update']")).Click();
+            contactCache = null;
             return this;
         }
+
+        private List<ContactData> contactCache = null;
 
         /// <summary>
         /// Запись всех контактов на странице в один лист
@@ -210,19 +216,22 @@ namespace WebAdressBookTests
         /// <returns></returns>
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.OpenHomePage();
-            var elements = driver.FindElements(By.CssSelector("#maintable [name='entry']"));
-            foreach (IWebElement element in elements)
-            {
-                contacts.Add(new ContactData(
+            if (contactCache == null) 
+            { 
+                contactCache = new List<ContactData>();
+                manager.Navigator.OpenHomePage();
+                var elements = driver.FindElements(By.CssSelector("#maintable [name='entry']"));
+                foreach (IWebElement element in elements)
+                {
+                contactCache.Add(new ContactData(
                     element.FindElement(By.CssSelector("td:nth-child(3)")).Text,
                     element.FindElement(By.CssSelector("td:nth-child(2)")).Text)
-                {
+                    {                        
                     Id = element.FindElement(By.CssSelector("input")).GetAttribute("id")
-                });              
-            } 
-            return contacts;
+                    });
+                }
+            }
+                return new List<ContactData>(contactCache);
         }
         /// <summary>
         /// Считает количество контактов на странице
