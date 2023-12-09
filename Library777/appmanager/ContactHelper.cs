@@ -219,6 +219,19 @@ namespace WebAdressBookTests
                 .FindElement(By.TagName("a")).Click();
         }
 
+        /// <summary>
+        /// Метод, который открывает свойства контакта
+        /// </summary>
+        /// <param name="index">Номер контакта по списку</param>
+        /// <returns></returns>
+        public ContactHelper InitContactDetails(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[6]
+                .FindElement(By.TagName("a")).Click();
+            return this;
+        }
+
         private List<ContactData> contactCache = null;
 
         /// <summary>
@@ -267,6 +280,23 @@ namespace WebAdressBookTests
         }
 
         /// <summary>
+        /// Метод, который получает информацию на странице просмотра свойств контакта
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        internal ContactData GetContactInformationDetailForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactDetails(index);
+
+            IList<IWebElement> cells = driver.FindElements(By.CssSelector("div[id=content]"));
+            return new ContactData()
+            {
+                ContactDetails = cells[0].Text,
+            };
+        }
+
+        /// <summary>
         /// Метод, который получает информацию из формы редактирования
         /// </summary>
         /// <param name="index"></param>
@@ -274,7 +304,7 @@ namespace WebAdressBookTests
         internal ContactData GetContactInformationEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification(0);
+            InitContactModification(index);
 
             return new ContactData()
             {
