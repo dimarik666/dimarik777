@@ -60,6 +60,7 @@ namespace WebAdressBookTests
             SelectContact(z);
             SubmitRemove();
             ContactCloseAlert();
+            manager.Navigator.GoToContactsPage();
             return this;
         }
 
@@ -156,9 +157,9 @@ namespace WebAdressBookTests
             Type(By.CssSelector("input[name='title']"), contact.Title);
             Type(By.CssSelector("input[name='company']"), contact.Company);
             Type(By.CssSelector("textarea[name='address']"), contact.Address);
-            Type(By.CssSelector("input[name='home']"), contact.Home);
-            Type(By.CssSelector("input[name='mobile']"), contact.Mobile);
-            Type(By.CssSelector("input[name='work']"), contact.Work);
+            Type(By.CssSelector("input[name='home']"), contact.HomePhone);
+            Type(By.CssSelector("input[name='mobile']"), contact.MobilePhone);
+            Type(By.CssSelector("input[name='work']"), contact.WorkPhone);
             Type(By.CssSelector("input[name='fax']"), contact.Fax);
             Type(By.CssSelector("input[name='email']"), contact.Email);
             Type(By.CssSelector("input[name='email2']"), contact.Email2);
@@ -207,6 +208,16 @@ namespace WebAdressBookTests
             contactCache = null;
             return this;
         }
+        /// <summary>
+        /// Метод, который переход в форму редактирования контакта 
+        /// </summary>
+        /// <param name="index"></param>
+        public void InitContactModification(int index)
+        {
+            driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"))[7]
+                .FindElement(By.TagName("a")).Click();
+        }
 
         private List<ContactData> contactCache = null;
 
@@ -233,6 +244,67 @@ namespace WebAdressBookTests
             }
                 return new List<ContactData>(contactCache);
         }
+
+        /// <summary>
+        /// Метод, который получается информацию из таблицы
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        internal ContactData GetContactInformationFromTable(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            IList<IWebElement> cells = driver.FindElements(By.Name("entry"))[index]
+                .FindElements(By.TagName("td"));
+
+            return new ContactData()
+            {
+                Lastname = cells[1].Text,
+                Firstname = cells[2].Text,
+                Address = cells[3].Text,
+                AllEmails = cells[4].Text,
+                AllPhones = cells[5].Text,
+            };
+        }
+
+        /// <summary>
+        /// Метод, который получает информацию из формы редактирования
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        internal ContactData GetContactInformationEditForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactModification(0);
+
+            return new ContactData()
+            {
+                Firstname = driver.FindElement(By.Name("firstname")).GetAttribute("value"),
+                Lastname = driver.FindElement(By.Name("lastname")).GetAttribute("value"),
+                Middlename = driver.FindElement(By.Name("middlename")).GetAttribute("value"),
+                Nickname = driver.FindElement(By.Name("nickname")).GetAttribute("value"),
+                Company = driver.FindElement(By.Name("company")).GetAttribute("value"),
+                Title = driver.FindElement(By.Name("title")).GetAttribute("value"),
+                Address = driver.FindElement(By.Name("address")).GetAttribute("value"),
+                HomePhone = driver.FindElement(By.Name("home")).GetAttribute("value"),
+                MobilePhone = driver.FindElement(By.Name("mobile")).GetAttribute("value"),
+                WorkPhone = driver.FindElement(By.Name("work")).GetAttribute("value"),
+                Fax = driver.FindElement(By.Name("fax")).GetAttribute("value"),
+                Email = driver.FindElement(By.Name("email")).GetAttribute("value"),
+                Email2 = driver.FindElement(By.Name("email2")).GetAttribute("value"),
+                Email3 = driver.FindElement(By.Name("email3")).GetAttribute("value"),
+                Homepage = driver.FindElement(By.Name("homepage")).GetAttribute("value"),
+                Bday = driver.FindElement(By.Name("bday")).GetAttribute("value"),
+                Bmonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value"),
+                Byear = driver.FindElement(By.Name("byear")).GetAttribute("value"),
+                Aday = driver.FindElement(By.Name("aday")).GetAttribute("value"),
+                Amonth = driver.FindElement(By.Name("amonth")).GetAttribute("value"),
+                Ayear = driver.FindElement(By.Name("ayear")).GetAttribute("value"),
+                Address2 = driver.FindElement(By.Name("address2")).GetAttribute("value"),
+                Phone2 = driver.FindElement(By.Name("phone2")).GetAttribute("value"),
+                Notes = driver.FindElement(By.Name("notes")).GetAttribute("value"),
+            };
+        }
+
         /// <summary>
         /// Считает количество контактов на странице
         /// </summary>

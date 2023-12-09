@@ -12,6 +12,9 @@ namespace WebAdressBookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
+        public string allPhones;
+
+        public string allEmails;
         public string Firstname { get; set; }
         public string Middlename { get; set; }
         public string Lastname { get; set; }
@@ -19,9 +22,9 @@ namespace WebAdressBookTests
         public string Title { get; set; }
         public string Company { get; set; }
         public string Address { get; set; }
-        public string Home { get; set; }
-        public string Mobile { get; set; }
-        public string Work { get; set; }
+        public string HomePhone { get; set; }
+        public string MobilePhone { get; set; }
+        public string WorkPhone { get; set; }
         public string Fax { get; set; }
         public string Email { get; set; }
         public string Email2 { get; set; }
@@ -37,6 +40,42 @@ namespace WebAdressBookTests
         public string Phone2 { get; set; }
         public string Notes { get; set; }
         public string Id {  get; set; }
+        public string AllEmails
+        {
+            get
+            {
+                if (allEmails != null)
+                {
+                    return allEmails;
+                }
+                else
+                {
+                    return (CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3)).Trim();
+                }
+            }
+            set
+            {
+                allEmails = value;
+            }
+        }
+        public string AllPhones
+        {
+            get
+            {
+                if (allPhones != null)
+                {
+                    return allPhones;
+                }
+                else
+                {
+                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+                }
+            }
+            set
+            {
+                allPhones = value;
+            }
+        }
         public ContactData(string firstname, string lastname)
         {
             Firstname = firstname;
@@ -45,6 +84,19 @@ namespace WebAdressBookTests
         public ContactData()
         {
 
+        }
+        /// <summary>
+        /// Вспомогательный метод, который очищает значение от необязательных символов
+        /// </summary>
+        /// <param name="meaning"></param>
+        /// <returns></returns>
+        private string CleanUp(string meaning)
+        {
+            if (meaning == null || meaning == "")
+            {
+                return "";
+            }
+            return meaning.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
         }
 
         /// <summary>
@@ -102,9 +154,9 @@ namespace WebAdressBookTests
                 Title = "Popile_test",
                 Company = "Mapany_test",
                 Address = "Kertegg_test",
-                Home = "777777",
-                Mobile = "911002233",
-                Work = "99999999999",
+                HomePhone = "777777",
+                MobilePhone = "911002233",
+                WorkPhone = "99999999999",
                 Fax = "Safafaf_test",
                 Email = "test@gmail.com",
                 Email2 = "test2@gmail.com",
