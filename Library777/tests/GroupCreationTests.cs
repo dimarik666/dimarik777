@@ -22,10 +22,11 @@ namespace WebAdressBookTests
         [Test]
         public void GroupCreationTest()
         {
-            GroupData group = new GroupData("aaa")
+            GroupData group = new GroupData()
             {
-                Header = "ddd",
-                Footer = "sss"
+                Name = GenerateRandomString(10),
+                Header = GenerateRandomString(20),
+                Footer = GenerateRandomString(20)
             };
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
@@ -48,11 +49,13 @@ namespace WebAdressBookTests
         [Test]
         public void EmptyGroupCreationTest()
         {
-            GroupData group = new GroupData("")
+            GroupData group = new GroupData()
             {
-                Header = "",
-                Footer = ""
+                Name = GenerateRandomString(10),
+                Header = GenerateRandomString(10),
+                Footer = GenerateRandomString(10)
             };
+
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             app.Navigator.GoToGroupsPage();
