@@ -7,48 +7,65 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using System.IO;
+using System.Xml;
+using System.Xml.Serialization;
+using Newtonsoft.Json;
 
 namespace WebAdressBookTests
 {
     [TestFixture]
     public class ContactCreationTests : AuthTestBase
     {
+        public static IEnumerable<ContactData> ContactDataFromJsonFile()
+        {
+            return JsonConvert.DeserializeObject<List<ContactData>>(
+                File.ReadAllText(@"contacts.json"));
+        }
+        public static IEnumerable<ContactData> ContactDataFromXMLFile()
+        {
+            return (List<ContactData>)
+                new XmlSerializer(typeof(List<ContactData>))
+                    .Deserialize(new StreamReader(@"contacts.xml"));
+        }
+
         /// <summary>
         /// Тест в котором происходит создание контакта.
         /// Здесь собраны методы, которые изначально проверяют наличие контактов на странице контактов.
         /// Сверяют количество контактов на странице до и после создания нового контакта.
         /// И совершается разлогин.
         /// </summary>
-        [Test]
-        public void ContactCreationTest()
+
+        [Test/*, TestCaseSource("ContactDataFromXMLFile")*/]
+        public void ContactCreationTest(ContactData contact)
         {
-            ContactData contact = new ContactData()
-            {
-                Firstname = GenerateRandomString(10),
-                Lastname = GenerateRandomString(10),
-                Middlename = GenerateRandomString(10),
-                Nickname = GenerateRandomString(10),
-                Title = GenerateRandomString(10),
-                Company = GenerateRandomString(10),
-                Address = GenerateRandomString(10),
-                HomePhone = GenerateRandomString(10),
-                MobilePhone = GenerateRandomString(10),
-                WorkPhone = GenerateRandomString(10),
-                Fax = GenerateRandomString(10),
-                Email = GenerateRandomString(10) + "@email.com",
-                Email2 = GenerateRandomString(10) + "@email.com",
-                Email3 = GenerateRandomString(10) + "@email.com",
-                Homepage = GenerateRandomString(10) + ".com",
-                Bday = GenerateRandomDay(),
-                Bmonth = GenerateRandomMonth(),
-                Byear = GenerateRandomYear(),
-                Aday = GenerateRandomDay(),
-                Amonth = GenerateRandomMonth(),
-                Ayear = GenerateRandomYear(),
-                Address2 = GenerateRandomString(10),
-                Phone2 = GenerateRandomString(10),
-                Notes = GenerateRandomString(20)
-            };
+            //ContactData contact = new ContactData()
+            //{
+            //    Firstname = GenerateRandomString(10),
+            //    Lastname = GenerateRandomString(10),
+            //    Middlename = GenerateRandomString(10),
+            //    Nickname = GenerateRandomString(10),
+            //    Title = GenerateRandomString(10),
+            //    Company = GenerateRandomString(10),
+            //    Address = GenerateRandomString(10),
+            //    HomePhone = GenerateRandomString(10),
+            //    MobilePhone = GenerateRandomString(10),
+            //    WorkPhone = GenerateRandomString(10),
+            //    Fax = GenerateRandomString(10),
+            //    Email = GenerateRandomString(10) + "@email.com",
+            //    Email2 = GenerateRandomString(10) + "@email.com",
+            //    Email3 = GenerateRandomString(10) + "@email.com",
+            //    Homepage = GenerateRandomString(10) + ".com",
+            //    Bday = GenerateRandomDay(),
+            //    Bmonth = GenerateRandomMonth(),
+            //    Byear = GenerateRandomYear(),
+            //    Aday = GenerateRandomDay(),
+            //    Amonth = GenerateRandomMonth(),
+            //    Ayear = GenerateRandomYear(),
+            //    Address2 = GenerateRandomString(10),
+            //    Phone2 = GenerateRandomString(10),
+            //    Notes = GenerateRandomString(20)
+            //};
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
             app.Navigator.GoToContactsPage();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -13,32 +14,16 @@ namespace WebAdressBookTests
     public class TestBase
     {
         protected ApplicationManager app;
-        public static IEnumerable<GroupData> RandomGroupDataProvider()
-        {
-            List<GroupData> groups = new List<GroupData>();
-            for (int i = 0; i < 5; i++)
-            {
-                groups.Add(new GroupData()
-                {
-                    Name = GenerateRandomString(10),
-                    Header = GenerateRandomString(20),
-                    Footer = GenerateRandomString(20)
-                });
-            }
-            return groups;
-        }
+        public static Random rnd = new Random();
 
         [SetUp]
         public void SetupApplicationManager()
         {
             app = ApplicationManager.GetInstance();
         }
-
-        public static Random rnd = new Random();
-
         public static string GenerateRandomString(int max)
         {
-            char[] strings = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_+=<>/?[]{}".ToCharArray();
+            char[] strings = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
             int l = Convert.ToInt32(rnd.NextDouble() * max);
             string word = "";
             for (int i = 0; i < l; i++)
