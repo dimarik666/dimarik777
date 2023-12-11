@@ -212,12 +212,7 @@ namespace WebAdressBookTests
         /// Метод, который переход в форму редактирования контакта 
         /// </summary>
         /// <param name="index"></param>
-        public void InitContactModification(int index)
-        {
-            driver.FindElements(By.Name("entry"))[index]
-                .FindElements(By.TagName("td"))[7]
-                .FindElement(By.TagName("a")).Click();
-        }
+        public void InitContactModification(int index) => driver.FindElements(By.CssSelector("[title='Edit']"))[index].Click();        
 
         private List<ContactData> contactCache = null;
 
@@ -274,7 +269,7 @@ namespace WebAdressBookTests
         internal ContactData GetContactInformationEditForm(int index)
         {
             manager.Navigator.OpenHomePage();
-            InitContactModification(0);
+            InitContactModification(index);
 
             return new ContactData()
             {
