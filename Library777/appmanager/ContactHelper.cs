@@ -41,7 +41,7 @@ namespace WebAdressBookTests
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToContactsPage();
-            InitModificationContact(z);
+            InitContactModification(z);
             FillContactForm(newContactData);
             SubmitModification();
             manager.Navigator.GoToContactsPage();
@@ -73,7 +73,7 @@ namespace WebAdressBookTests
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToContactsPage();
-            InitModificationContact(z);
+            InitContactModification(z);
             SubmitRemoveContact();
             manager.Navigator.GoToContactsPage();
             return this;
@@ -90,16 +90,6 @@ namespace WebAdressBookTests
             return this;
         }
 
-        /// <summary>
-        /// Выбор контакта, который необходимо отредактировать
-        /// </summary>
-        /// <param name="index">порядковый номер контакта</param>
-        /// <returns></returns>
-        public ContactHelper InitModificationContact(int index)
-        {
-            driver.FindElement(By.XPath("(//img[@title='Edit']) [" + index + "]")).Click();
-            return this;
-        }
         /// <summary>
         /// Выбор контакта, который необходимо удалить
         /// </summary>
@@ -212,7 +202,7 @@ namespace WebAdressBookTests
         /// Метод, который переход в форму редактирования контакта 
         /// </summary>
         /// <param name="index"></param>
-        public void InitContactModification(int index) => driver.FindElements(By.CssSelector("[title='Edit']"))[index].Click();        
+        public void InitContactModification(int index) => driver.FindElements(By.CssSelector("[title='Edit']"))[index].Click();
 
         private List<ContactData> contactCache = null;
 

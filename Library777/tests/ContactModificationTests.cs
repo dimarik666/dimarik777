@@ -57,7 +57,7 @@ namespace WebAdressBookTests
                 oldContacts = app.Contacts.GetContactList();
             }
             ContactData oldData = oldContacts[0];
-            app.Contacts.ModificationContact(1, newContactData);
+            app.Contacts.ModificationContact(0, newContactData);
             Assert.AreEqual(oldContacts.Count, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
             oldContacts[0].Firstname = newContactData.Firstname;

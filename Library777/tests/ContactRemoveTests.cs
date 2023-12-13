@@ -110,7 +110,7 @@ namespace WebAdressBookTests
                 app.Contacts.CreateNewContact(testContactData);
                 oldContacts = app.Contacts.GetContactList();
             }
-            app.Contacts.RemoveContactFromEditContact(1);
+            app.Contacts.RemoveContactFromEditContact(0);
             app.Navigator.GoToContactsPage();
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
             List<ContactData> newContacts = app.Contacts.GetContactList();
