@@ -50,7 +50,7 @@ namespace WebAdressBookTests
                 }
                 else
                 {
-                    return ((Email) + "\r\n" + (Email2) + "\r\n" + (Email3)).Trim();
+                    return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
                 }
             }
             set
@@ -68,7 +68,7 @@ namespace WebAdressBookTests
                 }
                 else
                 {
-                    return (CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone)).Trim();
+                    return (CleanUpPhone(HomePhone) + CleanUpPhone(MobilePhone) + CleanUpPhone(WorkPhone) + CleanUpPhone(Phone2)).Trim();
                 }
             }
             set
@@ -86,17 +86,30 @@ namespace WebAdressBookTests
 
         }
         /// <summary>
-        /// Вспомогательный метод, который очищает значение от необязательных символов
+        /// Вспомогательный метод, который очищает значение от необязательных символов для телефонов
         /// </summary>
-        /// <param name="meaning"></param>
+        /// <param name="phone"></param>
         /// <returns></returns>
-        private string CleanUp(string meaning)
+        private string CleanUpPhone(string phone)
         {
-            if (meaning == null || meaning == "")
+            if (String.IsNullOrEmpty(phone))
             {
                 return "";
             }
-            return meaning.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + Environment.NewLine;
+        }
+        /// <summary>
+        /// Вспомогательный метод, который очищает значение от необязательных символов для емейлов
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        private string CleanUpEmail(string email)
+        {
+            if (String.IsNullOrEmpty(email))
+            {
+                return "";
+            }
+            return email + Environment.NewLine;
         }
 
         /// <summary>
