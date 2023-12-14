@@ -204,6 +204,30 @@ namespace WebAdressBookTests
         /// <param name="index"></param>
         public void InitContactModification(int index) => driver.FindElements(By.CssSelector("[title='Edit']"))[index].Click();
 
+        /// <summary>
+        /// Метод, который открывает свойства контакта
+        /// </summary>
+        /// <param name="index">Номер контакта по списку</param>
+        /// <returns></returns>
+        public void InitContactDetails(int index) => driver.FindElements(By.CssSelector("[title='Details']"))[index].Click();
+
+        /// <summary>
+        /// Метод, который получает информацию на странице просмотра свойств контакта
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        internal ContactData GetContactInformationDetailForm(int index)
+        {
+            manager.Navigator.OpenHomePage();
+            InitContactDetails(index);
+
+            IList<IWebElement> cells = driver.FindElements(By.CssSelector("div[id=content]"));
+            return new ContactData()
+            {
+                ContactDetails = cells[0].Text,
+            };
+        }
+
         private List<ContactData> contactCache = null;
 
         /// <summary>

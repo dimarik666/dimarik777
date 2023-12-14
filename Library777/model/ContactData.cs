@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -15,6 +17,8 @@ namespace WebAdressBookTests
         public string allPhones;
 
         public string allEmails;
+
+        public string contactDetails;
         public string Firstname { get; set; }
         public string Middlename { get; set; }
         public string Lastname { get; set; }
@@ -74,6 +78,73 @@ namespace WebAdressBookTests
             set
             {
                 allPhones = value;
+            }
+        }
+
+        /// <summary>
+        /// Словарь со списком месяцев для селектора
+        /// </summary>
+        Dictionary<int, string> MonthListBirthday = new Dictionary<int, string>()
+        {
+            {0, "-" },
+            {1, "January" },
+            {2, "February" },
+            {3, "March" },
+            {4, "April" },
+            {5, "May" },
+            {6, "June" },
+            {7, "July" },
+            {8, "August" },
+            {9, "September" },
+            {10, "October" },
+            {11, "November" },
+            {12, "December" }
+        };
+        
+        /// <summary>
+        /// Метод, который используется для превращения строчной буквы в прописную
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public string UpperFirstChar(string input)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return null;
+            }
+
+            return char.ToUpper(input[0]) + input.Substring(1);
+        }
+        public string TotalAgeAnniversary
+        {
+            get
+            {
+                if (!int.TryParse(Ayear, out int ayearResult))
+                    return "";
+                else if (ayearResult < 1874)
+                    return "";
+
+                DateTime dateToday = DateTime.Today;
+                DateTime dateAnniversary = new DateTime(ayearResult, MonthListBirthday.First(x => x.Value == UpperFirstChar(Amonth)).Key, int.Parse(Aday));
+                TimeSpan ageAnniversary = dateToday - dateAnniversary;
+                int totalAgeAnniversary = ageAnniversary.Days / 365;
+                return totalAgeAnniversary.ToString();
+            }
+        }
+        public string TotalAgeBirthday
+        {
+            get
+            {
+                if (!int.TryParse(Byear, out int byearResult))
+                    return "";
+                else if (byearResult < 1874)
+                    return "";
+
+                DateTime dateToday = DateTime.Today;
+                DateTime dateBirthday = new DateTime(byearResult, MonthListBirthday.First(x => x.Value == UpperFirstChar(Bmonth)).Key, int.Parse(Bday));
+                TimeSpan ageBirthday = dateToday - dateBirthday;
+                int totalAgeBirthday = ageBirthday.Days / 365;
+                return totalAgeBirthday.ToString();
             }
         }
         public ContactData(string firstname, string lastname)
@@ -146,11 +217,73 @@ namespace WebAdressBookTests
             }
             return Lastname.CompareTo(other.Lastname);
         }
+        public string ContactDetails
+        {
+            get
+            {
+                if (contactDetails != null)
+                {
+                    return contactDetails;
+                }
+
+                else
+                {
+                    string finishAgeBirthday = TotalAgeBirthday != "" ? " (" + TotalAgeBirthday + ")" : "";
+                    string finishAgeAnniversary = TotalAgeAnniversary != "" ? " (" + TotalAgeAnniversary + ")" : "";
+
+                    return
+                        (Firstname + " " + Middlename + " " + Lastname + "\r\n"
+                        + Nickname + "\r\n"
+                        + Title + "\r\n"
+                        + Company + "\r\n"
+                        + Address + "\r\n\r\n"
+                        + "H: " + HomePhone + "\r\n"
+                        + "M: " + MobilePhone + "\r\n"
+                        + "W: " + WorkPhone + "\r\n"
+                        + "F: " + Fax + "\r\n\r\n"
+                        + Email + "\r\n"
+                        + Email2 + "\r\n"
+                        + Email3 + "\r\n"
+                        + "Homepage:" + "\r\n" + Homepage + "\r\n\r\n"
+                        + "Birthday " + Bday + ". " + UpperFirstChar(Bmonth) + " " + Byear + finishAgeBirthday + "\r\n"
+                        + "Anniversary " + Aday + ". " + UpperFirstChar(Amonth) + " " + Ayear + finishAgeAnniversary + "\r\n\r\n"
+                        + Address2 + "\r\n\r\n"
+                        + "P: " + Phone2 + "\r\n\r\n"
+                        + Notes).Trim();
+                }
+            }
+            set
+            {
+                contactDetails = value;
+            }
+        }
         public override string ToString()
         {
             return
-                "Имя = " + Firstname + ", " +
-                "Фамилия = " + Lastname;
+                "Firstname = " + Firstname + ", " +
+                "Middlename = " + Middlename + ", " +
+                "Lastname = " + Lastname + ", " +
+                "Nickname = " + Nickname + ", " +
+                "Company = " + Company + ", " +
+                "Title = " + Title + ", " +
+                "Address = " + Address + ", " +
+                "Homephone = " + HomePhone + ", " +
+                "Mobilephone = " + MobilePhone + ", " +
+                "Workphone = " + WorkPhone + ", " +
+                "Fax = " + Fax + ", " +
+                "Email = " + Email + ", " +
+                "Email2 = " + Email2 + ", " +
+                "Email3 = " + Email3 + ", " +
+                "Homepage = " + Homepage + ", " +
+                "Bday = " + Bday + ", " +
+                "Bmonth = " + Bmonth + ", " +
+                "Byear = " + Byear + ", " +
+                "Aday = " + Aday + ", " +
+                "Amonth = " + Amonth + ", " +
+                "Ayear = " + Ayear + ", " +
+                "SecondAddress = " + Address2 + ", " +
+                "Phone2 = " + Phone2 + ", " +
+                "Notes = " + Notes;
         }
         /// <summary>
         /// Метод, который возвращает валидный тестовый контакт
