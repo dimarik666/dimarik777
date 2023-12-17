@@ -12,7 +12,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class ContactModificationTests : AuthTestBase
+    public class ContactModificationTests : ContactTestBase
 
     {
         /// <summary>
@@ -41,27 +41,27 @@ namespace WebAdressBookTests
                 Email2 = GenerateRandomString(10) + "@email.com",
                 Email3 = GenerateRandomString(10) + "@email.com",
                 Homepage = GenerateRandomString(10) + ".com",
-                Bday = GenerateRandomDay(),
+                Bday = GetRandomNumber(0, 31).ToString(),
                 Bmonth = GenerateRandomMonth(),
-                Byear = GenerateRandomString(10),
-                Aday = GenerateRandomDay(),
+                Byear = GenerateRandomYear(),
+                Aday = GetRandomNumber(0, 31).ToString(),
                 Amonth = GenerateRandomMonth(),
-                Ayear = GenerateRandomString(10),
+                Ayear = GenerateRandomYear(),
                 Address2 = GenerateRandomString(10),
                 Phone2 = GenerateRandomString(10),
                 Notes = GenerateRandomString(10)
             };
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             if (oldContacts.Count == 0)
             {
                 ContactData testContactData = ContactData.GetTestingContact();
                 app.Contacts.CreateNewContact(testContactData);
                 oldContacts = app.Contacts.GetContactList();
             }
-            ContactData oldData = oldContacts[0];
-            app.Contacts.ModificationContact(1, newContactData);
+            ContactData toBeModified = oldContacts[0];
+            app.Contacts.ModificationContact(toBeModified, newContactData);
             Assert.AreEqual(oldContacts.Count, app.Contacts.GetContactCount());
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             oldContacts[0].Firstname = newContactData.Firstname;
             oldContacts[0].Lastname = newContactData.Lastname;
             oldContacts.Sort();
@@ -69,7 +69,7 @@ namespace WebAdressBookTests
             Assert.AreEqual(oldContacts, newContacts);
             foreach (ContactData contact in newContacts)
             {
-                if (contact.Id == oldData.Id) 
+                if (contact.Id == toBeModified.Id) 
                 { 
                     Assert.AreEqual(newContactData.Firstname, contact.Firstname);
                     Assert.AreEqual(newContactData.Lastname, contact.Lastname);

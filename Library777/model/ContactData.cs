@@ -9,52 +9,113 @@ using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
+using LinqToDB.Mapping;
 
 namespace WebAdressBookTests
 {
+    [Table(Name = "addressbook")]
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
         public string allPhones;
 
         public string allEmails;
         public string contactDetails;
+        [Column(Name = "firstname")]
         public string Firstname { get; set; }
+        [Column(Name = "middlename")]
         public string Middlename { get; set; }
+        [Column(Name = "lastname")]
         public string Lastname { get; set; }
+        [Column(Name = "nickname")]
         public string Nickname { get; set; }
+        [Column(Name = "title")]
         public string Title { get; set; }
+        [Column(Name = "company")]
         public string Company { get; set; }
+        [Column(Name = "address")]
         public string Address { get; set; }
+        [Column(Name = "home")]
         public string HomePhone { get; set; }
+        [Column(Name = "mobile")]
         public string MobilePhone { get; set; }
+        [Column(Name = "work")]
         public string WorkPhone { get; set; }
+        [Column(Name = "fax")]
         public string Fax { get; set; }
+        [Column(Name = "email")]
         public string Email { get; set; }
+        [Column(Name = "email2")]
         public string Email2 { get; set; }
+        [Column(Name = "email3")]
         public string Email3 { get; set; }
+        [Column(Name = "homepage")]
         public string Homepage { get; set; }
-        public string Bday { get; set; }
+        private string bday;
+        [Column(Name = "bday")]
+        public string Bday
+        {
+            get
+            {
+                return bday;
+            }
+            set
+            {
+                if (!int.TryParse(value, out int val) || (val < 0 || val > 31))
+                    throw new ArgumentException();
+                if (val == 0)
+                    bday = "-";
+                else
+                    bday = value;
+            }
+        }
+        [Column(Name = "bmonth")]
         public string Bmonth { get; set; }
+        [Column(Name = "byear")]
         public string Byear { get; set; }
-        public string Aday { get; set; }
+        private string aday;
+        [Column(Name = "aday")]
+        public string Aday
+        {
+            get
+            {
+                return aday;
+            }
+            set
+            {
+                if (!int.TryParse(value, out int val) || (val < 0 || val > 31))
+                    throw new ArgumentException();
+                if (val == 0)
+                    aday = "-";
+                else
+                    aday = value;
+            }
+        }
+        [Column(Name = "amonth")]
         public string Amonth { get; set; }
+        [Column(Name = "ayear")]
         public string Ayear { get; set; }
+        [Column(Name = "address2")]
         public string Address2 { get; set; }
+        [Column(Name = "phone2")]
         public string Phone2 { get; set; }
+        [Column(Name = "notes")]
         public string Notes { get; set; }
+        [Column(Name = "id")]
         public string Id {  get; set; }
+        [Column(Name = "deprecated")]
+        public string Deprecated {  get; set; }
+        public static List<ContactData> GetAll()
+        {
+            using (AddressBookDB db = new AddressBookDB())
+            {
+                return (from g in db.Contacts.Where(x => x.Deprecated == "0000-00-00 00:00:00") select g).ToList();
+            }
+        }
         public string AllEmails
         {
             get
             {
-                if (allEmails != null)
-                {
-                    return allEmails;
-                }
-                else
-                {
                     return (CleanUp(Email) + CleanUp(Email2) + CleanUp(Email3)).Trim();
-                }
             }
             set
             {
@@ -62,22 +123,6 @@ namespace WebAdressBookTests
             }
         }
 
-        Dictionary<int, string> MonthListBirthday = new Dictionary<int, string>()
-        {
-            {0, "-" },
-            {1, "January" },
-            {2, "February" },
-            {3, "March" },
-            {4, "April" },
-            {5, "May" },
-            {6, "June" },
-            {7, "July" },
-            {8, "August" },
-            {9, "September" },
-            {10, "October" },
-            {11, "November" },
-            {12, "December" }
-        };
         public string UpperFirstChar(string input)
         {
             if (string.IsNullOrEmpty(input))
@@ -87,77 +132,77 @@ namespace WebAdressBookTests
 
             return char.ToUpper(input[0]) + input.Substring(1);
         }
-        public string TotalAgeAnniversary
+        /// <summary>
+        /// Метод, который получает строкой все данные по контакту
+        /// </summary>
+        /// <returns></returns>
+        public string GetAllString()
         {
-            get
-            {
-                if (!int.TryParse(Ayear, out int ayearResult))
-                    return "";
-                else if (ayearResult < 1874)
-                    return "";
-
-                DateTime dateToday = DateTime.Today;
-                DateTime dateAnniversary = new DateTime(ayearResult, MonthListBirthday.First(x => x.Value == UpperFirstChar(Amonth)).Key, int.Parse(Aday));
-                TimeSpan ageAnniversary = dateToday - dateAnniversary;
-                int totalAgeAnniversary = ageAnniversary.Days / 365;
-                return totalAgeAnniversary.ToString();
-            }
+            string getAllString = "";
+            getAllString = (Firstname + " " + Middlename + " " + Lastname + Nickname + Title + Company + Address +
+            (string.IsNullOrEmpty(HomePhone) ? "" : "H: " + HomePhone) +
+            (string.IsNullOrEmpty(MobilePhone) ? "" : "M: " + MobilePhone) +
+            (string.IsNullOrEmpty(WorkPhone) ? "" : "W: " + WorkPhone) +
+            (string.IsNullOrEmpty(Fax) ? "" : "F: " + Fax) + AllEmails +
+            (string.IsNullOrEmpty(Homepage) ? "" : "Homepage:" + Homepage) +
+            GetAllBirthday() + GetAllAnniversary() +
+            Address2 + (string.IsNullOrEmpty(Phone2) ? "" : "P: " + Phone2) +
+            Notes).Replace("\r\n", "");
+            return getAllString.Trim();
         }
-        public string TotalAgeBirthday
+        /// <summary>
+        /// Метод, получает день юбилея контакта целиком. День юбилея + месяц + год + разницу лет.
+        /// </summary>
+        /// <returns></returns>
+        private string GetAllAnniversary()
         {
-            get
+            string getAllAnniversary = string.Empty;
+            if (!string.IsNullOrEmpty(Aday) && Aday != "-")
+                getAllAnniversary += "Anniversary " + Aday + ". ";
+            if (!string.IsNullOrEmpty(Amonth) && Amonth != "-")
+                getAllAnniversary += UpperFirstChar(Amonth) + " ";
+            if (!string.IsNullOrEmpty(Ayear))
             {
-                if (!int.TryParse(Byear, out int byearResult))
-                    return "";
-                else if (byearResult < 1874)
-                    return "";
-
-                DateTime dateToday = DateTime.Today;
-                DateTime dateBirthday = new DateTime(byearResult, MonthListBirthday.First(x => x.Value == UpperFirstChar(Bmonth)).Key, int.Parse(Bday));
-                TimeSpan ageBirthday = dateToday - dateBirthday;
-                int totalAgeBirthday = ageBirthday.Days / 365;
-                return totalAgeBirthday.ToString();
-            }
-        }
-        public string ContactDetails
-        {
-            get
-            {
-                if (contactDetails != null)
+                if (int.TryParse(Ayear, out int value))
                 {
-                    return contactDetails;
+                    getAllAnniversary += Ayear;
+                    int yearNow = DateTime.Now.Year;
+                    if (value > (yearNow - 149) && value < (yearNow + 177))
+                    {
+                        getAllAnniversary += "(" + (yearNow - value) + ")";
+                    }
                 }
-
                 else
-                {
-                    string finishAgeBirthday = TotalAgeBirthday != "" ? " (" + TotalAgeBirthday + ")" : "";
-                    string finishAgeAnniversary = TotalAgeAnniversary != "" ? " (" + TotalAgeAnniversary + ")" : "";
-
-                    return
-                        (Firstname + " " + Middlename + " " + Lastname + "\r\n"
-                        + Nickname + "\r\n"
-                        + Title + "\r\n"
-                        + Company + "\r\n"
-                        + Address + "\r\n\r\n"
-                        + "H: " + HomePhone + "\r\n"
-                        + "M: " + MobilePhone + "\r\n"
-                        + "W: " + WorkPhone + "\r\n"
-                        + "F: " + Fax + "\r\n\r\n"
-                        + Email + "\r\n"
-                        + Email2 + "\r\n"
-                        + Email3 + "\r\n"
-                        + "Homepage:" + "\r\n" + Homepage + "\r\n\r\n"
-                        + "Birthday " + Bday + ". " + UpperFirstChar(Bmonth) + " " + Byear + finishAgeBirthday + "\r\n"
-                        + "Anniversary " + Aday + ". " + UpperFirstChar(Amonth) + " " + Ayear + finishAgeAnniversary + "\r\n\r\n"
-                        + Address2 + "\r\n\r\n"
-                        + "P: " + Phone2 + "\r\n\r\n"
-                        + Notes).Trim();
-                }
+                    getAllAnniversary += Ayear;
             }
-            set
+            return getAllAnniversary.Trim();
+        }
+        /// <summary>
+        /// Метод, получает день рождения контакта целиком. День рождения + месяц + год + разницу лет.
+        /// </summary>
+        /// <returns></returns>
+        private string GetAllBirthday()
+        {
+            string getAllBnniversary = string.Empty;
+            if (!string.IsNullOrEmpty(Bday) && Bday != "-")
+                getAllBnniversary += "Birthday " + Bday + ". ";
+            if (!string.IsNullOrEmpty(Bmonth) && Bmonth != "-")
+                getAllBnniversary += UpperFirstChar(Bmonth) + " ";
+            if (!string.IsNullOrEmpty(Byear))
             {
-                contactDetails = value;
+                if (int.TryParse(Byear, out int value))
+                {
+                    getAllBnniversary += Byear;
+                    int yearNow = DateTime.Now.Year;
+                    if (value > (yearNow - 149) && value < (yearNow + 177))
+                    {
+                        getAllBnniversary += "(" + (yearNow - value) + ")";
+                    }
+                }
+                else
+                    getAllBnniversary += Byear;
             }
+            return getAllBnniversary.Trim();
         }
         public string AllPhones
         {

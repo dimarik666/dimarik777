@@ -16,7 +16,7 @@ using System.Linq;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class GroupCreationTests : AuthTestBase
+    public class GroupCreationTests : GroupTestBase
     {
         public static IEnumerable<GroupData> RandomGroupDataProvider()
         {
@@ -68,22 +68,16 @@ namespace WebAdressBookTests
         [Test, TestCaseSource("GroupDataFromJsonFile")]
         public void GroupCreationTest(GroupData group)
         {
-            //GroupData group = new GroupData()
-            //{
-            //    Name = GenerateRandomString(10),
-            //    Header = GenerateRandomString(20),
-            //    Footer = GenerateRandomString(20)
-            //};            
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             app.Groups.CreateNewGroup(group);
             app.Navigator.GoToGroupsPage();
             Assert.AreEqual(oldGroups.Count + 1, app.Groups.GetGroupCount());
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups.Add(group);
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
-            app.Auth.Logout();
+            //app.Auth.Logout();
         }
 
         /// <summary>
@@ -111,7 +105,7 @@ namespace WebAdressBookTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
-            app.Auth.Logout();
+            //app.Auth.Logout();
         }
 
         /// <summary>
@@ -138,7 +132,7 @@ namespace WebAdressBookTests
             oldGroups.Sort();
             newGroups.Sort();
             Assert.AreEqual(oldGroups, newGroups);
-            app.Auth.Logout();
+            //app.Auth.Logout();
         }
         [Test]
         public void TestDBConnectivity()

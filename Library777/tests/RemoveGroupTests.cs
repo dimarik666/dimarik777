@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class GroupRemovalTests : AuthTestBase
+    public class GroupRemovalTests : GroupTestBase
     {
         /// <summary>
         /// Тест в котором происходит удаление групппы.
@@ -20,24 +20,24 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test]
-        public void GroupRemovalTest()
+        public void GroupRemovalTest()           
         {
             GroupData newData = new GroupData("default_name")
             {
                 Header = "default_header",
                 Footer = "default_footer"
             };
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             if (oldGroups.Count == 0)
             {
                 GroupData testGroupData = GroupData.GetTestingGroup();
                 app.Groups.CreateNewGroup(testGroupData);
                 oldGroups = app.Groups.GetGroupList();
             }
-            app.Groups.RemoveGroup(1, newData);
+            app.Groups.RemoveGroup(oldGroups[0]);
             app.Navigator.GoToGroupsPage();
             Assert.AreEqual(oldGroups.Count - 1, app.Groups.GetGroupCount());
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             GroupData toBeRemoved = oldGroups[0];
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
@@ -45,7 +45,7 @@ namespace WebAdressBookTests
             {
                 Assert.AreNotEqual(group.Id, toBeRemoved.Id);
             }
-            app.Auth.Logout();
+            //app.Auth.Logout();
         }
     }
 }

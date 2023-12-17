@@ -12,7 +12,7 @@ using WebAdressBookTests;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class GroupModificationTests : AuthTestBase
+    public class GroupModificationTests : GroupTestBase
     {
         /// <summary>
         /// Тест в котором происходит модификация групппы.
@@ -29,18 +29,18 @@ namespace WebAdressBookTests
                 Header = GenerateRandomString(10),
                 Footer = GenerateRandomString(10)
             };
-            List<GroupData> oldGroups = app.Groups.GetGroupList();
+            List<GroupData> oldGroups = GroupData.GetAll();
             if (oldGroups.Count == 0) 
             {
                 GroupData testGroupData = GroupData.GetTestingGroup();
                 app.Groups.CreateNewGroup(testGroupData);
                 oldGroups = app.Groups.GetGroupList();
             }
-            GroupData oldData = oldGroups[0];
-            app.Groups.ModificationGroup(1, newData);
+            GroupData toBeModified = oldGroups[0];
+            app.Groups.ModificationGroup(toBeModified, newData);
             app.Navigator.GoToGroupsPage();
             Assert.AreEqual(oldGroups.Count, app.Groups.GetGroupCount());
-            List<GroupData> newGroups = app.Groups.GetGroupList();
+            List<GroupData> newGroups = GroupData.GetAll();
             oldGroups[0].Name = newData.Name;
             oldGroups[0].Header = newData.Header;
             oldGroups[0].Footer = newData.Footer;
@@ -49,7 +49,7 @@ namespace WebAdressBookTests
             Assert.AreEqual(oldGroups, newGroups);
             foreach (GroupData group in newGroups)
             {
-                if (group.Id == oldData.Id)
+                if (group.Id == toBeModified.Id)
                 {
                     Assert.AreEqual(newData.Name, group.Name);
                     Assert.AreEqual(newData.Header, group.Header);

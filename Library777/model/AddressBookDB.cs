@@ -7,9 +7,9 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
 using OpenQA.Selenium.Support.UI;
 using System.Collections.Generic;
-//using System.Linq;
-//using LinqToDB;
-using System.Data.Linq;
+using System.Linq;
+using LinqToDB;
+//using System.Data.Linq;
 
 namespace WebAdressBookTests
 {
@@ -23,6 +23,6 @@ namespace WebAdressBookTests
                 return GetTable<GroupData>(); 
             } 
         }
-        //public ITable<ContactData> Contacts { get { return GetTable<ContactData>(); } }
+        public ITable<ContactData> Contacts { get { return GetTable<ContactData>(); } }
     }
 }

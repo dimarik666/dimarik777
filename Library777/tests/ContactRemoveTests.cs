@@ -11,7 +11,7 @@ using OpenQA.Selenium.Support.UI;
 namespace WebAdressBookTests
 {
     [TestFixture]
-    public class ContactRemoveTests : AuthTestBase
+    public class ContactRemoveTests : ContactTestBase
     {
         /// <summary>
         /// Тест в котором происходит создание контакта с домашней страницы.
@@ -20,7 +20,6 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test]
-
         public void ContactRemoveTestFromHome()
         {
             ContactData newContactData = new ContactData("Dmitrii", "Dmitriev")
@@ -75,7 +74,6 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test]
-
         public void ContactRemoveTestFromEditPage()
         {
             ContactData newContactData = new ContactData("Dmitrii", "Dmitriev")
@@ -103,7 +101,7 @@ namespace WebAdressBookTests
                 Phone2 = "756090",
                 Notes = "Notes"
             };
-            List<ContactData> oldContacts = app.Contacts.GetContactList();
+            List<ContactData> oldContacts = ContactData.GetAll();
             if (oldContacts.Count == 0)
             {
                 ContactData testContactData = ContactData.GetTestingContact();
@@ -113,7 +111,7 @@ namespace WebAdressBookTests
             app.Contacts.RemoveContactFromEditContact(1);
             app.Navigator.GoToContactsPage();
             Assert.AreEqual(oldContacts.Count - 1, app.Contacts.GetContactCount());
-            List<ContactData> newContacts = app.Contacts.GetContactList();
+            List<ContactData> newContacts = ContactData.GetAll();
             ContactData toBeRemoved = oldContacts[0];
             oldContacts.RemoveAt(0);
             Assert.AreEqual(oldContacts, newContacts);

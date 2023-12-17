@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -47,13 +48,40 @@ namespace WebAdressBookTests
             SubmitGroupModification();
             return this;
         }
+        /// <summary>
+        /// Метод, который редактирует группу со страницы групп по id.
+        /// </summary>
+        /// <param name="newData">Новые данные, которые вносятся при редактировании группы</param>
+        /// <returns></returns>
+        public GroupHelper ModificationGroup(GroupData group, GroupData newData)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(group.Id);
+            InitGroupModification();
+            FillGroupForm(newData);
+            SubmitGroupModification();
+            return this;
+        }
 
         /// <summary>
-        /// Удаление первой в списке группы путём выбора группы с помощью чекбокса.
+        /// Удаление группы путём выбора группы по id
+        /// </summary>
+        /// <returns></returns>
+        public GroupHelper RemoveGroup(GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            manager.Navigator.GoToGroupsPage();
+            SelectGroup(group.Id);
+            SubmitRemoveGroup();
+            return this;
+        }
+        /// <summary>
+        /// Удаление группы путём выбора группы с помощью чекбокса.
         /// </summary>
         /// <param name="p">Порядковый номер группы, которая будет удалена</param>
         /// <returns></returns>
-        public GroupHelper RemoveGroup(int p, GroupData newData)
+        public GroupHelper RemoveGroup(int p)
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToGroupsPage();
@@ -95,6 +123,17 @@ namespace WebAdressBookTests
         public GroupHelper SelectGroup(int index)
         {
             driver.FindElement(By.XPath("(//input[@name='selected[]']) [" + index + "]")).Click();
+            return this;
+        }
+
+        /// <summary>
+        /// Выбор группы по айди, для её удаления
+        /// </summary>
+        /// <param name="id">номер id группы</param>
+        /// <returns></returns>
+        public GroupHelper SelectGroup(string id)
+        {
+            driver.FindElement(By.XPath("(//input[@name='selected[]' and @value='" + id + "'])")).Click();
             return this;
         }
 
