@@ -228,28 +228,28 @@ namespace WebAdressBookTests
 
                 else
                 {
-                    string finishAgeBirthday = TotalAgeBirthday != "" ? " (" + TotalAgeBirthday + ")" : "";
-                    string finishAgeAnniversary = TotalAgeAnniversary != "" ? " (" + TotalAgeAnniversary + ")" : "";
+                    string finishAgeBirthday = !string.IsNullOrEmpty(TotalAgeBirthday) ? "(" + TotalAgeBirthday + ")" : "";
+                    string finishAgeAnniversary = !string.IsNullOrEmpty(TotalAgeAnniversary) ? "(" + TotalAgeAnniversary + ")" : "";
+                    string finishHomePhone = string.IsNullOrEmpty(HomePhone) ? "" : "H:" + HomePhone;
+                    string finishMobilePhone = string.IsNullOrEmpty(MobilePhone) ? "" : "M:" + MobilePhone;
+                    string finishWorkPhone = string.IsNullOrEmpty(WorkPhone) ? "" : "W:" + WorkPhone;
+                    string finishFax = string.IsNullOrEmpty(Fax) ? "" : "F:" + Fax;
+                    string finishHomepage = string.IsNullOrEmpty(Homepage) ? "" : "Homepage:" + Homepage;
+                    string finishBday = string.IsNullOrEmpty(Bday) ? "" : "Birthday" + Bday + ".";
+                    string finishBmonth = string.IsNullOrEmpty(Bmonth) || Bmonth == "-" ? "" : UpperFirstChar(Bmonth);
+                    string finishByear = string.IsNullOrEmpty(Byear) ? "" : Byear;
+                    string finishAday = string.IsNullOrEmpty(Aday) ? "" : "Anniversary" + Aday + ".";
+                    string finishAmonth = string.IsNullOrEmpty(Amonth) || Amonth == "-" ? "" : UpperFirstChar(Amonth);
+                    string finishAyear = string.IsNullOrEmpty(Ayear) ? "" : Ayear;
+                    string finishPhone2 = string.IsNullOrEmpty(Phone2) ? "" : "P:" + Phone2;
 
                     return
-                        (Firstname + " " + Middlename + " " + Lastname + "\r\n"
-                        + Nickname + "\r\n"
-                        + Title + "\r\n"
-                        + Company + "\r\n"
-                        + Address + "\r\n\r\n"
-                        + "H: " + HomePhone + "\r\n"
-                        + "M: " + MobilePhone + "\r\n"
-                        + "W: " + WorkPhone + "\r\n"
-                        + "F: " + Fax + "\r\n\r\n"
-                        + Email + "\r\n"
-                        + Email2 + "\r\n"
-                        + Email3 + "\r\n"
-                        + "Homepage:" + "\r\n" + Homepage + "\r\n\r\n"
-                        + "Birthday " + Bday + ". " + UpperFirstChar(Bmonth) + " " + Byear + finishAgeBirthday + "\r\n"
-                        + "Anniversary " + Aday + ". " + UpperFirstChar(Amonth) + " " + Ayear + finishAgeAnniversary + "\r\n\r\n"
-                        + Address2 + "\r\n\r\n"
-                        + "P: " + Phone2 + "\r\n\r\n"
-                        + Notes).Trim();
+                        ($"{Firstname}{Middlename}{Lastname}{Nickname}{Title}{Company}{Address}" +
+                        $"{finishHomePhone}{finishMobilePhone}{finishWorkPhone}{finishFax}" +
+                        $"{Email}{ Email2}{ Email3}{finishHomepage}" +
+                        $"{finishBday}{finishBmonth}{finishByear}{finishAgeBirthday}" +
+                        $"{finishAday}{finishAmonth}{finishAyear}{finishAgeAnniversary}" +
+                        $"{Address2}{finishPhone2}{Notes}").Trim();
                 }
             }
             set
