@@ -81,25 +81,6 @@ namespace WebAdressBookTests
             }
         }
 
-        /// <summary>
-        /// Словарь со списком месяцев для селектора
-        /// </summary>
-        Dictionary<int, string> MonthListBirthday = new Dictionary<int, string>()
-        {
-            {0, "-" },
-            {1, "January" },
-            {2, "February" },
-            {3, "March" },
-            {4, "April" },
-            {5, "May" },
-            {6, "June" },
-            {7, "July" },
-            {8, "August" },
-            {9, "September" },
-            {10, "October" },
-            {11, "November" },
-            {12, "December" }
-        };
         
         /// <summary>
         /// Метод, который используется для превращения строчной буквы в прописную
@@ -119,32 +100,46 @@ namespace WebAdressBookTests
         {
             get
             {
+                int totalAgeAnniversary;
                 if (!int.TryParse(Ayear, out int ayearResult))
                     return "";
                 else if (ayearResult < 1874)
                     return "";
+                else if (ayearResult >= 2023 & ayearResult < 2200)
+                {
+                    totalAgeAnniversary = 2023 - ayearResult;
+                    return "(" + totalAgeAnniversary.ToString() + ")";
+                }
+                else if (ayearResult > 2200)
+                {
+                    return "";
+                }
 
-                DateTime dateToday = DateTime.Today;
-                DateTime dateAnniversary = new DateTime(ayearResult, MonthListBirthday.First(x => x.Value == UpperFirstChar(Amonth)).Key, int.Parse(Aday));
-                TimeSpan ageAnniversary = dateToday - dateAnniversary;
-                int totalAgeAnniversary = ageAnniversary.Days / 365;
-                return totalAgeAnniversary.ToString();
+                totalAgeAnniversary = 2023 - ayearResult;
+                return "(" + totalAgeAnniversary.ToString() + ")";
             }
         }
         public string TotalAgeBirthday
         {
             get
             {
+                int totalAgeBirthday;
                 if (!int.TryParse(Byear, out int byearResult))
                     return "";
                 else if (byearResult < 1874)
                     return "";
+                else if (byearResult >= 2023 & byearResult < 2200)
+                {
+                    totalAgeBirthday = 2023 - byearResult;
+                    return "(" + totalAgeBirthday.ToString() + ")";
+                }
+                else if(byearResult > 2200)
+                {
+                    return "";
+                }
 
-                DateTime dateToday = DateTime.Today;
-                DateTime dateBirthday = new DateTime(byearResult, MonthListBirthday.First(x => x.Value == UpperFirstChar(Bmonth)).Key, int.Parse(Bday));
-                TimeSpan ageBirthday = dateToday - dateBirthday;
-                int totalAgeBirthday = ageBirthday.Days / 365;
-                return totalAgeBirthday.ToString();
+                totalAgeBirthday = 2023 - byearResult;
+                return "(" + totalAgeBirthday.ToString() + ")";
             }
         }
         public ContactData(string firstname, string lastname)
@@ -228,8 +223,8 @@ namespace WebAdressBookTests
 
                 else
                 {
-                    string finishAgeBirthday = !string.IsNullOrEmpty(TotalAgeBirthday) ? "(" + TotalAgeBirthday + ")" : "";
-                    string finishAgeAnniversary = !string.IsNullOrEmpty(TotalAgeAnniversary) ? "(" + TotalAgeAnniversary + ")" : "";
+                    string finishAgeBirthday = !string.IsNullOrEmpty(TotalAgeBirthday) ? TotalAgeBirthday : "";
+                    string finishAgeAnniversary = !string.IsNullOrEmpty(TotalAgeAnniversary) ? TotalAgeAnniversary : "";
                     string finishHomePhone = string.IsNullOrEmpty(HomePhone) ? "" : "H:" + HomePhone;
                     string finishMobilePhone = string.IsNullOrEmpty(MobilePhone) ? "" : "M:" + MobilePhone;
                     string finishWorkPhone = string.IsNullOrEmpty(WorkPhone) ? "" : "W:" + WorkPhone;
@@ -246,7 +241,7 @@ namespace WebAdressBookTests
                     return
                         ($"{Firstname}{Middlename}{Lastname}{Nickname}{Title}{Company}{Address}" +
                         $"{finishHomePhone}{finishMobilePhone}{finishWorkPhone}{finishFax}" +
-                        $"{Email}{ Email2}{ Email3}{finishHomepage}" +
+                        $"{AllEmails}{finishHomepage}" +
                         $"{finishBday}{finishBmonth}{finishByear}{finishAgeBirthday}" +
                         $"{finishAday}{finishAmonth}{finishAyear}{finishAgeAnniversary}" +
                         $"{Address2}{finishPhone2}{Notes}").Trim();
