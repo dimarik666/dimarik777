@@ -24,30 +24,32 @@ namespace WebAdressBookTests
         [Test]
         public void ContactModificationTest()
         {
-            ContactData newContactData = new ContactData("Dmitrii", "Dmitriev")
+            ContactData newContactData = new ContactData()
             {
-                Middlename = "Dmitrievich",
-                Nickname = "Dimarik",
-                Title = "Title",
-                Company = "Company",
-                Address = "Adress",
-                HomePhone = "729911",
-                MobilePhone = "89992223300",
-                WorkPhone = "89534445566",
-                Fax = "Fax",
-                Email = "email@softgamings.com",
-                Email2 = "email2@softgamings.com",
-                Email3 = "email3@softgamimgs.com",
-                Homepage = "www.softgamings.com",
-                Bday = "10",
-                Bmonth = "July",
-                Byear = "1990",
-                Aday = "10",
-                Amonth = "May",
-                Ayear = "1995",
-                Address2 = "Adress",
-                Phone2 = "756090",
-                Notes = "Notes"
+                Firstname = GenerateRandomString(10),
+                Lastname = GenerateRandomString(10),
+                Middlename = GenerateRandomString(10),
+                Nickname = GenerateRandomString(10),
+                Title = GenerateRandomString(10),
+                Company = GenerateRandomString(10),
+                Address = GenerateRandomString(10),
+                HomePhone = GenerateRandomString(10),
+                MobilePhone = GenerateRandomString(10),
+                WorkPhone = GenerateRandomString(10),
+                Fax = GenerateRandomString(10),
+                Email = GenerateRandomString(10) + "@email.com",
+                Email2 = GenerateRandomString(10) + "@email.com",
+                Email3 = GenerateRandomString(10) + "@email.com",
+                Homepage = GenerateRandomString(10) + ".com",
+                Bday = GenerateRandomDay(),
+                Bmonth = GenerateRandomMonth(),
+                Byear = GenerateRandomString(10),
+                Aday = GenerateRandomDay(),
+                Amonth = GenerateRandomMonth(),
+                Ayear = GenerateRandomString(10),
+                Address2 = GenerateRandomString(10),
+                Phone2 = GenerateRandomString(10),
+                Notes = GenerateRandomString(10)
             };
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             if (oldContacts.Count == 0)
