@@ -224,7 +224,7 @@ namespace WebAdressBookTests
             IList<IWebElement> cells = driver.FindElements(By.CssSelector("div[id=content]"));
             return new ContactData()
             {
-                ContactDetails = cells[0].Text.Replace("\r\n", "").Replace(" ", "").Replace("-", "")
+                ContactDetails = cells[0].Text.Replace("\r\n", "").Replace(" ", "")
             };
         }
 
