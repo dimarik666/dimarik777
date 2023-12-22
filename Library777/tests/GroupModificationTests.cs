@@ -23,10 +23,11 @@ namespace WebAdressBookTests
         [Test]
         public void GroupModificationTest()
         {
-            GroupData newData = new GroupData("default_name")
+            GroupData newData = new GroupData()
             {
-                Header = "default_header",
-                Footer = "default_footer"
+                Name = GenerateRandomString(10),
+                Header = GenerateRandomString(10),
+                Footer = GenerateRandomString(10)
             };
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             if (oldGroups.Count == 0) 
