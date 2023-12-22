@@ -16,10 +16,11 @@ namespace WebAdressBookTests
         [Test]
         public void TestDetailsContactInformation()
         {
-            ContactData fromForm = app.Contacts.GetContactInformationEditForm(4);
-            ContactData fromDetail = app.Contacts.GetContactInformationDetailForm(4);
+            ContactData fromForm = app.Contacts.GetContactInformationEditForm(0);
+            var formFrom = fromForm.GetAllString();
+            string fromDetail = app.Contacts.GetContactInformationDetailForm(0);
 
-            Assert.AreEqual(fromForm.ContactDetails.Replace("\r\n", ""), fromDetail.ContactDetails);
+            Assert.AreEqual(formFrom, fromDetail);
         }
     }
 }

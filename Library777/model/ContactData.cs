@@ -18,7 +18,7 @@ namespace WebAdressBookTests
 
         public string allEmails;
 
-        public string contactDetails;
+        //public string contactDetails;
         public string Firstname { get; set; }
         public string Middlename { get; set; }
         public string Lastname { get; set; }
@@ -34,10 +34,43 @@ namespace WebAdressBookTests
         public string Email2 { get; set; }
         public string Email3 { get; set; }
         public string Homepage { get; set; }
-        public string Bday { get; set; }
+        private string bday;
+        public string Bday 
+        {
+            get 
+            { 
+                return bday;
+            }
+            set
+            {
+                if (!int.TryParse(value, out int val) || (val < 0 || val > 31))
+                    throw new ArgumentException();
+                if (val == 0)
+                    bday = "-";
+                else
+                    bday = value;
+            } 
+        }
+
         public string Bmonth { get; set; }
         public string Byear { get; set; }
-        public string Aday { get; set; }
+        private string aday;
+        public string Aday
+        {
+            get
+            {
+                return aday;
+            }
+            set
+            {
+                if (!int.TryParse(value, out int val) || (val < 0 || val > 31))
+                    throw new ArgumentException();
+                if (val == 0)
+                    aday = "-";
+                else
+                    aday = value;
+            }
+        }
         public string Amonth { get; set; }
         public string Ayear { get; set; }
         public string Address2 { get; set; }
@@ -48,14 +81,7 @@ namespace WebAdressBookTests
         {
             get
             {
-                if (allEmails != null)
-                {
-                    return allEmails;
-                }
-                else
-                {
-                    return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
-                }
+                return (CleanUpEmail(Email) + CleanUpEmail(Email2) + CleanUpEmail(Email3)).Trim();
             }
             set
             {
@@ -80,7 +106,6 @@ namespace WebAdressBookTests
                 allPhones = value;
             }
         }
-
         
         /// <summary>
         /// Метод, который используется для превращения строчной буквы в прописную
@@ -95,52 +120,6 @@ namespace WebAdressBookTests
             }
 
             return char.ToUpper(input[0]) + input.Substring(1);
-        }
-        public string TotalAgeAnniversary
-        {
-            get
-            {
-                int totalAgeAnniversary;
-                if (!int.TryParse(Ayear, out int ayearResult))
-                    return "";
-                else if (ayearResult < 1874)
-                    return "";
-                else if (ayearResult >= 2023 & ayearResult < 2200)
-                {
-                    totalAgeAnniversary = 2023 - ayearResult;
-                    return "(" + totalAgeAnniversary.ToString() + ")";
-                }
-                else if (ayearResult > 2200)
-                {
-                    return "";
-                }
-
-                totalAgeAnniversary = 2023 - ayearResult;
-                return "(" + totalAgeAnniversary.ToString() + ")";
-            }
-        }
-        public string TotalAgeBirthday
-        {
-            get
-            {
-                int totalAgeBirthday;
-                if (!int.TryParse(Byear, out int byearResult))
-                    return "";
-                else if (byearResult < 1874)
-                    return "";
-                else if (byearResult >= 2023 & byearResult < 2200)
-                {
-                    totalAgeBirthday = 2023 - byearResult;
-                    return "(" + totalAgeBirthday.ToString() + ")";
-                }
-                else if(byearResult > 2200)
-                {
-                    return "";
-                }
-
-                totalAgeBirthday = 2023 - byearResult;
-                return "(" + totalAgeBirthday.ToString() + ")";
-            }
         }
         public ContactData(string firstname, string lastname)
         {
@@ -212,45 +191,67 @@ namespace WebAdressBookTests
             }
             return Lastname.CompareTo(other.Lastname);
         }
-        public string ContactDetails
+        public string GetAllString()
         {
-            get
-            {
-                if (contactDetails != null)
-                {
-                    return contactDetails;
-                }
+            string getAllString = "";
+            getAllString = (Firstname + " " + Middlename + " " + Lastname + Nickname + Title + Company + Address +
+                (string.IsNullOrEmpty(HomePhone) ? "" : "H: " + HomePhone) +
+                (string.IsNullOrEmpty(MobilePhone) ? "" : "M: " + MobilePhone) +
+                (string.IsNullOrEmpty(WorkPhone) ? "" : "W: " + WorkPhone) +
+                (string.IsNullOrEmpty(Fax) ? "" : "F: " + Fax) + AllEmails +
+                (string.IsNullOrEmpty(Homepage) ? "" : "Homepage:" + Homepage) +
+                GetAllBirthday() + GetAllAnniversary() +
+                Address2 + (string.IsNullOrEmpty(Phone2) ? "" : "P: " + Phone2) +
+                Notes).Replace("\r\n", "");
+            return getAllString.Trim();
+        }
 
+        private string GetAllAnniversary()
+        {
+            string getAllAnniversary = string.Empty;
+            if (!string.IsNullOrEmpty(Aday) && Aday != "-")
+                getAllAnniversary += "Anniversary " + Aday + ". ";
+            if (!string.IsNullOrEmpty(Amonth) && Amonth != "-")
+                getAllAnniversary += UpperFirstChar(Amonth) + " ";
+            if (!string.IsNullOrEmpty(Ayear))
+            {
+                if (int.TryParse(Ayear, out int value))
+                {
+                    getAllAnniversary += Ayear;
+                    int yearNow = DateTime.Now.Year;
+                    if (value > (yearNow - 149) && value < (yearNow + 177))
+                    {                        
+                        getAllAnniversary += "(" + (yearNow - value) + ")";
+                    }
+                }
+                else                
+                    getAllAnniversary += Ayear;
+            }
+            return getAllAnniversary.Trim();
+        }
+
+        private string GetAllBirthday()
+        {
+            string getAllBnniversary = string.Empty;
+            if (!string.IsNullOrEmpty(Bday) && Bday != "-")
+                getAllBnniversary += "Birthday " + Bday + ". ";
+            if (!string.IsNullOrEmpty(Bmonth) && Bmonth != "-")
+                getAllBnniversary += UpperFirstChar(Bmonth) + " ";
+            if (!string.IsNullOrEmpty(Byear))
+            {
+                if (int.TryParse(Byear, out int value))
+                {
+                    getAllBnniversary += Byear;
+                    int yearNow = DateTime.Now.Year;
+                    if (value > (yearNow - 149) && value < (yearNow + 177))
+                    {
+                        getAllBnniversary += "(" + (yearNow - value) + ")";
+                    }
+                }
                 else
-                {
-                    string finishAgeBirthday = !string.IsNullOrEmpty(TotalAgeBirthday) ? TotalAgeBirthday : "";
-                    string finishAgeAnniversary = !string.IsNullOrEmpty(TotalAgeAnniversary) ? TotalAgeAnniversary : "";
-                    string finishHomePhone = string.IsNullOrEmpty(HomePhone) ? "" : "H:" + HomePhone;
-                    string finishMobilePhone = string.IsNullOrEmpty(MobilePhone) ? "" : "M:" + MobilePhone;
-                    string finishWorkPhone = string.IsNullOrEmpty(WorkPhone) ? "" : "W:" + WorkPhone;
-                    string finishFax = string.IsNullOrEmpty(Fax) ? "" : "F:" + Fax;
-                    string finishHomepage = string.IsNullOrEmpty(Homepage) ? "" : "Homepage:" + Homepage;
-                    string finishBday = string.IsNullOrEmpty(Bday) ? "" : "Birthday" + Bday + ".";
-                    string finishBmonth = string.IsNullOrEmpty(Bmonth) || Bmonth == "-" ? "" : UpperFirstChar(Bmonth);
-                    string finishByear = string.IsNullOrEmpty(Byear) ? "" : Byear;
-                    string finishAday = string.IsNullOrEmpty(Aday) ? "" : "Anniversary" + Aday + ".";
-                    string finishAmonth = string.IsNullOrEmpty(Amonth) || Amonth == "-" ? "" : UpperFirstChar(Amonth);
-                    string finishAyear = string.IsNullOrEmpty(Ayear) ? "" : Ayear;
-                    string finishPhone2 = string.IsNullOrEmpty(Phone2) ? "" : "P:" + Phone2;
-
-                    return
-                        ($"{Firstname}{Middlename}{Lastname}{Nickname}{Title}{Company}{Address}" +
-                        $"{finishHomePhone}{finishMobilePhone}{finishWorkPhone}{finishFax}" +
-                        $"{AllEmails}{finishHomepage}" +
-                        $"{finishBday}{finishBmonth}{finishByear}{finishAgeBirthday}" +
-                        $"{finishAday}{finishAmonth}{finishAyear}{finishAgeAnniversary}" +
-                        $"{Address2}{finishPhone2}{Notes}").Trim();
-                }
+                    getAllBnniversary += Byear;
             }
-            set
-            {
-                contactDetails = value;
-            }
+            return getAllBnniversary.Trim();
         }
         public override string ToString()
         {

@@ -216,16 +216,12 @@ namespace WebAdressBookTests
         /// </summary>
         /// <param name="index"></param>
         /// <returns></returns>
-        internal ContactData GetContactInformationDetailForm(int index)
+        internal string GetContactInformationDetailForm(int index)
         {
             manager.Navigator.OpenHomePage();
             InitContactDetails(index);
-
             IList<IWebElement> cells = driver.FindElements(By.CssSelector("div[id=content]"));
-            return new ContactData()
-            {
-                ContactDetails = cells[0].Text.Replace("\r\n", "").Replace(" ", "")
-            };
+            return cells[0].Text.Replace("\r\n", "");
         }
 
         private List<ContactData> contactCache = null;
