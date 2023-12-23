@@ -17,9 +17,10 @@ namespace WebAdressBookTests
         public void TestDetailsContactInformation()
         {
             ContactData fromForm = app.Contacts.GetContactInformationEditForm(0);
-            ContactData fromDetail = app.Contacts.GetContactInformationDetailForm(0);
+            var formFrom = fromForm.GetAllString();
+            string fromDetail = app.Contacts.GetContactInformationDetailForm(0);
 
-            Assert.AreEqual(fromForm.ContactDetails, fromDetail.ContactDetails);
+            Assert.AreEqual(formFrom, fromDetail);
         }
     }
 }

@@ -20,7 +20,6 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test]
-
         public void ContactRemoveTestFromHome()
         {
             ContactData newContactData = new ContactData("Dmitrii", "Dmitriev")
@@ -75,7 +74,6 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test]
-
         public void ContactRemoveTestFromEditPage()
         {
             ContactData newContactData = new ContactData("Dmitrii", "Dmitriev")

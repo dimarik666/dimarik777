@@ -21,9 +21,15 @@ namespace WebAdressBookTests
         {
             app = ApplicationManager.GetInstance();
         }
+
+        /// <summary>
+        /// Метод, который генерирует случайное строковое значение
+        /// </summary>
+        /// <param name="max"></param>
+        /// <returns></returns>
         public static string GenerateRandomString(int max)
         {
-            char[] strings = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
+            char[] strings = "ABCDEFGHIJKLMNOPQRSTUVWXYZ~!@#$%^&*()№;%:?*,/".ToCharArray();
             int l = Convert.ToInt32(rnd.NextDouble() * max);
             string word = "";
             for (int i = 0; i < l; i++)
@@ -33,19 +39,39 @@ namespace WebAdressBookTests
             }
             return word.ToString();
         }
-        public static string GenerateRandomDay()
+        /// <summary>
+        /// Метод, который генерирует случайное числовое значение в выбранной диапозоне
+        /// </summary>
+        /// <param name="minValue">Минимальное значение в диапазоне</param>
+        /// <param name="maxValue">Максимальное значение в диапазоне</param>
+        /// <returns></returns>
+        public static int GetRandomNumber(int minValue, int maxValue)
         {
-            string[] x = { "-", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30" };
-            return x[new Random().Next(0, x.Length)];
+            Thread.Sleep(100);
+            return rnd.Next(minValue, maxValue);
         }
+        /// <summary>
+        /// Генератор случайного месяца.
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateRandomMonth()
         {
             string[] y = { "-", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
-            return y[new Random().Next(0, y.Length)];
+            return y[GetRandomNumber(0, 13)];
         }
+        /// <summary>
+        /// Метод, который генерирует случайный год. Может быть как буквенное значение + символы, так и числовоею
+        /// </summary>
+        /// <returns></returns>
         public static string GenerateRandomYear()
         {
-            int d = rnd.Next(DateTime.MinValue.Year, DateTime.Today.Year);
+            string z = GenerateRandomString(4);
+            int q = rnd.Next(0, 2);
+            if (q == 1)
+            {
+                return z;
+            }
+            int d = rnd.Next(-999, 9999);
             return d.ToString();
         }
     }

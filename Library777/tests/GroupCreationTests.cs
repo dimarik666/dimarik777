@@ -64,14 +64,14 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
         [Test, TestCaseSource("GroupDataFromJsonFile")]
-        public void GroupCreationTest(GroupData group)
+        public void GroupCreationTest()
         {
-            //GroupData group = new GroupData()
-            //{
-            //    Name = GenerateRandomString(10),
-            //    Header = GenerateRandomString(20),
-            //    Footer = GenerateRandomString(20)
-            //};            
+            GroupData group = new GroupData()
+            {
+                Name = GenerateRandomString(10),
+                Header = GenerateRandomString(20),
+                Footer = GenerateRandomString(20)
+            };
             List<GroupData> oldGroups = app.Groups.GetGroupList();
             app.Groups.CreateNewGroup(group);
             app.Navigator.GoToGroupsPage();

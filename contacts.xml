@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfContactData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ContactData>
+    <Firstname>KBIBONQNJ</Firstname>
+    <Middlename />
+    <Lastname>PHDCDL</Lastname>
+    <Nickname>TSB</Nickname>
+    <Title>SJ</Title>
+    <Company>IAXAF</Company>
+    <Address>CUIEEABV</Address>
+    <HomePhone>LSJ</HomePhone>
+    <MobilePhone>VAEPXRRN</MobilePhone>
+    <WorkPhone>G</WorkPhone>
+    <Fax>FHXOFNRMD</Fax>
+    <Email>MMUXYKXM@email.com</Email>
+    <Email2>HIUYN@email.com</Email2>
+    <Email3>EJAIN@email.com</Email3>
+    <Homepage>BN.com</Homepage>
+    <Bday>28</Bday>
+    <Bmonth>December</Bmonth>
+    <Byear>934</Byear>
+    <Aday>28</Aday>
+    <Amonth>December</Amonth>
+    <Ayear>1959</Ayear>
+    <Address2>CMPSSFFXI</Address2>
+    <Phone2>IRXGT</Phone2>
+    <Notes>N</Notes>
+    <AllEmails>MMUXYKXM@email.com
+HIUYN@email.com
+EJAIN@email.com</AllEmails>
+    <ContactDetails>KBIBONQNJ  PHDCDL
+TSB
+SJ
+IAXAF
+CUIEEABV
+
+H: LSJ
+M: VAEPXRRN
+W: G
+F: FHXOFNRMD
+
+MMUXYKXM@email.com
+HIUYN@email.com
+EJAIN@email.com
+Homepage:
+BN.com
+
+Birthday 28. December 934
+Anniversary 28. December 1959 (63)
+
+CMPSSFFXI
+
+P: IRXGT
+
+N</ContactDetails>
+    <AllPhones>LSJ
+VAEPXRRN
+G
+IRXGT</AllPhones>
+  </ContactData>
+</ArrayOfContactData>

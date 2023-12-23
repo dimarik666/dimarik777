@@ -41,7 +41,7 @@ namespace WebAdressBookTests
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToContactsPage();
-            InitModificationContact(z);
+            InitContactModification(z);
             FillContactForm(newContactData);
             SubmitModification();
             manager.Navigator.GoToContactsPage();
@@ -73,7 +73,7 @@ namespace WebAdressBookTests
         {
             manager.Navigator.OpenHomePage();
             manager.Navigator.GoToContactsPage();
-            InitModificationContact(z);
+            InitContactModification(z);
             SubmitRemoveContact();
             manager.Navigator.GoToContactsPage();
             return this;
@@ -90,16 +90,6 @@ namespace WebAdressBookTests
             return this;
         }
 
-        /// <summary>
-        /// Выбор контакта, который необходимо отредактировать
-        /// </summary>
-        /// <param name="index">порядковый номер контакта</param>
-        /// <returns></returns>
-        public ContactHelper InitModificationContact(int index)
-        {
-            driver.FindElement(By.XPath("(//img[@title='Edit']) [" + index + "]")).Click();
-            return this;
-        }
         /// <summary>
         /// Выбор контакта, который необходимо удалить
         /// </summary>
@@ -208,28 +198,31 @@ namespace WebAdressBookTests
             contactCache = null;
             return this;
         }
+
         /// <summary>
-        /// Метод, который переход в форму редактирования контакта 
+        /// Метод, который переходит в форму редактирования контакта 
         /// </summary>
         /// <param name="index"></param>
-        public void InitContactModification(int index)
-        {
-            driver.FindElements(By.Name("entry"))[index]
-                .FindElements(By.TagName("td"))[7]
-                .FindElement(By.TagName("a")).Click();
-        }
+        public void InitContactModification(int index) => driver.FindElements(By.CssSelector("[title='Edit']"))[index].Click();
 
         /// <summary>
         /// Метод, который открывает свойства контакта
         /// </summary>
         /// <param name="index">Номер контакта по списку</param>
         /// <returns></returns>
-        public ContactHelper InitContactDetails(int index)
+        public void InitContactDetails(int index) => driver.FindElements(By.CssSelector("[title='Details']"))[index].Click();
+
+        /// <summary>
+        /// Метод, который получает информацию на странице просмотра свойств контакта
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        internal string GetContactInformationDetailForm(int index)
         {
-            driver.FindElements(By.Name("entry"))[index]
-                .FindElements(By.TagName("td"))[6]
-                .FindElement(By.TagName("a")).Click();
-            return this;
+            manager.Navigator.OpenHomePage();
+            InitContactDetails(index);
+            IList<IWebElement> cells = driver.FindElements(By.CssSelector("div[id=content]"));
+            return cells[0].Text.Replace("\r\n", "");
         }
 
         private List<ContactData> contactCache = null;
@@ -276,23 +269,6 @@ namespace WebAdressBookTests
                 Address = cells[3].Text,
                 AllEmails = cells[4].Text,
                 AllPhones = cells[5].Text,
-            };
-        }
-
-        /// <summary>
-        /// Метод, который получает информацию на странице просмотра свойств контакта
-        /// </summary>
-        /// <param name="index"></param>
-        /// <returns></returns>
-        internal ContactData GetContactInformationDetailForm(int index)
-        {
-            manager.Navigator.OpenHomePage();
-            InitContactDetails(index);
-
-            IList<IWebElement> cells = driver.FindElements(By.CssSelector("div[id=content]"));
-            return new ContactData()
-            {
-                ContactDetails = cells[0].Text,
             };
         }
 

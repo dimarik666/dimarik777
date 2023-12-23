@@ -11,6 +11,8 @@ using System.IO;
 using System.Xml;
 using System.Xml.Serialization;
 using Newtonsoft.Json;
+using OpenQA.Selenium.Remote;
+using System.Net;
 
 namespace WebAdressBookTests
 {
@@ -36,36 +38,9 @@ namespace WebAdressBookTests
         /// И совершается разлогин.
         /// </summary>
 
-        [Test/*, TestCaseSource("ContactDataFromXMLFile")*/]
+        [Test, TestCaseSource("ContactDataFromJsonFile")]
         public void ContactCreationTest(ContactData contact)
         {
-            //ContactData contact = new ContactData()
-            //{
-            //    Firstname = GenerateRandomString(10),
-            //    Lastname = GenerateRandomString(10),
-            //    Middlename = GenerateRandomString(10),
-            //    Nickname = GenerateRandomString(10),
-            //    Title = GenerateRandomString(10),
-            //    Company = GenerateRandomString(10),
-            //    Address = GenerateRandomString(10),
-            //    HomePhone = GenerateRandomString(10),
-            //    MobilePhone = GenerateRandomString(10),
-            //    WorkPhone = GenerateRandomString(10),
-            //    Fax = GenerateRandomString(10),
-            //    Email = GenerateRandomString(10) + "@email.com",
-            //    Email2 = GenerateRandomString(10) + "@email.com",
-            //    Email3 = GenerateRandomString(10) + "@email.com",
-            //    Homepage = GenerateRandomString(10) + ".com",
-            //    Bday = GenerateRandomDay(),
-            //    Bmonth = GenerateRandomMonth(),
-            //    Byear = GenerateRandomYear(),
-            //    Aday = GenerateRandomDay(),
-            //    Amonth = GenerateRandomMonth(),
-            //    Ayear = GenerateRandomYear(),
-            //    Address2 = GenerateRandomString(10),
-            //    Phone2 = GenerateRandomString(10),
-            //    Notes = GenerateRandomString(20)
-            //};
             List<ContactData> oldContacts = app.Contacts.GetContactList();
             app.Contacts.CreateNewContact(contact);
             app.Navigator.GoToContactsPage();
@@ -102,10 +77,10 @@ namespace WebAdressBookTests
                 Email2 = "",
                 Email3 = "",
                 Homepage = "",
-                Bday = "",
+                Bday = "0",
                 Bmonth = "-",
                 Byear = "",
-                Aday = "",
+                Aday = "0",
                 Amonth = "-",
                 Ayear = "",
                 Address2 = "",
@@ -150,12 +125,12 @@ namespace WebAdressBookTests
                 Email2 = GenerateRandomString(10) + "@email.com",
                 Email3 = GenerateRandomString(10) + "@email.com",
                 Homepage = GenerateRandomString(10) + ".com",
-                Bday = GenerateRandomDay(),
+                Bday = GetRandomNumber(0, 31).ToString(),
                 Bmonth = GenerateRandomMonth(),
-                Byear = GenerateRandomString(4),
-                Aday = GenerateRandomDay(),
+                Byear = GenerateRandomYear(),
+                Aday = GetRandomNumber(0, 31).ToString(),
                 Amonth = GenerateRandomMonth(),
-                Ayear = GenerateRandomString(4),
+                Ayear = GenerateRandomYear(),
                 Address2 = GenerateRandomString(10),
                 Phone2 = GenerateRandomString(10),
                 Notes = GenerateRandomString(20)
