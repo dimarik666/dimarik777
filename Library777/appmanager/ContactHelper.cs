@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
@@ -370,6 +371,59 @@ namespace WebAdressBookTests
         public int GetContactCount()
         {
             return driver.FindElements(By.CssSelector("#maintable [name='entry']")).Count;
+        }
+        public void AddContactToGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            ClearGroupFilter();
+            SelectContact(contact.Id);
+            SelectGroupToAdd(group.Name);
+            CommitAddingContactToGroup();
+        }
+
+        public void CommitAddingContactToGroup()
+        {
+            driver.FindElement(By.Name("add")).Click();
+        }
+
+        public void SelectGroupToAdd(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("to_group"))).SelectByText(name);
+        }
+
+        public void ClearGroupFilter()
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText("[all]");
+        }
+
+        /// <summary>
+        /// Проверка наличия контакта в группе
+        /// </summary>
+        /// <param name="group"></param>
+        public void ContactInGroup(GroupData group)
+        {
+            if (group.GetContacts().Count() == 0)
+            {
+                ContactData contact = ContactData.GetAll().First();
+                AddContactToGroup(contact, group);
+            }
+        }
+        public void RemoveContactFromGroup(ContactData contact, GroupData group)
+        {
+            manager.Navigator.OpenHomePage();
+            SelectGroupInFilter(group.Name);
+            SelectContact(contact.Id);
+            RemoveContactFromGroup();
+        }
+
+        private void RemoveContactFromGroup()
+        {
+            driver.FindElement(By.Name("remove")).Click();
+        }
+
+        public void SelectGroupInFilter(string name)
+        {
+            new SelectElement(driver.FindElement(By.Name("group"))).SelectByText(name);
         }
     }
 }
