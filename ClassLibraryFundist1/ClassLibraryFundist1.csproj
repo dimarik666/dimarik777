@@ -59,12 +59,15 @@
     <Compile Include="Model\AccountData.cs" />
     <Compile Include="Appmanager\ApplicationManager.cs" />
     <Compile Include="Model\AffiliateData.cs" />
+    <Compile Include="Model\UserData.cs" />
     <Compile Include="Tests\AuthTestBase.cs" />
     <Compile Include="Appmanager\HelperBase.cs" />
     <Compile Include="Appmanager\LoginHelper.cs" />
     <Compile Include="Tests\Level1.cs" />
     <Compile Include="Tests\Level2.cs" />
     <Compile Include="Tests\Level3.cs" />
+    <Compile Include="Tests\Level4.cs" />
+    <Compile Include="Tests\Level5.cs" />
     <Compile Include="Tests\LoginTestBase.cs" />
     <Compile Include="Appmanager\NavigationHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

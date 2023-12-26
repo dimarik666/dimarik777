@@ -34,7 +34,7 @@ namespace TestFundist
             }
             catch (Exception)
             {
-                // Ignore errors if unable to close the browser
+
             }
         }
         public static ApplicationManager GetInstance()

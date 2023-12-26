@@ -9,19 +9,23 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestFundist
 {
-    public class Level1 : AuthTestBase
+    public class Level5 : AuthTestBase
     {
         [Test]
-        public void TestLevel1()
+        public void TestLevel5()
         {
             app.Navigator.OpenHomePage();
             app.Navigator.GoToAffiliatesReports();
             app.Affiliates.SubmitButtonSearch();
             app.Affiliates.CheckAffiliateAtReport();
             app.Affiliates.SortFirstDepositsCount();
-            app.Affiliates.GetAffiliateReportsFromFirstLvl(1);
             app.Navigator.GoToAffiliateToLevelSecond();
-            Thread.Sleep(10000);
+            app.Navigator.GoToAffiliateToLevelThird();
+            app.Navigator.GoToAffiliateLevelFourth();
+            app.Affiliates.GetDataFromUserCard();
+            app.Navigator.GoToLevelFifth();
+            app.Affiliates.FindFirstDepositDate();
+            app.Affiliates.FindFirstDeposit();
             app.Auth.Logout();
         }
     }

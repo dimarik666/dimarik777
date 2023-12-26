@@ -12,20 +12,15 @@ using OpenQA.Selenium.Support.UI;
 
 namespace TestFundist
 {
-    public class AffiliateData
+    public class UserData
     {
-        public string AffiliateID { get; set; }
-        public string LoginAndEmail {  get; set; }
-        public string ReferalCode { get; set; }
+        public string UserID { get; set; }
+        public string DateOfRegistration { get; set; }
         public string Country { get; set; }
-        public string CommissionPlan { get; set; }
-        public string UniqueVisitors { get; set; }
-        public string Registration {  get; set; }
-        public string ActivePlayers { get; set; }
-        public string NumberOfDeposits { get; set; }
-        public string AmountOfDepositsEUR { get; set; }
-        public string NumberOfFirstDeposits { get; set; }
-        public string AmountFirstDeposits { get; set; }
+        public string Campaign {  get; set; }
+        public string TotalAmount { get; set; }
+        public string DayAmount { get; set; }
+        public string AmountOfFirstDeposits {  get; set; }
         public string GGR { get; set; }
         public string NGR { get; set; }
         public string AdminFee { get; set; }
@@ -35,12 +30,13 @@ namespace TestFundist
         public string ProcentFromCPA { get; set; }
         public string ProcentFromRS { get; set; }
         public string ProcentFromRevenue { get; set; }
-        public string Profit {  get; set; }
-        public string Withdraws { get; set; }
-        public string Manual {  get; set; }
-
-        public AffiliateData()
-        {
+        public string Profit { get; set; }
+        public string Withdrawals { get; set; }
+        public string FirstDepositDate { get; set; }
+        public string FirstDeposit {  get; set; }
+        public string UserStatus { get; set; }
+        public UserData() 
+        { 
 
         }
     }

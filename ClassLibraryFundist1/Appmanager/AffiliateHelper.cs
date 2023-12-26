@@ -15,13 +15,13 @@ namespace TestFundist
     {
         public AffiliateHelper(ApplicationManager manager) : base(manager) { }
 
+        /// <summary>
+        /// Получаем данные по партнёру с первого уровня отчёта
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
         public AffiliateData GetAffiliateReportsFromFirstLvl(int index)
         {
-            //string affiliateID = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-AffiliateID']")).Text;
-            //string loginAndEmail = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Login']")).Text;
-            //string referalCode = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-RefCode']")).Text;
-            //string country = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Country']")).Text;
-            //string commissionPlan = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-CommissionPlanName']")).Text;
             string uniqueVisitors = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Visits']")).Text;
             string registration = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Registrations']")).Text;
             string activePlayers = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Players']")).Text;
@@ -35,42 +35,85 @@ namespace TestFundist
             string bonusTurnoverEUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-BonusTurnover']")).Text;
             string cpaEUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-ProfitCPA']")).Text;
             string rsEUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-ProfitRS']")).Text;
-            //string procentFromCPA_EUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-SubProfitCPA']")).Text;
-            //string procentFromRS_EUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-SubProfitRS']")).Text;
-            //string profitFromRevenueEUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-SubProfitRevenue']")).Text;
             string profitEUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Profit']")).Text;
             string withdrawalsEUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Withdraws']")).Text;
             string manualCorrectionsEUR = driver.FindElement(By.CssSelector("tbody[class='table-data'] td[name='col-Manual']")).Text;
 
             return new AffiliateData()
             {
-                //AffiliateID = affiliateID,
-                //LoginAndEmail = loginAndEmail,
-                //ReferalCode = referalCode,
-                //Country = country,
-                //CommissionPlan = commissionPlan,
                 UniqueVisitors = uniqueVisitors,
                 Registration = registration,
                 ActivePlayers = activePlayers,
                 NumberOfDeposits = numbersOfDeposits,
                 AmountOfDepositsEUR = amountOfDepositsEUR,
                 NumberOfFirstDeposits = numberOfFirstDeposits,
-                AmountOfFirstDepositsEUR = amountOfFirstDepositsEUR,
+                AmountFirstDeposits = amountOfFirstDepositsEUR,
                 GGR = ggr,
                 NGR = ngr,
                 AdminFee = adminFeeEUR,
                 BonusTurnovers = bonusTurnoverEUR,
-                ProfitCPA = cpaEUR,
-                ProfitRS = rsEUR,
-                //SubProfitCPA = procentFromCPA_EUR,
-                //SubProfitRS = procentFromRS_EUR,
-                //SubProfitRevenue = profitFromRevenueEUR,
+                CPA = cpaEUR,
+                RS = rsEUR,
                 Profit = profitEUR,
                 Withdraws = withdrawalsEUR,
                 Manual = manualCorrectionsEUR
             };
         }
-        public AffiliateData GetAffiliateReportsFromSecondLvl(int index)
+        /// <summary>
+        /// Получаем данные по партнёру со второго уровня по строке по какой-то дате
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public AffiliateData GetAffiliateReportsFromSecondLvlTotalFromDate(int index)
+        {
+            string uniqueVisitors = driver.FindElement(By.CssSelector("tr td[name='col-Visits']")).Text;
+            string registration = driver.FindElement(By.CssSelector("tr td[name='col-Registrations']")).Text;
+            string activePlayers = driver.FindElement(By.CssSelector("tr td[name='col-Players']")).Text;
+            string numbersOfDeposits = driver.FindElement(By.CssSelector("tr td[name='col-DepositCount']")).Text;
+            string amountOfDepositsEUR = driver.FindElement(By.CssSelector("tr td[name='col-DepositAmount']")).Text;
+            string numberOfFirstDeposits = driver.FindElement(By.CssSelector("tr td[name='col-FirstDepositsCount']")).Text;
+            string amountOfFirstDepositsEUR = driver.FindElement(By.CssSelector("tr td[name='col-FirstDepositsAmount']")).Text;
+            string ggr = driver.FindElement(By.CssSelector("tr td[name='col-GGR']")).Text;
+            string ngr = driver.FindElement(By.CssSelector("tr td[name='col-NGR']")).Text;
+            string adminFeeEUR = driver.FindElement(By.CssSelector("tr td[name='col-AdminFee']")).Text;
+            string bonusTurnoverEUR = driver.FindElement(By.CssSelector("tr td[name='col-BonusTurnover']")).Text;
+            string cpaEUR = driver.FindElement(By.CssSelector("tr td[name='col-ProfitCPA']")).Text;
+            string rsEUR = driver.FindElement(By.CssSelector("tr td[name='col-ProfitRS']")).Text;
+            string procentCPA = driver.FindElement(By.CssSelector("tr td[name='col-SubProfitCPA']")).Text;
+            string procentRS = driver.FindElement(By.CssSelector("tr td[name='col-SubProfitRS']")).Text;
+            string procentFromRevenue = driver.FindElement(By.CssSelector("tr td[name='col-SubProfitRevenue']")).Text;
+            string profitEUR = driver.FindElement(By.CssSelector("tr td[name='col-Profit']")).Text;
+            string withdrawalsEUR = driver.FindElement(By.CssSelector("tr td[name='col-Withdraws']")).Text;
+            string manualCorrectionsEUR = driver.FindElement(By.CssSelector("tr td[name='col-Manual']")).Text;
+
+            return new AffiliateData()
+            {
+                UniqueVisitors = uniqueVisitors,
+                Registration = registration,
+                ActivePlayers = activePlayers,
+                NumberOfDeposits = numbersOfDeposits,
+                AmountOfDepositsEUR = amountOfDepositsEUR,
+                NumberOfFirstDeposits = numberOfFirstDeposits,
+                AmountFirstDeposits = amountOfFirstDepositsEUR,
+                GGR = ggr,
+                NGR = ngr,
+                AdminFee = adminFeeEUR,
+                BonusTurnovers = bonusTurnoverEUR,
+                CPA = cpaEUR,
+                RS = rsEUR,
+                ProcentFromCPA = procentCPA,
+                ProcentFromRS = procentRS,
+                ProcentFromRevenue = procentFromRevenue,
+                Profit = profitEUR,
+                Withdraws = withdrawalsEUR,
+                Manual = manualCorrectionsEUR
+            };
+        }
+        /// <summary>
+        /// Получаем данные по партнёру со второго уровня по ТОТАЛУ
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public AffiliateData GetAffiliateReportsFromSecondLvlTotal(int index)
         {
             string uniqueVisitors = driver.FindElement(By.CssSelector("tfoot td[name='col-Visits']")).Text;
             string registration = driver.FindElement(By.CssSelector("tfoot td[name='col-Registrations']")).Text;
@@ -85,6 +128,9 @@ namespace TestFundist
             string bonusTurnoverEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-BonusTurnover']")).Text;
             string cpaEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-ProfitCPA']")).Text;
             string rsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-ProfitRS']")).Text;
+            string procentCPA = driver.FindElement(By.CssSelector("tfoot td[name='col-SubProfitCPA']")).Text;
+            string procentRS = driver.FindElement(By.CssSelector("tfoot td[name='col-SubProfitRS']")).Text;
+            string procentFromRevenue = driver.FindElement(By.CssSelector("tfoot td[name='col-SubProfitRevenue']")).Text;
             string profitEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-Profit']")).Text;
             string withdrawalsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-Withdraws']")).Text;
             string manualCorrectionsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-Manual']")).Text;
@@ -97,26 +143,28 @@ namespace TestFundist
                 NumberOfDeposits = numbersOfDeposits,
                 AmountOfDepositsEUR = amountOfDepositsEUR,
                 NumberOfFirstDeposits = numberOfFirstDeposits,
-                AmountOfFirstDepositsEUR = amountOfFirstDepositsEUR,
+                AmountFirstDeposits = amountOfFirstDepositsEUR,
                 GGR = ggr,
                 NGR = ngr,
                 AdminFee = adminFeeEUR,
                 BonusTurnovers = bonusTurnoverEUR,
-                ProfitCPA = cpaEUR,
-                ProfitRS = rsEUR,
+                CPA = cpaEUR,
+                RS = rsEUR,
+                ProcentFromCPA = procentCPA,
+                ProcentFromRS = procentRS,
+                ProcentFromRevenue = procentFromRevenue,
                 Profit = profitEUR,
                 Withdraws = withdrawalsEUR,
                 Manual = manualCorrectionsEUR
             };
         }
-
-        public AffiliateData GetAffiliateReportsFromThirdLvl(int index)
+        /// <summary>
+        /// Получаем данные по партнёру с третьего уровня по пользователям
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public UserData GetAffiliateReportsFromThirdLvl(int index)
         {
-            //string uniqueVisitors = driver.FindElement(By.CssSelector("tfoot td[name='col-Visits']")).Text;
-            //string registration = driver.FindElement(By.CssSelector("tfoot td[name='col-Registrations']")).Text;
-            //string activePlayers = driver.FindElement(By.CssSelector("tfoot td[name='col-Players']")).Text;
-            //string numbersOfDeposits = driver.FindElement(By.CssSelector("tfoot td[name='col-DepositCount']")).Text;
-            string amountOfDepositsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-TotalDepositAmount']")).Text;
+            string totalDepositAmount = driver.FindElement(By.CssSelector("tfoot td[name='col-TotalDepositAmount']")).Text;
             string dayDepositAmount = driver.FindElement(By.CssSelector("tfoot td[name='col-DayDepositAmount']")).Text;
             string amountOfFirstDepositsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-FirstDepositsAmount']")).Text;
             string ggr = driver.FindElement(By.CssSelector("tfoot td[name='col-GGR']")).Text;
@@ -125,30 +173,47 @@ namespace TestFundist
             string bonusTurnoverEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-BonusTurnover']")).Text;
             string cpaEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-ProfitCPA']")).Text;
             string rsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-ProfitRS']")).Text;
+            string procentFromCPA = driver.FindElement(By.CssSelector("tfoot td[name='col-SubProfitCPA']")).Text;
+            string procentFromRS = driver.FindElement(By.CssSelector("tfoot td[name='col-SubProfitRS']")).Text;
+            string procentFromRevenue = driver.FindElement(By.CssSelector("tfoot td[name='col-SubProfitRevenue']")).Text;
             string profitEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-Profit']")).Text;
-            string withdrawalsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-Withdraws']")).Text;
-            string manualCorrectionsEUR = driver.FindElement(By.CssSelector("tfoot td[name='col-Manual']")).Text;
 
-            return new AffiliateData()
+            return new UserData()
             {
-                UniqueVisitors = uniqueVisitors,
-                Registration = registration,
-                ActivePlayers = activePlayers,
-                NumberOfDeposits = numbersOfDeposits,
-                AmountOfDepositsEUR = amountOfDepositsEUR,
-                NumberOfFirstDeposits = numberOfFirstDeposits,
-                AmountOfFirstDepositsEUR = amountOfFirstDepositsEUR,
+                TotalAmount = totalDepositAmount,
+                DayAmount = dayDepositAmount,
+                AmountOfFirstDeposits = amountOfFirstDepositsEUR,
                 GGR = ggr,
                 NGR = ngr,
                 AdminFee = adminFeeEUR,
                 BonusTurnovers = bonusTurnoverEUR,
-                ProfitCPA = cpaEUR,
-                ProfitRS = rsEUR,
-                Profit = profitEUR,
-                Withdraws = withdrawalsEUR,
-                Manual = manualCorrectionsEUR
+                CPA = cpaEUR,
+                RS = rsEUR,
+                ProcentFromCPA = procentFromCPA,
+                ProcentFromRS = procentFromRS,
+                ProcentFromRevenue = procentFromRevenue,
+                Profit = profitEUR,                
             };
         }
+        /// <summary>
+        /// Получаем данные по партнёру с четверого уровня 
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public UserData GetAffReportsFromFourthLevel()
+        {
+            string ggr = driver.FindElement(By.CssSelector("tfoot td[name='col-GGR']")).Text;
+            string depositAmount = driver.FindElement(By.CssSelector("tfoot td[name='col-DepositAmount']")).Text;
+            string withdrawals = driver.FindElement(By.CssSelector("tfoot td[name='col-Withdraws']")).Text;
+            return new UserData()
+            {
+                GGR = ggr,
+                TotalAmount = depositAmount,
+                Withdrawals = withdrawals,
+            };
+        }
+        /// <summary>
+        /// Проверяем наличие данных в таблице Отчёт: Доходы, ()
+        /// </summary>
         public void CheckAffiliateAtReport()
         {
             var checkAffiliate = driver.FindElements(By.CssSelector("td[name='col-NoData']")).Count;
@@ -254,6 +319,10 @@ namespace TestFundist
             }
         }
 
+        /// <summary>
+        /// Сортировка по убыванию столбца количество первых депозитов
+        /// </summary>
+        /// <returns></returns>
         public AffiliateHelper SortFirstDepositsCount()
         {
             driver.FindElement(By.Id("sortFirstDepositsCount")).Click();
@@ -267,17 +336,96 @@ namespace TestFundist
         {
             driver.FindElement(By.CssSelector("button[id='ButtonFilter']")).Click();
         }
-        public AffiliateHelper GoToAffiliateToLevelSecond()
+
+        /// <summary>
+        /// Получение значения "Первый депозит" для дальнейшего сравнения
+        /// </summary>
+        /// <returns></returns>
+        public bool GetFirstDeposit()
         {
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td[name='col-AffiliateID'] a"));
-            elements.First().Click();
-            return this;
+            UserData fromThirdLevel = GetAffiliateReportsFromThirdLvl(0);
+            int firstDeposit = Int32.Parse(fromThirdLevel.AmountOfFirstDeposits);
+            if (firstDeposit > 0)
+            {
+                return true;
+            }
+            return false;
         }
-        public AffiliateHelper GoToAffiliateToLevelThird()
+
+        /// <summary>
+        /// Получение значения GGR для дальнейшего сравнения
+        /// </summary>
+        /// <returns></returns>
+        public bool GetGGR()
         {
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("td[name='col-Date'] a"));
-            elements.First().Click();
-            return this;
+            UserData fromThirdLevel = GetAffiliateReportsFromThirdLvl(0);
+            double ggr = Double.Parse(fromThirdLevel.GGR);
+            if (ggr != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Получение значения "Доход" для дальнейшего сравнения
+        /// </summary>
+        /// <returns></returns>
+        public bool GetProfit()
+        {
+            UserData fromThirdLevel = GetAffiliateReportsFromThirdLvl(0);
+            double profit = Double.Parse(fromThirdLevel.Profit);
+            if (profit != 0)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Получение значений из карточки пользователя в партнёрках
+        /// </summary>
+        /// <returns></returns>
+        public UserData GetDataFromUserCard()
+        {
+            string firstDepositDate = driver.FindElement(By.CssSelector("tbody td[id='FirstDepositDate']")).Text;
+            string firstDeposit = driver.FindElement(By.CssSelector("tbody td[id='FirstDeposit']")).Text;
+            string ggr = driver.FindElement(By.CssSelector("tbody td[id='GGR']")).Text;
+            string userStatus = driver.FindElement(By.CssSelector("tbody td[id='UserStatus']")).Text;
+
+            return new UserData
+            {
+                FirstDepositDate = firstDepositDate,
+                FirstDeposit = firstDeposit,
+                GGR = ggr,
+                UserStatus = userStatus
+            };
+        }
+
+        /// <summary>
+        /// Поиск даты первого депозита в карточке пользователя
+        /// </summary>
+        /// <returns></returns>
+        public UserData FindFirstDepositDate()
+        {
+            string firstDepositDate = driver.FindElement(By.CssSelector("tbody td[name='col-Date']")).Text;
+            return new UserData()
+            {
+                FirstDepositDate = firstDepositDate,
+            };
+        }
+
+        /// <summary>
+        /// Поиск суммы первого депозита в карточке пользователя 
+        /// </summary>
+        /// <returns></returns>
+        public UserData FindFirstDeposit()
+        {
+            string firstDeposit = driver.FindElement(By.CssSelector("tbody td[name='col-Amount']")).Text;
+            return new UserData()
+            {
+                FirstDeposit = firstDeposit,
+            };
         }
     }
 }
